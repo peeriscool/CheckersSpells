@@ -6,18 +6,19 @@ public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
     GridSystem grid;
+    InventoryManager Hand;
+    public Card_ScriptableObject[] Cards;
+
+    public delegate Card_ScriptableObject DrawACard();
     void Start()
     {
-        grid = new GridSystem(10,10);
-        foreach (Sprite item in grid.GenerateVisual())
-        {
-            GameObject.Instantiate(item);
-        }  
+        Hand = new InventoryManager(Cards, 10);
     }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Hand.StartTurn();            
+        }
     }
 }
