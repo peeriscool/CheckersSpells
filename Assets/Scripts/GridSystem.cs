@@ -1,48 +1,57 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridSystem
+static class GridSystem
 {
-    //
-    private int[] Xrow;
-    private int[] Yrow;
+    //public int[] Xrow;
+    //public int[] Yrow;
+    public static int xSize { get; private set; }
+    public static int ySize { get; private set; }
 
-    public GridSystem(int sizeX, int sizeY)
+    public static Checker[,] CheckerGrid { get; private set; }
+
+    public static void SetGridSize(int _xSize, int _ySize)
     {
-        Xrow = new int[sizeX];
-        Yrow = new int[sizeY];
-
-        for (int i = 0; i < Xrow.Length; i++)
-        {
-            Xrow[i] = i;
-        }
-        for (int i = 0; i < Yrow.Length; i++)
-        {
-            Yrow[i] = i;
-        }
-        //Debug stuff
-        //foreach (int item in Xrow)
-        //{
-        //    Debug.Log(item + " X");
-        //}
-        //foreach (int item in Yrow)
-        //{
-        //    Debug.Log(item + " Y");
-        //}
+        CheckerGrid = new Checker[_xSize, _ySize];
+        xSize = _xSize;
+        ySize = _ySize;
+    }
+    public static void AddChecker(Checker checker, GridPos gridPos)
+    {
+        if (CheckerGrid[gridPos.x, gridPos.y] == null)
+            CheckerGrid[gridPos.x, gridPos.y] = checker;
     }
 
-   public Sprite[] GenerateVisual()
+    public static Checker checkGridPosition(GridPos gridPos)
     {
-        Sprite[] data = new Sprite[Xrow.Length];
-        for (int i = 0; i < Xrow.Length; i++)
-        {
+        return CheckerGrid[gridPos.x, gridPos.y];
+    }
 
-            // GameObject a = new GameObject(i.ToString(),typeof (cell));
-            Sprite a = Sprite.Create(null,new Rect() ,Vector2.zero);          
-            data[i] = a;
-        }
-        return data;
+    //public Sprite[] GenerateVisual()
+    // {
+    //     Sprite[] data = new Sprite[Xrow.Length];
+    //     for (int i = 0; i < Xrow.Length; i++)
+    //     {
+
+    //         // GameObject a = new GameObject(i.ToString(),typeof (cell));
+    //         Sprite a = Sprite.Create(null,new Rect() ,Vector2.zero);          
+    //         data[i] = a;
+    //     }
+    //     return data;
+    // }
+}
+
+public struct GridPos
+{
+    public int x;
+    public int y;
+
+    public GridPos(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
     }
 }
 public class cell
