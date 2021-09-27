@@ -32,13 +32,14 @@ public class GridSystem
         //}
     }
 
-   public GameObject[] GenerateVisual()
+   public Sprite[] GenerateVisual()
     {
-        GameObject[] data = new GameObject[Xrow.Length];
+        Sprite[] data = new Sprite[Xrow.Length];
         for (int i = 0; i < Xrow.Length; i++)
         {
 
-            GameObject a = new GameObject(i.ToString(),typeof (cell));
+            // GameObject a = new GameObject(i.ToString(),typeof (cell));
+            Sprite a = Sprite.Create(null,new Rect() ,Vector2.zero);          
             data[i] = a;
         }
         return data;

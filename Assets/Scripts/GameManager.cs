@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         grid = new GridSystem(10,10);
-        foreach (GameObject item in grid.GenerateVisual())
+        foreach (Sprite item in grid.GenerateVisual())
         {
-            GameObject.Instantiate(item) as typeof();
+            GameObject.Instantiate(item);
         }  
     }
 
