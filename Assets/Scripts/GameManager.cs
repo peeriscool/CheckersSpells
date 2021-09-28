@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GridSystem.SetGridSize(8, 8);
-        checkerTest = new Checker(new GridPos(5, 7));
-        Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
+        checkerTest = new Checker(new GridPos(5, 7), true);
+        Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)).BlackOrWhite);
         Hand = new InventoryManager(Cards, 10);
     }
 

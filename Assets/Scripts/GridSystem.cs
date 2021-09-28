@@ -10,13 +10,21 @@ static class GridSystem
     public static int xSize { get; private set; }
     public static int ySize { get; private set; }
 
-    public static Checker[,] CheckerGrid { get; private set; }
+    private static Checker[,] CheckerGrid;
 
     public static void SetGridSize(int _xSize, int _ySize)
     {
         CheckerGrid = new Checker[_xSize, _ySize];
         xSize = _xSize;
         ySize = _ySize;
+    }
+
+    public static void RemoveChecker(GridPos _gridPos)
+    {
+        if(CheckerGrid[_gridPos.x, _gridPos.y] != null)
+        {
+            CheckerGrid[_gridPos.x, _gridPos.y] = null;
+        }
     }
     public static void AddChecker(Checker checker, GridPos gridPos)
     {
