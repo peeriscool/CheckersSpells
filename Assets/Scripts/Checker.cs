@@ -5,7 +5,7 @@ using UnityEngine;
 public class Checker
 {
     //if we wanna keep the checkers on one color,  we just have to check the sum of the gridPos
-    //One color is even, the other is uneven. 1+1 = 2, 2+2 = 4, 5+7 = 12
+    //One color is even, the other is odd. 1+1 = 2, 2+2 = 4, 5+7 = 12
     private GridPos myPos;
     
     //true for black, false for white
