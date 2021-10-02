@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public Card_ScriptableObject[] Cards;
     InventoryManager Hand;
 
-    public GameObject blackSquare, whiteSquare;
+    public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         {
             for(int j = 0; j < GridSystem.ySize; j++)
             {
-                GameObject squareColor = null;
+                GameObject squareColor;
                 //check if it's even
                 if((i + j) % 2 == 0)
                 {

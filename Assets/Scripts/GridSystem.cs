@@ -32,6 +32,20 @@ static class GridSystem
             CheckerGrid[gridPos.x, gridPos.y] = checker;
     }
 
+    public static void MoveChecker(GridPos oldPos, GridPos newPos)
+    {
+        if (CheckerGrid[oldPos.x, oldPos.y] != null && CheckerGrid[newPos.x, newPos.y] == null
+            && (newPos.x == oldPos.x - 1 || newPos.x == oldPos.x + 1) && (newPos.y == oldPos.y - 1 || newPos.y == oldPos.y + 1))
+        {
+            CheckerGrid[newPos.x, newPos.y] = CheckerGrid[oldPos.x, oldPos.y];
+            CheckerGrid[oldPos.x, oldPos.y] = null;
+        }
+        else
+        {
+            Debug.Log("Can't do that");
+        }
+    }
+
     public static Checker checkGridPosition(GridPos gridPos)
     {
         return CheckerGrid[gridPos.x, gridPos.y];

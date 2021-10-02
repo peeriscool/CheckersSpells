@@ -38,6 +38,7 @@ public class Checker
     }
 
     //Pieces can move diagonally if that space is empty
+    //This doesn't seem all that efficient. I am removing and adding a piece, while I should be moving a piece
     public void MovePiece(GridPos newGridPos)
     {
         if (GridSystem.checkGridPosition(newGridPos) == null
