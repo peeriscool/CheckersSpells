@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     private Vector3 scalevalue;
     private bool mouseSelect = true;
     private bool once = true;
-    private GameObject currentCard;
+    private GameObject CurrentCard;
+    private GameObject selctedcard;
+    private GameObject[,] Tiles;
     private GameObject selectedCard;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
         //SpawnPieces(gridStartPosition, blackPiece, whitePiece);
         //checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
-        //Hand = new InventoryManager(Cards, 10);
+        Hand = new InventoryManager(Cards, 10);
 
         if (rowsOfCheckers > GridSystem.ySize / 2)
         {
@@ -116,7 +118,6 @@ public class GameManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-
         if (hit)
         {
             if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
@@ -128,6 +129,7 @@ public class GameManager : MonoBehaviour
                 if (once && selectedCard != currentCard) { scalevalue = selectedCard.transform.localScale; once = false; }
 
                 hit.collider.gameObject.transform.position = ray.GetPoint(0f);
+
             }
             //if (hit.collider.gameObject.layer == 9) //pieces handler "PiecesLayer"
             //{
@@ -147,6 +149,8 @@ public class GameManager : MonoBehaviour
 
     void SpawnGrid(Vector2 _startlocation)
     {
+        Tiles = new GameObject[GridSystem.xSize,GridSystem.ySize];
+        Debug.Log(GridSystem.xSize * GridSystem.ySize + " is the amount of tiles availible");
         for (int i = 0; i < GridSystem.xSize; i++)
         {
             for (int j = 0; j < GridSystem.ySize; j++)
@@ -161,10 +165,12 @@ public class GameManager : MonoBehaviour
                 {
                     squareColor = whiteSquare;
                 }
-                Instantiate(squareColor, new Vector3(_startlocation.x + i, _startlocation.y + j, 0), new Quaternion(0, 0, 0, 0));
-
+                Tiles[i, j] = squareColor;
+                Instantiate(Tiles[i, j], new Vector3(_startlocation.x + i, _startlocation.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
+                
             }
         }
+        
     }
 
 
