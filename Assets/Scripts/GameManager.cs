@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     private GameObject selctedcard;
     private GameObject[,] Tiles;
 
-    public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
     // Start is called before the first frame update
     void Start()
     {
@@ -167,7 +166,7 @@ public class GameManager : MonoBehaviour
                     squareColor = whiteSquare;
                 }
                 Tiles[i, j] = squareColor;
-                Instantiate(Tiles[i, j], new Vector3(startlocation.x + i, startlocation.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
+                Instantiate(Tiles[i, j], new Vector3(_startlocation.x + i, _startlocation.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
                 
             }
         }
