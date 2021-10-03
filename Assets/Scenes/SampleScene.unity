@@ -163,6 +163,17 @@ MonoBehaviour:
   Cards:
   - {fileID: 11400000, guid: 331f8795303d7e84499b9b46ce10e73e, type: 2}
   - {fileID: 11400000, guid: e83b97fd3bc6fb340814daee8bf60449, type: 2}
+  - {fileID: 11400000, guid: fbead3dd5224c91448bcbb7d955ada22, type: 2}
+  - {fileID: 11400000, guid: a97da0f253412e440b50a8e3ac63a76c, type: 2}
+  - {fileID: 11400000, guid: 3fd4e925ded70d445bf44217ac92af95, type: 2}
+  blackSquare: {fileID: 4563935059874933855, guid: 67c4c074367e2504aa7cd3eede26fcf6,
+    type: 3}
+  whiteSquare: {fileID: 3507390450633982442, guid: efa1b880e477dd9448e9dde6049a40b0,
+    type: 3}
+  blackPiece: {fileID: 8825034445345020068, guid: 34a10289c7a383440b6e7f5c2936462c,
+    type: 3}
+  whitePiece: {fileID: 651911865386371137, guid: c89083cb4eaf08c4dbd93d9eae277dd1,
+    type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
