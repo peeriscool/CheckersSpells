@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private bool Mouseselect = true;
     private bool once = true;
     private GameObject CurrentCard;
+
     private Vector2 gridStartPosition;
     Checker checkerTest;
 
@@ -20,9 +21,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GridSystem.SetGridSize(8, 8);
-        // checkerTest = new Checker(new GridPos(5, 7));
         gridStartPosition = new Vector2(-3.5f, -3.5f);
         SpawnGrid(gridStartPosition);
+        SpawnPieces(gridStartPosition,blackPiece,whitePiece);
         checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
         Hand = new InventoryManager(Cards, 10);
@@ -31,11 +32,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A)) //gives the player a card
         {
             Hand.StartTurn();
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)) //picking up cards ToDo: place on grid tile to activate effect.
         {
             Debug.Log("Pressed left click, casting ray.");
             CastRay(Mouseselect);
@@ -46,8 +47,6 @@ public class GameManager : MonoBehaviour
                 //hover
                 if (selctedcard.transform.localScale.x <= Scalevalue.x * 2)
                     selctedcard.transform.localScale = selctedcard.transform.localScale * 2;
-
-
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -64,19 +63,29 @@ public class GameManager : MonoBehaviour
 
         if (hit)
         {
-            Debug.Log(hit.collider.gameObject.name);
-            if (selctedcard != null && selctedcard != CurrentCard) { CurrentCard = selctedcard; }//card switch
-            selctedcard = hit.collider.gameObject;
+            if(hit.collider.gameObject.layer == 8) //card handler "CardLayer"
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                if (selctedcard != null && selctedcard != CurrentCard) { CurrentCard = selctedcard; }//card switch
+                selctedcard = hit.collider.gameObject;
 
-            if (once && selctedcard != CurrentCard) { Scalevalue = selctedcard.transform.localScale; once = false; }
+                if (once && selctedcard != CurrentCard) { Scalevalue = selctedcard.transform.localScale; once = false; }
 
-            hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-
+                hit.collider.gameObject.transform.position = ray.GetPoint(0f);
+            }
+            if (hit.collider.gameObject.layer == 9) //pieces handler "PiecesLayer"
+            {
+                hit.collider.gameObject.transform.position = ray.GetPoint(0f);
+            }
+            else //must be a click tile action
+            {
+                ClickOnTiles();
+            }
             //if (Mouseselect){ selctedcard.transform.localScale = selctedcard.transform.localScale * 3; }
             //else { selctedcard.transform.localScale = selctedcard.transform.localScale / 3; }
 
 
-            ClickOnTiles();
+           
         }
     }
         void ClickOnTiles()
@@ -96,7 +105,7 @@ public class GameManager : MonoBehaviour
             {
                 for (int j = 0; j < GridSystem.ySize; j++)
                 {
-                    GameObject squareColor;
+                GameObject squareColor;
                     //check if it's even
                     if ((i + j) % 2 == 0)
                     {
@@ -106,11 +115,43 @@ public class GameManager : MonoBehaviour
                     {
                         squareColor = whiteSquare;
                     }
-
                     Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, 0), new Quaternion(0, 0, 0, 0));
+                    
+            }
+            }
+        }
+
+
+    void SpawnPieces(Vector2 startlocation, GameObject Black, GameObject White)
+    {
+        for (int i = 0; i < GridSystem.xSize; i++)
+        {
+            for (int j = 0; j < GridSystem.ySize; j++)
+            {
+
+                if(j == GridSystem.ySize - GridSystem.ySize/2 || j == GridSystem.ySize - GridSystem.ySize / 2-1)
+                {
+                    continue;
+                }
+                GameObject squareColor;
+                //check if it's even
+                if ((i + j) % 2 == 0)
+                {
+                    squareColor = White;
+                }
+                else
+                {
+                   // continue; if we only want white pieces
+                    squareColor = Black;
+                }
+                if (squareColor != null)
+                {
+                    Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
+                    squareColor.AddComponent<BoxCollider2D>();
                 }
             }
         }
+    }
 }
 
 /*

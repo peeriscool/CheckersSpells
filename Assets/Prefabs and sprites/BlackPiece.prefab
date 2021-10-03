@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3878810773357877363}
   - component: {fileID: 3252989743605972653}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlackPiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
