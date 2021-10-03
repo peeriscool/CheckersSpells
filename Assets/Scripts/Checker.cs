@@ -6,35 +6,34 @@ public class Checker
 {
     //if we wanna keep the checkers on one color,  we just have to check the sum of the gridPos
     //One color is even, the other is odd. 1+1 = 2, 2+2 = 4, 5+7 = 12
-    private GridPos myPos;
+    public GridPos myPos { get; private set; }
+    private GameObject body;
     
     //true for black, false for white
     public bool BlackOrWhite { get; private set; }
 
 
-    public Checker(GridPos initPos, bool _blackOrWhite)
+    public Checker(GridPos initPos, bool _blackOrWhite, GameObject _body)
     {
         BlackOrWhite = _blackOrWhite;
         myPos = initPos;
+        body = _body;
         GridSystem.AddChecker(this, initPos);
     }
 
-    //Checker pieces can attack diagonally when there's an enemy piece there, and the next diagonal space in that direction is empty
-    //Ideally you can string attacks together
-    public void Attack(GridPos attackDirection)
+    public void UpdatePos(GridPos _pos)
     {
-        if (GridSystem.checkGridPosition(attackDirection).BlackOrWhite != BlackOrWhite
-            && ((attackDirection.x == myPos.x - 1 || attackDirection.x == myPos.x + 1) && (attackDirection.y == myPos.y - 1 || attackDirection.y == myPos.y + 1)))
-        {
-            GridPos landPos = new GridPos(myPos.x - (myPos.x - attackDirection.x), myPos.y - (myPos.y - attackDirection.y));
-            GridSystem.RemoveChecker(attackDirection);
-            GridSystem.RemoveChecker(myPos);
-            GridSystem.AddChecker(this, landPos);
-        }
-        else
-        {
-            Debug.Log("Can't attack in that direction");
-        }
+        myPos = _pos;
+    }
+
+    public void UpdateChecker(Vector2 _offset)
+    {
+        body.transform.position = new Vector2(myPos.x + _offset.x, myPos.y + _offset.y);
+    }
+
+    public void Kill()
+    {
+        GameObject.Destroy(body);
     }
 
     //Pieces can move diagonally if that space is empty

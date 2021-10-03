@@ -219,11 +219,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rowsOfCheckers: 3
   Cards: []
-  blackSquare: {fileID: 1215905595588446344, guid: 5550f2e7d358f00408b5c630360781cb,
+  blackSquare: {fileID: 4563935059874933855, guid: 67c4c074367e2504aa7cd3eede26fcf6,
     type: 3}
-  whiteSquare: {fileID: 1986777264699542178, guid: 7c50388defb44f641ba856ae34132123,
+  whiteSquare: {fileID: 3507390450633982442, guid: efa1b880e477dd9448e9dde6049a40b0,
     type: 3}
-  blackPiece: {fileID: 8400394387554197558, guid: 06df6f4e229e9a141a246904b800f528,
+  blackPiece: {fileID: 8825034445345020068, guid: 34a10289c7a383440b6e7f5c2936462c,
     type: 3}
-  whitePiece: {fileID: 8725131598261389556, guid: 3391a65f492b08341ae93722e8df7a47,
+  whitePiece: {fileID: 651911865386371137, guid: c89083cb4eaf08c4dbd93d9eae277dd1,
     type: 3}

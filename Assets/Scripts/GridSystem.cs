@@ -23,6 +23,7 @@ static class GridSystem
     {
         if(CheckerGrid[_gridPos.x, _gridPos.y] != null)
         {
+            CheckerGrid[_gridPos.x, _gridPos.y].Kill();
             CheckerGrid[_gridPos.x, _gridPos.y] = null;
         }
     }
@@ -38,7 +39,39 @@ static class GridSystem
             && (newPos.x == oldPos.x - 1 || newPos.x == oldPos.x + 1) && (newPos.y == oldPos.y - 1 || newPos.y == oldPos.y + 1))
         {
             CheckerGrid[newPos.x, newPos.y] = CheckerGrid[oldPos.x, oldPos.y];
+            CheckerGrid[newPos.x, newPos.y].UpdatePos(newPos);
             CheckerGrid[oldPos.x, oldPos.y] = null;
+        }
+        else
+        {
+            Debug.Log("Can't do that");
+        }
+    }
+
+    public static void AttackChecker(GridPos oldPos, GridPos newPos)
+    {
+        if (CheckerGrid[oldPos.x, oldPos.y] != null && CheckerGrid[newPos.x, newPos.y] != null
+            && (newPos.x == oldPos.x - 1 || newPos.x == oldPos.x + 1) && (newPos.y == oldPos.y - 1 || newPos.y == oldPos.y + 1)
+            && CheckerGrid[oldPos.x, oldPos.y].BlackOrWhite != CheckerGrid[newPos.x, newPos.y].BlackOrWhite)
+        {
+            int xDirection = newPos.x - oldPos.x;
+            int yDirection = newPos.y - oldPos.y;
+            GridPos landPos = new GridPos(newPos.x + xDirection, newPos.y + yDirection);
+
+            if (landPos.x >= 0 && landPos.x < xSize && landPos.y >= 0 && landPos.y < ySize && CheckerGrid[landPos.x, landPos.y] == null)
+            {
+                RemoveChecker(newPos);
+
+                CheckerGrid[landPos.y, landPos.y] = CheckerGrid[oldPos.x, oldPos.y];
+                CheckerGrid[oldPos.x, oldPos.y] = null;
+                Debug.Log(CheckerGrid[landPos.x, landPos.y]);
+                CheckerGrid[landPos.x, landPos.y].UpdatePos(landPos);
+            }
+
+            else
+            {
+                Debug.Log("Can't do that");
+            }
         }
         else
         {

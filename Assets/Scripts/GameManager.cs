@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private Checker selectedChecker;
     public int rowsOfCheckers = 3;
     private Vector2 gridStartPosition;
     // Checker checkerTest;
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
         GridSystem.SetGridSize(8, 8);
         gridStartPosition = new Vector2(-3.5f, -3.5f);
         SpawnGrid(gridStartPosition);
-        SpawnPieces(gridStartPosition, blackPiece, whitePiece);
+        //SpawnPieces(gridStartPosition, blackPiece, whitePiece);
         //checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
         //Hand = new InventoryManager(Cards, 10);
@@ -38,16 +39,47 @@ public class GameManager : MonoBehaviour
             if (i < rowsOfCheckers)
                 pieceColor = false;
 
-            if (i > GridSystem.ySize - rowsOfCheckers)
+            if (i >= GridSystem.ySize - rowsOfCheckers)
                 pieceColor = true;
 
-            if (i >= rowsOfCheckers && i <= GridSystem.ySize - rowsOfCheckers)
+            if (i >= rowsOfCheckers && i < GridSystem.ySize - rowsOfCheckers)
                 continue;
 
             for (int j = 0; j < GridSystem.xSize; j++)
             {
                 if ((i + j) % 2 == 0)
                     spawnChecker(new GridPos(j, i), pieceColor);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        Debug.Log(selectedChecker);
+        //if (selectedChecker != null)
+        //    Debug.Log(selectedChecker.myPos.x + ", " + selectedChecker.myPos.y);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Checker clickedTile = GridSystem.checkGridPosition(ClickOnTiles());
+            GridPos clickedPos = ClickOnTiles();
+
+            if (selectedChecker != null)
+            {
+                if (clickedTile != null)
+                    GridSystem.AttackChecker(selectedChecker.myPos, clickedPos);
+
+                else if (clickedTile == null)
+                    GridSystem.MoveChecker(selectedChecker.myPos, clickedPos);
+
+                selectedChecker.UpdateChecker(gridStartPosition);
+                selectedChecker = null;
+            }
+
+            else if (selectedChecker == null)
+            {
+                if (clickedTile != null)
+                    selectedChecker = clickedTile;
             }
         }
     }
@@ -62,7 +94,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetMouseButton(0)) //picking up cards ToDo: place on grid tile to activate effect.
         {
-            Debug.Log("Pressed left click, casting ray.");
+            //Debug.Log("Pressed left click, casting ray.");
             CastRay(Mouseselect);
             if (selctedcard != null)
             {
@@ -73,6 +105,7 @@ public class GameManager : MonoBehaviour
                     selctedcard.transform.localScale = selctedcard.transform.localScale * 2;
             }
         }
+
         if (Input.GetMouseButtonUp(0) && CurrentCard != null)
         {
             CurrentCard.transform.localScale = Scalevalue;
@@ -97,27 +130,20 @@ public class GameManager : MonoBehaviour
 
                 hit.collider.gameObject.transform.position = ray.GetPoint(0f);
             }
-            if (hit.collider.gameObject.layer == 9) //pieces handler "PiecesLayer"
-            {
-                hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-            }
-            else //must be a click tile action
-            {
-                ClickOnTiles();
-            }
+            //if (hit.collider.gameObject.layer == 9) //pieces handler "PiecesLayer"
+            //{
+            //    hit.collider.gameObject.transform.position = ray.GetPoint(0f);
+            //}
+
             //if (Mouseselect){ selctedcard.transform.localScale = selctedcard.transform.localScale * 3; }
             //else { selctedcard.transform.localScale = selctedcard.transform.localScale / 3; }
         }
     }
-    Checker ClickOnTiles()
+    GridPos ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            return GridSystem.checkGridPosition(new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y)));
-        }
-        return null;
+        return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
     }
 
     void SpawnGrid(Vector2 startlocation)
@@ -177,15 +203,17 @@ public class GameManager : MonoBehaviour
     void spawnChecker(GridPos initPos, bool color)
     {
         Debug.Log("Spawning Checker");
-        new Checker(initPos, color);
+        GameObject temp;
         if (color)
         {
-            Instantiate(blackPiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
+           temp = Instantiate(blackPiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
         }
         else
         {
-            Instantiate(whitePiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
+           temp = Instantiate(whitePiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
         }
+
+        new Checker(initPos, color, temp);
     }
 }
 
