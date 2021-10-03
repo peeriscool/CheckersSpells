@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
                     selctedcard.transform.localScale = selctedcard.transform.localScale * 2;
             }
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && CurrentCard != null)
         {
             CurrentCard.transform.localScale = Scalevalue;
             CurrentCard = null;
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
                 if (squareColor != null)
                 {
                     Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
-                    squareColor.AddComponent<BoxCollider2D>();
+                  //  squareColor.AddComponent<BoxCollider2D>();
                 }
             }
         }
