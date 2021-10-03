@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int rowsOfCheckers = 3;
     private Vector2 gridStartPosition;
     Checker checkerTest;
     public Card_ScriptableObject[] Cards;
@@ -18,7 +19,31 @@ public class GameManager : MonoBehaviour
         SpawnGrid(gridStartPosition);
         checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
-        Hand = new InventoryManager(Cards, 10);
+        //Hand = new InventoryManager(Cards, 10);
+
+        if (rowsOfCheckers > GridSystem.ySize / 2)
+        {
+            Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
+        }
+
+        bool pieceColor = false;
+        for (int i = 0; i < GridSystem.ySize; i++)
+        {
+            if (i < rowsOfCheckers)
+                pieceColor = false;
+
+            if (i > GridSystem.ySize - rowsOfCheckers)
+                pieceColor = true;
+
+            if (i >= rowsOfCheckers && i <= GridSystem.ySize - rowsOfCheckers)
+                continue;
+
+            for (int j = 0; j < GridSystem.xSize; j++)
+            {
+                if((i+j) % 2 == 0)
+                spawnChecker(new GridPos(j, i), pieceColor);            
+            }
+        }
     }
 
     // Update is called once per frame
@@ -32,15 +57,15 @@ public class GameManager : MonoBehaviour
         ClickOnTiles();
     }
 
-    void ClickOnTiles()
+    Checker ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
-
-            Debug.Log(GridSystem.checkGridPosition(new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x) + 1, (int)Mathf.Round(worldPosition.y - gridStartPosition.y) + 1)));
+            return GridSystem.checkGridPosition(new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y)));
         }
+        return null;
     }
 
     void SpawnGrid(Vector2 startlocation)
@@ -62,6 +87,20 @@ public class GameManager : MonoBehaviour
 
                 Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, 0), new Quaternion(0, 0, 0, 0));
             }
+        }
+    }
+
+    void spawnChecker(GridPos initPos, bool color)
+    {
+        Debug.Log("Spawning Checker");
+        new Checker(initPos, color);
+        if (color)
+        {
+            Instantiate(blackPiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
+        }
+        else
+        {
+            Instantiate(whitePiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
         }
     }
 }

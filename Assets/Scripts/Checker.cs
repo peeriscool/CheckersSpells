@@ -39,18 +39,18 @@ public class Checker
 
     //Pieces can move diagonally if that space is empty
     //This doesn't seem all that efficient. I am removing and adding a piece, while I should be moving a piece
-    public void MovePiece(GridPos newGridPos)
-    {
-        if (GridSystem.checkGridPosition(newGridPos) == null
-            && ((newGridPos.x == myPos.x - 1 || newGridPos.x == myPos.x + 1) && (newGridPos.y == myPos.y - 1 || newGridPos.y == myPos.y + 1)))
-        {
-            GridSystem.RemoveChecker(myPos);
-            GridSystem.AddChecker(this,newGridPos);
-            myPos = newGridPos;
-        }
-        else
-        {
-            Debug.Log("Can't move there");
-        }
-    }
+    //public void MovePiece(GridPos newGridPos)
+    //{
+    //    if (GridSystem.checkGridPosition(newGridPos) == null
+    //        && ((newGridPos.x == myPos.x - 1 || newGridPos.x == myPos.x + 1) && (newGridPos.y == myPos.y - 1 || newGridPos.y == myPos.y + 1)))
+    //    {
+    //        GridSystem.RemoveChecker(myPos);
+    //        GridSystem.AddChecker(this,newGridPos);
+    //        myPos = newGridPos;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Can't move there");
+    //    }
+    //}
 }

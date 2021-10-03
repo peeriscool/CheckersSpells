@@ -217,8 +217,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e68ef9dd0cf3264e829e298c0c717d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rowsOfCheckers: 3
   Cards: []
   blackSquare: {fileID: 1215905595588446344, guid: 5550f2e7d358f00408b5c630360781cb,
     type: 3}
   whiteSquare: {fileID: 1986777264699542178, guid: 7c50388defb44f641ba856ae34132123,
+    type: 3}
+  blackPiece: {fileID: 8400394387554197558, guid: 06df6f4e229e9a141a246904b800f528,
+    type: 3}
+  whitePiece: {fileID: 8725131598261389556, guid: 3391a65f492b08341ae93722e8df7a47,
     type: 3}
