@@ -11,12 +11,11 @@ public class GameManager : MonoBehaviour
     InventoryManager hand;
     private Checker selectedChecker;
     private Vector2 gridStartPosition;
-    private Vector3 scalevalue;
+    private Vector3 scaleValue;
     private bool mouseSelect = true;
     private bool once = true;
-    private GameObject CurrentCard;
-    private GameObject selctedcard;
-    private GameObject[,] Tiles;
+    private GameObject currentCard;
+    private GameObject[,] tiles;
     private GameObject selectedCard;
     // Start is called before the first frame update
     void Start()
@@ -27,7 +26,7 @@ public class GameManager : MonoBehaviour
         //SpawnPieces(gridStartPosition, blackPiece, whitePiece);
         //checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
-        Hand = new InventoryManager(Cards, 10);
+        hand = new InventoryManager(cards, 10);
 
         if (rowsOfCheckers > GridSystem.ySize / 2)
         {
@@ -49,7 +48,7 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < GridSystem.xSize; j++)
             {
                 if ((i + j) % 2 == 0)
-                    spawnChecker(new GridPos(j, i), pieceColor);
+                    SpawnChecker(new GridPos(j, i), pieceColor);
             }
         }
     }
@@ -102,19 +101,19 @@ public class GameManager : MonoBehaviour
                 Vector3 Mouseinput = Input.mousePosition;
 
                 //hover
-                if (selectedCard.transform.localScale.x <= scalevalue.x * 2)
+                if (selectedCard.transform.localScale.x <= scaleValue.x * 2)
                     selectedCard.transform.localScale = selectedCard.transform.localScale * 2;
             }
         }
 
         if (Input.GetMouseButtonUp(0) && currentCard != null)
         {
-            currentCard.transform.localScale = scalevalue;
+            currentCard.transform.localScale = scaleValue;
             currentCard = null;
         }
 
     }
-    void CastRay(bool _Mouseselect)
+    void CastRay(bool _mouseselect)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
@@ -126,7 +125,7 @@ public class GameManager : MonoBehaviour
                 if (selectedCard != null && selectedCard != currentCard) { currentCard = selectedCard; }//card switch
                 selectedCard = hit.collider.gameObject;
 
-                if (once && selectedCard != currentCard) { scalevalue = selectedCard.transform.localScale; once = false; }
+                if (once && selectedCard != currentCard) { scaleValue = selectedCard.transform.localScale; once = false; }
 
                 hit.collider.gameObject.transform.position = ray.GetPoint(0f);
 
@@ -149,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnGrid(Vector2 _startlocation)
     {
-        Tiles = new GameObject[GridSystem.xSize,GridSystem.ySize];
+        tiles = new GameObject[GridSystem.xSize,GridSystem.ySize];
         Debug.Log(GridSystem.xSize * GridSystem.ySize + " is the amount of tiles availible");
         for (int i = 0; i < GridSystem.xSize; i++)
         {
@@ -165,8 +164,8 @@ public class GameManager : MonoBehaviour
                 {
                     squareColor = whiteSquare;
                 }
-                Tiles[i, j] = squareColor;
-                Instantiate(Tiles[i, j], new Vector3(_startlocation.x + i, _startlocation.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
+                tiles[i, j] = squareColor;
+                Instantiate(tiles[i, j], new Vector3(_startlocation.x + i, _startlocation.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
                 
             }
         }
@@ -174,7 +173,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void spawnChecker(GridPos _initPos, bool _color)
+    void SpawnChecker(GridPos _initPos, bool _color)
     {
         Debug.Log("Spawning Checker");
         GameObject temp;
