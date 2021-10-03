@@ -12,11 +12,20 @@ public class GameManager : MonoBehaviour
     private bool Mouseselect = true;
     private bool once = true;
     private GameObject CurrentCard;
+    private Vector2 gridStartPosition;
+    Checker checkerTest;
+    public Card_ScriptableObject[] Cards;
+    InventoryManager Hand;
+
+    public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
     // Start is called before the first frame update
     void Start()
     {
         GridSystem.SetGridSize(8, 8);
        // checkerTest = new Checker(new GridPos(5, 7));
+        gridStartPosition = new Vector2(-3.5f, -3.5f);
+        SpawnGrid(gridStartPosition);
+        checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
         Hand = new InventoryManager(Cards, 10);
     }
@@ -68,6 +77,40 @@ public class GameManager : MonoBehaviour
             //if (Mouseselect){ selctedcard.transform.localScale = selctedcard.transform.localScale * 3; }
             //else { selctedcard.transform.localScale = selctedcard.transform.localScale / 3; }
 
+
+        ClickOnTiles();
+    }
+
+    void ClickOnTiles()
+    {
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            Debug.Log(GridSystem.checkGridPosition(new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x) + 1, (int)Mathf.Round(worldPosition.y - gridStartPosition.y) + 1)));
+        }
+    }
+
+    void SpawnGrid(Vector2 startlocation)
+    {
+        for(int i = 0; i < GridSystem.xSize; i++)
+        {
+            for(int j = 0; j < GridSystem.ySize; j++)
+            {
+                GameObject squareColor;
+                //check if it's even
+                if((i + j) % 2 == 0)
+                {
+                    squareColor = blackSquare;
+                }
+                else
+                {
+                    squareColor = whiteSquare;
+                }
+
+                Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, 0), new Quaternion(0, 0, 0, 0));
+            }
         }
     }
 }

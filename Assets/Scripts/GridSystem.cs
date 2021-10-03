@@ -10,7 +10,7 @@ static class GridSystem
     public static int xSize { get; private set; }
     public static int ySize { get; private set; }
 
-    public static Checker[,] CheckerGrid { get; private set; }
+    private static Checker[,] CheckerGrid;
 
     public static void SetGridSize(int _xSize, int _ySize)
     {
@@ -18,10 +18,32 @@ static class GridSystem
         xSize = _xSize;
         ySize = _ySize;
     }
+
+    public static void RemoveChecker(GridPos _gridPos)
+    {
+        if(CheckerGrid[_gridPos.x, _gridPos.y] != null)
+        {
+            CheckerGrid[_gridPos.x, _gridPos.y] = null;
+        }
+    }
     public static void AddChecker(Checker checker, GridPos gridPos)
     {
         if (CheckerGrid[gridPos.x, gridPos.y] == null)
             CheckerGrid[gridPos.x, gridPos.y] = checker;
+    }
+
+    public static void MoveChecker(GridPos oldPos, GridPos newPos)
+    {
+        if (CheckerGrid[oldPos.x, oldPos.y] != null && CheckerGrid[newPos.x, newPos.y] == null
+            && (newPos.x == oldPos.x - 1 || newPos.x == oldPos.x + 1) && (newPos.y == oldPos.y - 1 || newPos.y == oldPos.y + 1))
+        {
+            CheckerGrid[newPos.x, newPos.y] = CheckerGrid[oldPos.x, oldPos.y];
+            CheckerGrid[oldPos.x, oldPos.y] = null;
+        }
+        else
+        {
+            Debug.Log("Can't do that");
+        }
     }
 
     public static Checker checkGridPosition(GridPos gridPos)

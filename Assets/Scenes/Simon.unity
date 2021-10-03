@@ -217,3 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e68ef9dd0cf3264e829e298c0c717d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Cards: []
+  blackSquare: {fileID: 1215905595588446344, guid: 5550f2e7d358f00408b5c630360781cb,
+    type: 3}
+  whiteSquare: {fileID: 1986777264699542178, guid: 7c50388defb44f641ba856ae34132123,
+    type: 3}
