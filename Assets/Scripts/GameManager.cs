@@ -168,37 +168,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void SpawnPieces(Vector2 _startlocation, GameObject _Black, GameObject _White)
-    {
-        for (int i = 0; i < GridSystem.xSize; i++)
-        {
-            for (int j = 0; j < GridSystem.ySize; j++)
-            {
-
-                if (j == GridSystem.ySize - GridSystem.ySize / 2 || j == GridSystem.ySize - GridSystem.ySize / 2 - 1)
-                {
-                    continue;
-                }
-                GameObject squareColor;
-                //check if it's even
-                if ((i + j) % 2 == 0)
-                {
-                    squareColor = _White;
-                }
-                else
-                {
-                    // continue; if we only want white pieces
-                    squareColor = _Black;
-                }
-                if (squareColor != null)
-                {
-                    Instantiate(squareColor, new Vector3(_startlocation.x + i, _startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
-                    //  squareColor.AddComponent<BoxCollider2D>();
-                }
-            }
-        }
-    }
-
     void spawnChecker(GridPos _initPos, bool _color)
     {
         Debug.Log("Spawning Checker");
@@ -216,6 +185,36 @@ public class GameManager : MonoBehaviour
     }
 }
 
+    //void SpawnPieces(Vector2 _startlocation, GameObject _Black, GameObject _White)
+    //{
+    //    for (int i = 0; i < GridSystem.xSize; i++)
+    //    {
+    //        for (int j = 0; j < GridSystem.ySize; j++)
+    //        {
+
+    //            if (j == GridSystem.ySize - GridSystem.ySize / 2 || j == GridSystem.ySize - GridSystem.ySize / 2 - 1)
+    //            {
+    //                continue;
+    //            }
+    //            GameObject squareColor;
+    //            //check if it's even
+    //            if ((i + j) % 2 == 0)
+    //            {
+    //                squareColor = _White;
+    //            }
+    //            else
+    //            {
+    //                // continue; if we only want white pieces
+    //                squareColor = _Black;
+    //            }
+    //            if (squareColor != null)
+    //            {
+    //                Instantiate(squareColor, new Vector3(_startlocation.x + i, _startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
+    //                //  squareColor.AddComponent<BoxCollider2D>();
+    //            }
+    //        }
+    //    }
+    //}
 /*
  *using System.Collections;
 using System.Collections.Generic;
