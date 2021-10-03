@@ -7,12 +7,11 @@ public class Checker
     //if we wanna keep the checkers on one color,  we just have to check the sum of the gridPos
     //One color is even, the other is odd. 1+1 = 2, 2+2 = 4, 5+7 = 12
     public GridPos myPos { get; private set; }
+    //true for black, false for white
+    public bool BlackOrWhite { get; private set; }    
+    
     private GameObject body;
     
-    //true for black, false for white
-    public bool BlackOrWhite { get; private set; }
-
-
     public Checker(GridPos _initPos, bool _blackOrWhite, GameObject _body)
     {
         BlackOrWhite = _blackOrWhite;

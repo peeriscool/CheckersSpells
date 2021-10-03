@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private Checker selectedChecker;
     public int rowsOfCheckers = 3;
-    private Vector2 gridStartPosition;
-    // Checker checkerTest;
     public Card_ScriptableObject[] Cards;
+    public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
+
     InventoryManager Hand;
-    private GameObject selctedcard;
+    private Checker selectedChecker;
+    private Vector2 gridStartPosition;
     private Vector3 Scalevalue;
     private bool Mouseselect = true;
     private bool once = true;
     private GameObject CurrentCard;
-
-    public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
+    private GameObject selctedcard;
     // Start is called before the first frame update
     void Start()
     {
