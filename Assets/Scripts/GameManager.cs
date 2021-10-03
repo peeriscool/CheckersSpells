@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
         GridSystem.SetGridSize(8, 8);
         gridStartPosition = new Vector2(-3.5f, -3.5f);
         SpawnGrid(gridStartPosition);
-        //SpawnPieces(gridStartPosition, blackPiece, whitePiece);
+       // SpawnChecker(gridStartPosition, blackPiece, whitePiece);
         //checkerTest = new Checker(new GridPos(5, 7), true);
         Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
         hand = new InventoryManager(cards, 10);
