@@ -62,9 +62,9 @@ static class GridSystem
             {
                 RemoveChecker(newPos);
 
-                CheckerGrid[landPos.y, landPos.y] = CheckerGrid[oldPos.x, oldPos.y];
+                CheckerGrid[landPos.x, landPos.y] = CheckerGrid[oldPos.x, oldPos.y];
                 CheckerGrid[oldPos.x, oldPos.y] = null;
-                Debug.Log(CheckerGrid[landPos.x, landPos.y]);
+                //Debug.Log(CheckerGrid[landPos.x, landPos.y]);
                 CheckerGrid[landPos.x, landPos.y].UpdatePos(landPos);
             }
 
@@ -108,8 +108,4 @@ public struct GridPos
         x = _x;
         y = _y;
     }
-}
-public class cell
-{
-    cell() { }
 }
