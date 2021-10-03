@@ -5,16 +5,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int rowsOfCheckers = 3;
-    public Card_ScriptableObject[] Cards;
+    public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
 
-    InventoryManager Hand;
+    InventoryManager hand;
     private Checker selectedChecker;
     private Vector2 gridStartPosition;
-    private Vector3 Scalevalue;
-    private bool Mouseselect = true;
+    private Vector3 scalevalue;
+    private bool mouseselect = true;
     private bool once = true;
-    private GameObject CurrentCard;
+    private GameObject currentCard;
     private GameObject selctedcard;
     // Start is called before the first frame update
     void Start()
@@ -88,27 +88,27 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A)) //gives the player a card
         {
-            Hand.StartTurn();
+            hand.StartTurn();
         }
 
         if (Input.GetMouseButton(0)) //picking up cards ToDo: place on grid tile to activate effect.
         {
             //Debug.Log("Pressed left click, casting ray.");
-            CastRay(Mouseselect);
+            CastRay(mouseselect);
             if (selctedcard != null)
             {
                 Vector3 Mouseinput = Input.mousePosition;
 
                 //hover
-                if (selctedcard.transform.localScale.x <= Scalevalue.x * 2)
+                if (selctedcard.transform.localScale.x <= scalevalue.x * 2)
                     selctedcard.transform.localScale = selctedcard.transform.localScale * 2;
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && CurrentCard != null)
+        if (Input.GetMouseButtonUp(0) && currentCard != null)
         {
-            CurrentCard.transform.localScale = Scalevalue;
-            CurrentCard = null;
+            currentCard.transform.localScale = scalevalue;
+            currentCard = null;
         }
 
     }
@@ -122,10 +122,10 @@ public class GameManager : MonoBehaviour
             if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
             {
                 Debug.Log(hit.collider.gameObject.name);
-                if (selctedcard != null && selctedcard != CurrentCard) { CurrentCard = selctedcard; }//card switch
+                if (selctedcard != null && selctedcard != currentCard) { currentCard = selctedcard; }//card switch
                 selctedcard = hit.collider.gameObject;
 
-                if (once && selctedcard != CurrentCard) { Scalevalue = selctedcard.transform.localScale; once = false; }
+                if (once && selctedcard != currentCard) { scalevalue = selctedcard.transform.localScale; once = false; }
 
                 hit.collider.gameObject.transform.position = ray.GetPoint(0f);
             }
