@@ -27,20 +27,20 @@ static class GridSystem
             CheckerGrid[_gridPos.x, _gridPos.y] = null;
         }
     }
-    public static void AddChecker(Checker checker, GridPos gridPos)
+    public static void AddChecker(Checker _checker, GridPos _gridPos)
     {
-        if (CheckerGrid[gridPos.x, gridPos.y] == null)
-            CheckerGrid[gridPos.x, gridPos.y] = checker;
+        if (CheckerGrid[_gridPos.x, _gridPos.y] == null)
+            CheckerGrid[_gridPos.x, _gridPos.y] = _checker;
     }
 
-    public static void MoveChecker(GridPos oldPos, GridPos newPos)
+    public static void MoveChecker(GridPos _oldPos, GridPos _newPos)
     {
-        if (CheckerGrid[oldPos.x, oldPos.y] != null && CheckerGrid[newPos.x, newPos.y] == null
-            && (newPos.x == oldPos.x - 1 || newPos.x == oldPos.x + 1) && (newPos.y == oldPos.y - 1 || newPos.y == oldPos.y + 1))
+        if (CheckerGrid[_oldPos.x, _oldPos.y] != null && CheckerGrid[_newPos.x, _newPos.y] == null
+            && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
-            CheckerGrid[newPos.x, newPos.y] = CheckerGrid[oldPos.x, oldPos.y];
-            CheckerGrid[newPos.x, newPos.y].UpdatePos(newPos);
-            CheckerGrid[oldPos.x, oldPos.y] = null;
+            CheckerGrid[_newPos.x, _newPos.y] = CheckerGrid[_oldPos.x, _oldPos.y];
+            CheckerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
+            CheckerGrid[_oldPos.x, _oldPos.y] = null;
         }
         else
         {
@@ -48,22 +48,22 @@ static class GridSystem
         }
     }
 
-    public static void AttackChecker(GridPos oldPos, GridPos newPos)
+    public static void AttackChecker(GridPos _oldPos, GridPos _newPos)
     {
-        if (CheckerGrid[oldPos.x, oldPos.y] != null && CheckerGrid[newPos.x, newPos.y] != null
-            && (newPos.x == oldPos.x - 1 || newPos.x == oldPos.x + 1) && (newPos.y == oldPos.y - 1 || newPos.y == oldPos.y + 1)
-            && CheckerGrid[oldPos.x, oldPos.y].BlackOrWhite != CheckerGrid[newPos.x, newPos.y].BlackOrWhite)
+        if (CheckerGrid[_oldPos.x, _oldPos.y] != null && CheckerGrid[_newPos.x, _newPos.y] != null
+            && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1)
+            && CheckerGrid[_oldPos.x, _oldPos.y].BlackOrWhite != CheckerGrid[_newPos.x, _newPos.y].BlackOrWhite)
         {
-            int xDirection = newPos.x - oldPos.x;
-            int yDirection = newPos.y - oldPos.y;
-            GridPos landPos = new GridPos(newPos.x + xDirection, newPos.y + yDirection);
+            int xDirection = _newPos.x - _oldPos.x;
+            int yDirection = _newPos.y - _oldPos.y;
+            GridPos landPos = new GridPos(_newPos.x + xDirection, _newPos.y + yDirection);
 
             if (landPos.x >= 0 && landPos.x < xSize && landPos.y >= 0 && landPos.y < ySize && CheckerGrid[landPos.x, landPos.y] == null)
             {
-                RemoveChecker(newPos);
+                RemoveChecker(_newPos);
 
-                CheckerGrid[landPos.x, landPos.y] = CheckerGrid[oldPos.x, oldPos.y];
-                CheckerGrid[oldPos.x, oldPos.y] = null;
+                CheckerGrid[landPos.x, landPos.y] = CheckerGrid[_oldPos.x, _oldPos.y];
+                CheckerGrid[_oldPos.x, _oldPos.y] = null;
                 //Debug.Log(CheckerGrid[landPos.x, landPos.y]);
                 CheckerGrid[landPos.x, landPos.y].UpdatePos(landPos);
             }
@@ -79,9 +79,9 @@ static class GridSystem
         }
     }
 
-    public static Checker checkGridPosition(GridPos gridPos)
+    public static Checker checkGridPosition(GridPos _gridPos)
     {
-        return CheckerGrid[gridPos.x, gridPos.y];
+        return CheckerGrid[_gridPos .x, _gridPos.y];
     }
 
     //public Sprite[] GenerateVisual()

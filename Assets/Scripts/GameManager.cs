@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    void CastRay(bool Mouseselect)
+    void CastRay(bool _Mouseselect)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
         return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
     }
 
-    void SpawnGrid(Vector2 startlocation)
+    void SpawnGrid(Vector2 _startlocation)
     {
         for (int i = 0; i < GridSystem.xSize; i++)
         {
@@ -162,14 +162,14 @@ public class GameManager : MonoBehaviour
                 {
                     squareColor = whiteSquare;
                 }
-                Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, 0), new Quaternion(0, 0, 0, 0));
+                Instantiate(squareColor, new Vector3(_startlocation.x + i, _startlocation.y + j, 0), new Quaternion(0, 0, 0, 0));
 
             }
         }
     }
 
 
-    void SpawnPieces(Vector2 startlocation, GameObject Black, GameObject White)
+    void SpawnPieces(Vector2 _startlocation, GameObject _Black, GameObject _White)
     {
         for (int i = 0; i < GridSystem.xSize; i++)
         {
@@ -184,36 +184,36 @@ public class GameManager : MonoBehaviour
                 //check if it's even
                 if ((i + j) % 2 == 0)
                 {
-                    squareColor = White;
+                    squareColor = _White;
                 }
                 else
                 {
                     // continue; if we only want white pieces
-                    squareColor = Black;
+                    squareColor = _Black;
                 }
                 if (squareColor != null)
                 {
-                    Instantiate(squareColor, new Vector3(startlocation.x + i, startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
+                    Instantiate(squareColor, new Vector3(_startlocation.x + i, _startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
                     //  squareColor.AddComponent<BoxCollider2D>();
                 }
             }
         }
     }
 
-    void spawnChecker(GridPos initPos, bool color)
+    void spawnChecker(GridPos _initPos, bool _color)
     {
         Debug.Log("Spawning Checker");
         GameObject temp;
-        if (color)
+        if (_color)
         {
-           temp = Instantiate(blackPiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
+           temp = Instantiate(blackPiece, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
         }
         else
         {
-           temp = Instantiate(whitePiece, new Vector2(gridStartPosition.x + initPos.x, gridStartPosition.y + initPos.y), new Quaternion(0, 0, 0, 0));
+           temp = Instantiate(whitePiece, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
         }
 
-        new Checker(initPos, color, temp);
+        new Checker(_initPos, _color, temp);
     }
 }
 

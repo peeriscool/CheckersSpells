@@ -13,12 +13,12 @@ public class Checker
     public bool BlackOrWhite { get; private set; }
 
 
-    public Checker(GridPos initPos, bool _blackOrWhite, GameObject _body)
+    public Checker(GridPos _initPos, bool _blackOrWhite, GameObject _body)
     {
         BlackOrWhite = _blackOrWhite;
-        myPos = initPos;
+        myPos = _initPos;
         body = _body;
-        GridSystem.AddChecker(this, initPos);
+        GridSystem.AddChecker(this, _initPos);
     }
 
     public void UpdatePos(GridPos _pos)
