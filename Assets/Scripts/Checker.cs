@@ -10,7 +10,7 @@ public class Checker
     //true for black, false for white
     public bool BlackOrWhite { get; private set; }    
     
-    private GameObject body;
+    protected GameObject body;
     
     public Checker(GridPos _initPos, bool _blackOrWhite, GameObject _body)
     {
@@ -23,6 +23,10 @@ public class Checker
     public void UpdatePos(GridPos _pos)
     {
         myPos = _pos;
+    }
+    public GameObject Get_Body(Checker _prefab)
+    {
+        return _prefab.body;
     }
 
     public void UpdateChecker(Vector2 _offset)
