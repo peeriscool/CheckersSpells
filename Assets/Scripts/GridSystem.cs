@@ -10,37 +10,37 @@ static class GridSystem
     public static int xSize { get; private set; }
     public static int ySize { get; private set; }
 
-    private static Checker[,] CheckerGrid;
+    private static Checker[,] checkerGrid;
 
     public static void SetGridSize(int _xSize, int _ySize)
     {
-        CheckerGrid = new Checker[_xSize, _ySize];
+        checkerGrid = new Checker[_xSize, _ySize];
         xSize = _xSize;
         ySize = _ySize;
     }
 
     public static void RemoveChecker(GridPos _gridPos)
     {
-        if(CheckerGrid[_gridPos.x, _gridPos.y] != null)
+        if(checkerGrid[_gridPos.x, _gridPos.y] != null)
         {
-            CheckerGrid[_gridPos.x, _gridPos.y].Kill();
-            CheckerGrid[_gridPos.x, _gridPos.y] = null;
+            checkerGrid[_gridPos.x, _gridPos.y].Kill();
+            checkerGrid[_gridPos.x, _gridPos.y] = null;
         }
     }
     public static void AddChecker(Checker _checker, GridPos _gridPos)
     {
-        if (CheckerGrid[_gridPos.x, _gridPos.y] == null)
-            CheckerGrid[_gridPos.x, _gridPos.y] = _checker;
+        if (checkerGrid[_gridPos.x, _gridPos.y] == null)
+            checkerGrid[_gridPos.x, _gridPos.y] = _checker;
     }
 
     public static void MoveChecker(GridPos _oldPos, GridPos _newPos)
     {
-        if (CheckerGrid[_oldPos.x, _oldPos.y] != null && CheckerGrid[_newPos.x, _newPos.y] == null
+        if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] == null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
-            CheckerGrid[_newPos.x, _newPos.y] = CheckerGrid[_oldPos.x, _oldPos.y];
-            CheckerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
-            CheckerGrid[_oldPos.x, _oldPos.y] = null;
+            checkerGrid[_newPos.x, _newPos.y] = checkerGrid[_oldPos.x, _oldPos.y];
+            checkerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
+            checkerGrid[_oldPos.x, _oldPos.y] = null;
         }
         else
         {
@@ -50,22 +50,22 @@ static class GridSystem
 
     public static void AttackChecker(GridPos _oldPos, GridPos _newPos)
     {
-        if (CheckerGrid[_oldPos.x, _oldPos.y] != null && CheckerGrid[_newPos.x, _newPos.y] != null
+        if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] != null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1)
-            && CheckerGrid[_oldPos.x, _oldPos.y].BlackOrWhite != CheckerGrid[_newPos.x, _newPos.y].BlackOrWhite)
+            && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite != checkerGrid[_newPos.x, _newPos.y].blackOrWhite)
         {
             int xDirection = _newPos.x - _oldPos.x;
             int yDirection = _newPos.y - _oldPos.y;
             GridPos landPos = new GridPos(_newPos.x + xDirection, _newPos.y + yDirection);
 
-            if (landPos.x >= 0 && landPos.x < xSize && landPos.y >= 0 && landPos.y < ySize && CheckerGrid[landPos.x, landPos.y] == null)
+            if (landPos.x >= 0 && landPos.x < xSize && landPos.y >= 0 && landPos.y < ySize && checkerGrid[landPos.x, landPos.y] == null)
             {
                 RemoveChecker(_newPos);
 
-                CheckerGrid[landPos.x, landPos.y] = CheckerGrid[_oldPos.x, _oldPos.y];
-                CheckerGrid[_oldPos.x, _oldPos.y] = null;
-                //Debug.Log(CheckerGrid[landPos.x, landPos.y]);
-                CheckerGrid[landPos.x, landPos.y].UpdatePos(landPos);
+                checkerGrid[landPos.x, landPos.y] = checkerGrid[_oldPos.x, _oldPos.y];
+                checkerGrid[_oldPos.x, _oldPos.y] = null;
+                //Debug.Log(checkerGrid[landPos.x, landPos.y]);
+                checkerGrid[landPos.x, landPos.y].UpdatePos(landPos);
             }
 
             else
@@ -81,7 +81,7 @@ static class GridSystem
 
     public static Checker checkGridPosition(GridPos _gridPos)
     {
-        return CheckerGrid[_gridPos .x, _gridPos.y];
+        return checkerGrid[_gridPos .x, _gridPos.y];
     }
 
     //public Sprite[] GenerateVisual()

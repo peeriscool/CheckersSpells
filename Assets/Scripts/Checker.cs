@@ -8,7 +8,7 @@ public class Checker
     //One color is even, the other is odd. 1+1 = 2, 2+2 = 4, 5+7 = 12
     public GridPos myPos { get; private set; }
     //true for black, false for white
-    public bool BlackOrWhite { get; private set; }    
+    public bool blackOrWhite { get; private set; }    
     
     protected GameObject body;
     
