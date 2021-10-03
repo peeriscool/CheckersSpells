@@ -14,7 +14,7 @@ public class Checker
     
     public Checker(GridPos _initPos, bool _blackOrWhite, GameObject _body)
     {
-        BlackOrWhite = _blackOrWhite;
+        blackOrWhite = _blackOrWhite;
         myPos = _initPos;
         body = _body;
         GridSystem.AddChecker(this, _initPos);

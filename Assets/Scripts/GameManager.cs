@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int rowsOfCheckers = 3;
-    public Card_ScriptableObject[] cards;
+    public Card_ScriptableObject[] Cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
 
     InventoryManager hand;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private GameObject selctedcard;
     private GameObject[,] Tiles;
     private GameObject selectedCard;
+    InventoryManager Hand;
     // Start is called before the first frame update
     void Start()
     {
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
             hand.StartTurn();
         }
 
-        if (Input.GetMouseButton(0)) //picking up cards ToDo: place on grid tile to activate effect.
+        if (Input.GetMouseButton(0)) //picking up Cards ToDo: place on grid tile to activate effect.
         {
             //Debug.Log("Pressed left click, casting ray.");
             CastRay(mouseSelect);
@@ -107,10 +108,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && currentCard != null)
+        if (Input.GetMouseButtonUp(0) && CurrentCard != null)
         {
-            currentCard.transform.localScale = scalevalue;
-            currentCard = null;
+            CurrentCard.transform.localScale = scalevalue;
+            CurrentCard = null;
         }
 
     }
@@ -123,10 +124,10 @@ public class GameManager : MonoBehaviour
             if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
             {
                 Debug.Log(hit.collider.gameObject.name);
-                if (selectedCard != null && selectedCard != currentCard) { currentCard = selectedCard; }//card switch
+                if (selectedCard != null && selectedCard != CurrentCard) { CurrentCard = selectedCard; }//card switch
                 selectedCard = hit.collider.gameObject;
 
-                if (once && selectedCard != currentCard) { scalevalue = selectedCard.transform.localScale; once = false; }
+                if (once && selectedCard != CurrentCard) { scalevalue = selectedCard.transform.localScale; once = false; }
 
                 hit.collider.gameObject.transform.position = ray.GetPoint(0f);
 
