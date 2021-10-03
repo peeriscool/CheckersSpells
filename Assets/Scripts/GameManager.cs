@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int rowsOfCheckers = 3;
-    public Card_ScriptableObject[] Cards;
+    public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
 
     InventoryManager hand;
@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     private GameObject currentCard;
     private GameObject[,] tiles;
     private GameObject selectedCard;
-    InventoryManager Hand;
     // Start is called before the first frame update
     void Start()
     {
@@ -107,7 +106,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && CurrentCard != null)
+        if (Input.GetMouseButtonUp(0) && currentCard != null)
         {
             currentCard.transform.localScale = scaleValue;
             currentCard = null;
@@ -123,7 +122,7 @@ public class GameManager : MonoBehaviour
             if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
             {
                 Debug.Log(hit.collider.gameObject.name);
-                if (selectedCard != null && selectedCard != CurrentCard) { CurrentCard = selectedCard; }//card switch
+                if (selectedCard != null && selectedCard != currentCard) { currentCard = selectedCard; }//card switch
                 selectedCard = hit.collider.gameObject;
 
                 if (once && selectedCard != currentCard) { scaleValue = selectedCard.transform.localScale; once = false; }
