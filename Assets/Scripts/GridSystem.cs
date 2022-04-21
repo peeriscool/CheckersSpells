@@ -5,13 +5,14 @@ using UnityEngine;
 
 static class GridSystem
 {
-    //public int[] Xrow;
-    //public int[] Yrow;
+    //the size of the board, horizontally and vertically
     public static int xSize { get; private set; }
     public static int ySize { get; private set; }
 
+    //an array that tracks where the checkers are
     private static Checker[,] checkerGrid;
 
+    //Initializes the grid, by input size
     public static void SetGridSize(int _xSize, int _ySize)
     {
         checkerGrid = new Checker[_xSize, _ySize];
@@ -19,6 +20,8 @@ static class GridSystem
         ySize = _ySize;
     }
 
+
+    //Remove a checker on a specific coordinate in case they get hit, or we need to remove them for any other reason
     public static void RemoveChecker(GridPos _gridPos)
     {
         if(checkerGrid[_gridPos.x, _gridPos.y] != null)
@@ -27,14 +30,18 @@ static class GridSystem
             checkerGrid[_gridPos.x, _gridPos.y] = null;
         }
     }
+
+    //function that can add a checker to a specific position on the board
     public static void AddChecker(Checker _checker, GridPos _gridPos)
     {
         if (checkerGrid[_gridPos.x, _gridPos.y] == null)
             checkerGrid[_gridPos.x, _gridPos.y] = _checker;
     }
 
+    //move a checker, from a chosen position to a new position. Will only work if it's a legal move
     public static void MoveChecker(GridPos _oldPos, GridPos _newPos)
     {
+        //for now it only works when they move any diagonal direction, should be changed to move only forward, and only backwards when you strike a piece
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] == null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
@@ -42,12 +49,14 @@ static class GridSystem
             checkerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
             checkerGrid[_oldPos.x, _oldPos.y] = null;
         }
+
         else
         {
             Debug.Log("Can't do that");
         }
     }
 
+    //Attack another piece, and remove it if it's a legal move
     public static void AttackChecker(GridPos _oldPos, GridPos _newPos)
     {
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] != null
@@ -79,6 +88,7 @@ static class GridSystem
         }
     }
 
+    //fetch what the checker is on a given location
     public static Checker checkGridPosition(GridPos _gridPos)
     {
         return checkerGrid[_gridPos .x, _gridPos.y];
@@ -98,6 +108,7 @@ static class GridSystem
     // }
 }
 
+//a struct for positions on the grid
 public struct GridPos
 {
     public int x;
