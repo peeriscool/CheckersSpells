@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Turnstate
+public abstract class Gamestate
 {
     public virtual void Enter()
     {

@@ -12,6 +12,5 @@ public class PauseCommand : ICommand
     void PauseTheGame()
     {
         //make it so the state is switched to pausestate, but not as hardcoded?
-
     }
 }

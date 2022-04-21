@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pause : Turnstate
+public class Pause : Gamestate
 {
     public override void Enter()
     {

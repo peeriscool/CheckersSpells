@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnStateMachine
+public class GameStateMachine
 {
-    private Turnstate currenstate;
+    private Gamestate currenstate;
     public void OnStart()
     {
 
     }
 
-    public void SwitchState(Turnstate newState)
+    public void SwitchState(Gamestate newState)
     {
         currenstate.Exit();
         currenstate = newState;
