@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    //this determines how many rows of checkers each player gets at the start
     public int rowsOfCheckers = 3;
+
+    //the size of the board
+    public int boardX, boardY;
+
     public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
+
+    private GameMenu gameMenu;
+    public Button enterButton;
 
     InventoryManager hand;
     private Checker selectedChecker;
@@ -17,22 +26,28 @@ public class GameManager : MonoBehaviour
     private GameObject currentCard;
     private GameObject[,] tiles;
     private GameObject selectedCard;
+
     // Start is called before the first frame update
     void Start()
     {
-        GridSystem.SetGridSize(8, 8);
-        gridStartPosition = new Vector2(-3.5f, -3.5f);
-        SpawnGrid(gridStartPosition);
-       // SpawnChecker(gridStartPosition, blackPiece, whitePiece);
-        //checkerTest = new Checker(new GridPos(5, 7), true);
-        Debug.Log(GridSystem.checkGridPosition(new GridPos(5, 7)));
+        //working on this, but commenting it so there won't be errors
+        //enterButton = fetchComponent("");
+        //gameMenu = new GameMenu();
+        
+        
+        //add a listener to the onclick event from the button to start the game
+        enterButton.onClick.AddListener(StartGame);
+        
         hand = new InventoryManager(cards, 10);
 
+        //if the number of rows is bigger than half of the board, the players can't both get that amount of rows, so an error is given
         if (rowsOfCheckers > GridSystem.ySize / 2)
         {
             Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
         }
 
+
+        //I spawn checkers based on the gridSize
         bool pieceColor = false;
         for (int i = 0; i < GridSystem.ySize; i++)
         {
@@ -56,9 +71,9 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         Debug.Log(selectedChecker);
-        //if (selectedChecker != null)
-        //    Debug.Log(selectedChecker.myPos.x + ", " + selectedChecker.myPos.y);
 
+
+        //replace this with input from the inputHandler
         if (Input.GetMouseButtonDown(0))
         {
             Checker clickedTile = GridSystem.checkGridPosition(ClickOnTiles());
@@ -146,16 +161,32 @@ public class GameManager : MonoBehaviour
         return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
     }
 
-    void SpawnGrid(Vector2 _startlocation)
+    void StartGame()
+    {
+        //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
+
+
+        CreateNewBoard(8, 8);
+        SpawnGrid();
+    }
+
+    void CreateNewBoard(int xSize, int ySize)
+    {
+        GridSystem.SetGridSize(xSize, ySize);
+    }
+
+    void SpawnGrid()
     {
         tiles = new GameObject[GridSystem.xSize,GridSystem.ySize];
+
+        //Tells me how many tiles there are in total
         Debug.Log(GridSystem.xSize * GridSystem.ySize + " is the amount of tiles availible");
         for (int i = 0; i < GridSystem.xSize; i++)
         {
             for (int j = 0; j < GridSystem.ySize; j++)
             {
                 GameObject squareColor;
-                //check if it's even
+                //check if it's even, all even tiles are black, all odd tiles are white. Quick math
                 if ((i + j) % 2 == 0)
                 {
                     squareColor = blackSquare;
@@ -165,11 +196,18 @@ public class GameManager : MonoBehaviour
                     squareColor = whiteSquare;
                 }
                 tiles[i, j] = squareColor;
-                Instantiate(tiles[i, j], new Vector3(_startlocation.x + i, _startlocation.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
+
+                //the board will always spawn in the center of the screen. Each tile will spawn individually
+                Instantiate(tiles[i, j], new Vector3((Camera.main.transform.position.x - GridSystem.xSize / 2 + 0.5f) + i, (Camera.main.transform.position.y - GridSystem.ySize / 2 + 0.5f) + j, 0.1f), new Quaternion(0, 0, 0, 0));
                 
             }
         }
         
+    }
+
+    void SpawnAllCheckers()
+    {
+
     }
 
 
@@ -188,38 +226,26 @@ public class GameManager : MonoBehaviour
 
         new Checker(_initPos, _color, temp);
     }
+
+    Component fetchComponent(string ObjectName, System.Type componentType)
+    {
+        GameObject foundGameobject = GameObject.Find(ObjectName);
+
+        if(foundGameobject = null)
+        {
+            Debug.Log("Couldn't find GameObject with the name: " + ObjectName);
+            return null;
+        }
+
+        Component componentTemp = foundGameobject.GetComponent(componentType);
+        if(componentTemp = null)
+        {
+            Debug.Log("Couldn't find component in GameObject. Searching for component in Children");
+        }
+        return componentTemp;
+    }
 }
 
-    //void SpawnPieces(Vector2 _startlocation, GameObject _Black, GameObject _White)
-    //{
-    //    for (int i = 0; i < GridSystem.xSize; i++)
-    //    {
-    //        for (int j = 0; j < GridSystem.ySize; j++)
-    //        {
-
-    //            if (j == GridSystem.ySize - GridSystem.ySize / 2 || j == GridSystem.ySize - GridSystem.ySize / 2 - 1)
-    //            {
-    //                continue;
-    //            }
-    //            GameObject squareColor;
-    //            //check if it's even
-    //            if ((i + j) % 2 == 0)
-    //            {
-    //                squareColor = _White;
-    //            }
-    //            else
-    //            {
-    //                // continue; if we only want white pieces
-    //                squareColor = _Black;
-    //            }
-    //            if (squareColor != null)
-    //            {
-    //                Instantiate(squareColor, new Vector3(_startlocation.x + i, _startlocation.y + j, -1), new Quaternion(0, 0, 0, 0));
-    //                //  squareColor.AddComponent<BoxCollider2D>();
-    //            }
-    //        }
-    //    }
-    //}
 /*
  *using System.Collections;
 using System.Collections.Generic;
