@@ -10,7 +10,7 @@ static class GridSystem
     public static int ySize { get; private set; }
 
     //an array that tracks where the checkers are
-    private static Checker[,] checkerGrid;
+    private static IPlaceable[,] checkerGrid;
 
     //Initializes the grid, by input size
     public static void SetGridSize(int _xSize, int _ySize)
@@ -24,18 +24,21 @@ static class GridSystem
     //Remove a checker on a specific coordinate in case they get hit, or we need to remove them for any other reason
     public static void RemoveChecker(GridPos _gridPos)
     {
-        if(checkerGrid[_gridPos.x, _gridPos.y] != null)
+        if (checkerGrid[_gridPos.x, _gridPos.y] == null)
         {
-            checkerGrid[_gridPos.x, _gridPos.y].Kill();
-            checkerGrid[_gridPos.x, _gridPos.y] = null;
+            return;
         }
+        checkerGrid[_gridPos.x, _gridPos.y].Kill();
+        checkerGrid[_gridPos.x, _gridPos.y] = null;
     }
 
     //function that can add a checker to a specific position on the board
-    public static void AddChecker(Checker _checker, GridPos _gridPos)
+    public static void AddPlaceable(IPlaceable _placeable, GridPos _gridPos)
     {
-        if (checkerGrid[_gridPos.x, _gridPos.y] == null)
-            checkerGrid[_gridPos.x, _gridPos.y] = _checker;
+        if (checkerGrid[_gridPos.x, _gridPos.y] != null)
+            return;
+
+        checkerGrid[_gridPos.x, _gridPos.y] = _placeable;
     }
 
     //move a checker, from a chosen position to a new position. Will only work if it's a legal move
@@ -89,7 +92,7 @@ static class GridSystem
     }
 
     //fetch what the checker is on a given location
-    public static Checker checkGridPosition(GridPos _gridPos)
+    public static IPlaceable checkGridPosition(GridPos _gridPos)
     {
         return checkerGrid[_gridPos .x, _gridPos.y];
     }

@@ -14,11 +14,10 @@ public class GameManager : MonoBehaviour
     public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
 
-    private GameMenu gameMenu;
-    public Button enterButton;
+    private InputHandler inputHandler;
 
     InventoryManager hand;
-    private Checker selectedChecker;
+    private IPlaceable selectedPlaceable;
     private Vector2 gridStartPosition;
     private Vector3 scaleValue;
     private bool mouseSelect = true;
@@ -30,71 +29,40 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //working on this, but commenting it so there won't be errors
-        //enterButton = fetchComponent("");
-        //gameMenu = new GameMenu();
-        
-        
-        //add a listener to the onclick event from the button to start the game
-        enterButton.onClick.AddListener(StartGame);
-        
+        inputHandler = new InputHandler();
+        inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
+
         hand = new InventoryManager(cards, 10);
 
-        //if the number of rows is bigger than half of the board, the players can't both get that amount of rows, so an error is given
-        if (rowsOfCheckers > GridSystem.ySize / 2)
-        {
-            Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
-        }
-
-
-        //I spawn checkers based on the gridSize
-        bool pieceColor = false;
-        for (int i = 0; i < GridSystem.ySize; i++)
-        {
-            if (i < rowsOfCheckers)
-                pieceColor = false;
-
-            if (i >= GridSystem.ySize - rowsOfCheckers)
-                pieceColor = true;
-
-            if (i >= rowsOfCheckers && i < GridSystem.ySize - rowsOfCheckers)
-                continue;
-
-            for (int j = 0; j < GridSystem.xSize; j++)
-            {
-                if ((i + j) % 2 == 0)
-                    SpawnChecker(new GridPos(j, i), pieceColor);
-            }
-        }
+        StartGame();
     }
 
     private void Update()
     {
-        Debug.Log(selectedChecker);
+        Debug.Log(selectedPlaceable);
 
 
         //replace this with input from the inputHandler
         if (Input.GetMouseButtonDown(0))
         {
-            Checker clickedTile = GridSystem.checkGridPosition(ClickOnTiles());
+            IPlaceable clickedTile = GridSystem.checkGridPosition(ClickOnTiles());
             GridPos clickedPos = ClickOnTiles();
 
-            if (selectedChecker != null)
+            if (selectedPlaceable != null)
             {
                 if (clickedTile != null)
-                    GridSystem.AttackChecker(selectedChecker.myPos, clickedPos);
+                    GridSystem.AttackChecker(selectedPlaceable.myPos, clickedPos);
 
                 else if (clickedTile == null)
-                    GridSystem.MoveChecker(selectedChecker.myPos, clickedPos);
+                    GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
 
-                selectedChecker.UpdateChecker(gridStartPosition);
-                selectedChecker = null;
+                selectedPlaceable = null;
             }
 
-            else if (selectedChecker == null)
+            else if (selectedPlaceable == null)
             {
                 if (clickedTile != null)
-                    selectedChecker = clickedTile;
+                    selectedPlaceable = clickedTile;
             }
         }
     }
@@ -132,8 +100,10 @@ public class GameManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-        if (hit)
+        if (!hit)
         {
+            return;
+        }
             if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
             {
                 Debug.Log(hit.collider.gameObject.name);
@@ -143,7 +113,6 @@ public class GameManager : MonoBehaviour
                 if (once && selectedCard != currentCard) { scaleValue = selectedCard.transform.localScale; once = false; }
 
                 hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-
             }
             //if (hit.collider.gameObject.layer == 9) //pieces handler "PiecesLayer"
             //{
@@ -152,7 +121,7 @@ public class GameManager : MonoBehaviour
 
             //if (Mouseselect){ selctedcard.transform.localScale = selctedcard.transform.localScale * 3; }
             //else { selctedcard.transform.localScale = selctedcard.transform.localScale / 3; }
-        }
+        
     }
     GridPos ClickOnTiles()
     {
@@ -164,15 +133,35 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
-
-
-        CreateNewBoard(8, 8);
+        GridSystem.SetGridSize(8, 8);
         SpawnGrid();
-    }
 
-    void CreateNewBoard(int xSize, int ySize)
-    {
-        GridSystem.SetGridSize(xSize, ySize);
+        //if the number of rows is bigger than half of the board, the players can't both get that amount of rows, so an error is given
+        if (rowsOfCheckers > GridSystem.ySize / 2)
+        {
+            Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
+        }
+
+
+        //I spawn checkers based on the gridSize
+        int pieceColor = 2;
+        for (int i = 0; i < GridSystem.ySize; i++)
+        {
+            if (i < rowsOfCheckers)
+                pieceColor = 1;
+
+            if (i >= GridSystem.ySize - rowsOfCheckers)
+                pieceColor = 0;
+
+            if (i >= rowsOfCheckers && i < GridSystem.ySize - rowsOfCheckers)
+                continue;
+
+            for (int j = 0; j < GridSystem.xSize; j++)
+            {
+                if ((i + j) % 2 == 0)
+                    SpawnChecker(new GridPos(j, i), pieceColor);
+            }
+        }
     }
 
     void SpawnGrid()
@@ -181,6 +170,11 @@ public class GameManager : MonoBehaviour
 
         //Tells me how many tiles there are in total
         Debug.Log(GridSystem.xSize * GridSystem.ySize + " is the amount of tiles availible");
+
+        //grid is at the center of the screen, so the start position will be taken from there
+        gridStartPosition = new Vector2(Camera.main.transform.position.x - GridSystem.xSize / 2 + 0.5f, Camera.main.transform.position.y - GridSystem.ySize / 2 + 0.5f);
+        
+        //let's spawn the tiles
         for (int i = 0; i < GridSystem.xSize; i++)
         {
             for (int j = 0; j < GridSystem.ySize; j++)
@@ -199,7 +193,6 @@ public class GameManager : MonoBehaviour
 
                 //the board will always spawn in the center of the screen. Each tile will spawn individually
                 Instantiate(tiles[i, j], new Vector3((Camera.main.transform.position.x - GridSystem.xSize / 2 + 0.5f) + i, (Camera.main.transform.position.y - GridSystem.ySize / 2 + 0.5f) + j, 0.1f), new Quaternion(0, 0, 0, 0));
-                
             }
         }
         
@@ -211,65 +204,87 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void SpawnChecker(GridPos _initPos, bool _color)
+    void SpawnChecker(GridPos _initPos, int _color)
     {
         Debug.Log("Spawning Checker");
-        GameObject temp;
-        if (_color)
+        GameObject temp = null;
+
+        //black piece
+        if (_color == 0)
         {
-           temp = Instantiate(blackPiece, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
-        }
-        else
-        {
-           temp = Instantiate(whitePiece, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
+            temp = blackPiece;
         }
 
-        new Checker(_initPos, _color, temp);
+        //white piece
+        if(_color == 1)
+        {
+            temp = whitePiece;
+        }
+
+        if(temp == null)
+        {
+            return;
+        }
+
+        Instantiate(temp, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
+        GridSystem.AddPlaceable(new Checker(_initPos, _color, temp), _initPos);
     }
 
-    Component fetchComponent(string ObjectName, System.Type componentType)
+}
+
+//failed attempt at making fetching components more efficient
+/*
+
+//maybe give this its own file
+
+//The componentFetcher is static so that it can be referenced by any class wherever.
+static class ComponentFetcher
+{
+    //when referenced, we can search for a specific component at the specific name of a GameObject
+    //must enter the componentType as: typeof(nameofcomponentyouwant)
+    public static Component fetchComponent(string ObjectName, System.Type componentType)
     {
         GameObject foundGameobject = GameObject.Find(ObjectName);
 
-        if(foundGameobject = null)
+        //If the name can't be found, we return null
+        if (foundGameobject = null)
         {
             Debug.Log("Couldn't find GameObject with the name: " + ObjectName);
             return null;
         }
 
         Component componentTemp = foundGameobject.GetComponent(componentType);
-        if(componentTemp = null)
+
+        //if the name does exist, and it has the component, we return that component
+        if (componentTemp != null)
         {
-            Debug.Log("Couldn't find component in GameObject. Searching for component in Children");
+            Debug.Log("Component of correct type found");
+            return componentTemp;
         }
-        return componentTemp;
+
+        //if the object doesn't have the component, we will search in its children
+        Debug.Log("Couldn't find component in GameObject. Searching for component in Children");
+
+        Component[] childrencomponents = foundGameobject.GetComponentsInChildren(componentType);
+        if (childrencomponents.Length > 1)
+        {
+            Debug.Log("There's more than one component in its children. returning null");
+            return null;
+        }
+
+        //only when in its children there is one component, we will return it, otherwise we won't have enough information to specify which component we need
+        if (childrencomponents.Length == 1)
+        {
+            Debug.Log("Found one component in GameObject's children, returning component");
+            return childrencomponents[0];
+        }
+
+        else
+        {
+            Debug.Log("No components found");
+            return null;
+        }
     }
 }
 
-/*
- *using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GameManager : MonoBehaviour
-{
-    // Start is called before the first frame update
-    GridSystem grid;
-    InventoryManager Hand;
-    public Card_ScriptableObject[] Cards;
-
-    public delegate Card_ScriptableObject DrawACard();
-    void Start()
-    {
-        Hand = new InventoryManager(Cards, 10);
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Hand.StartTurn();            
-        }
-    }
-}
- 
- */
+*/

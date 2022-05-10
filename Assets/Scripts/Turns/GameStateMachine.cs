@@ -7,7 +7,7 @@ public class GameStateMachine
     private Gamestate currenstate;
     public void OnStart()
     {
-
+        
     }
 
     public void SwitchState(Gamestate newState)
