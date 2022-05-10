@@ -135,33 +135,7 @@ public class GameManager : MonoBehaviour
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);
         SpawnGrid();
-
-        //if the number of rows is bigger than half of the board, the players can't both get that amount of rows, so an error is given
-        if (rowsOfCheckers > GridSystem.ySize / 2)
-        {
-            Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
-        }
-
-
-        //I spawn checkers based on the gridSize
-        int pieceColor = 2;
-        for (int i = 0; i < GridSystem.ySize; i++)
-        {
-            if (i < rowsOfCheckers)
-                pieceColor = 1;
-
-            if (i >= GridSystem.ySize - rowsOfCheckers)
-                pieceColor = 0;
-
-            if (i >= rowsOfCheckers && i < GridSystem.ySize - rowsOfCheckers)
-                continue;
-
-            for (int j = 0; j < GridSystem.xSize; j++)
-            {
-                if ((i + j) % 2 == 0)
-                    SpawnChecker(new GridPos(j, i), pieceColor);
-            }
-        }
+        SpawnAllCheckers();
     }
 
     void SpawnGrid()
@@ -200,7 +174,32 @@ public class GameManager : MonoBehaviour
 
     void SpawnAllCheckers()
     {
+        //if the number of rows is bigger than half of the board, the players can't both get that amount of rows, so an error is given
+        if (rowsOfCheckers > GridSystem.ySize / 2)
+        {
+            Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
+        }
 
+
+        //I spawn checkers based on the gridSize
+        int pieceColor = 2;
+        for (int i = 0; i < GridSystem.ySize; i++)
+        {
+            if (i < rowsOfCheckers)
+                pieceColor = 1;
+
+            if (i >= GridSystem.ySize - rowsOfCheckers)
+                pieceColor = 0;
+
+            if (i >= rowsOfCheckers && i < GridSystem.ySize - rowsOfCheckers)
+                continue;
+
+            for (int j = 0; j < GridSystem.xSize; j++)
+            {
+                if ((i + j) % 2 == 0)
+                    SpawnChecker(new GridPos(j, i), pieceColor);
+            }
+        }
     }
 
 
