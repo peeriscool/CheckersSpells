@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Cards", menuName = "ScriptableObjects/Cards", order = 1)]
+[CreateAssetMenu(fileName = "Cards", menuName = "ScriptableObjects/Deck", order = 1)]
 public class DeckOfCardsScriptable : ScriptableObject
 {
-    public GameObject prefab;
-    public Sprite img;
+    public Array prefabs;
+    public int length;
+    public int shuffleSeed;
 }

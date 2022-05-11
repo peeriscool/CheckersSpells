@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButton(0)) //picking up Cards ToDo: place on grid tile to activate effect.
         {
             //Debug.Log("Pressed left click, casting ray.");
-            CastRay(mouseSelect);
             if (selectedCard != null)
             {
                 Vector3 Mouseinput = Input.mousePosition;
@@ -96,33 +95,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    void CastRay(bool _mouseselect)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-        if (!hit)
-        {
-            return;
-        }
-            if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
-            {
-                Debug.Log(hit.collider.gameObject.name);
-                if (selectedCard != null && selectedCard != currentCard) { currentCard = selectedCard; }//card switch
-                selectedCard = hit.collider.gameObject;
-
-                if (once && selectedCard != currentCard) { scaleValue = selectedCard.transform.localScale; once = false; }
-
-                hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-            }
-            //if (hit.collider.gameObject.layer == 9) //pieces handler "PiecesLayer"
-            //{
-            //    hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-            //}
-
-            //if (Mouseselect){ selctedcard.transform.localScale = selctedcard.transform.localScale * 3; }
-            //else { selctedcard.transform.localScale = selctedcard.transform.localScale / 3; }
-        
-    }
+   
     GridPos ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -132,6 +105,8 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
+        GameObject.Find("UI").SetActive(false);
+   
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);
         SpawnGrid();
