@@ -6,7 +6,7 @@ using System;
 // Cards.Effect effect = new Cards.Effect();
 public class Cards : DeckSystem
 {
-    Effect myeffect = new Effect();
+ //   Effect myeffect = new Effect();
     public Cards(Effect.Effecttpye _param)
     {
         //myeffect.mytype = _param;

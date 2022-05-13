@@ -10,7 +10,7 @@ public class DeckSystem
     List<Cards> deck;
     List<int> cards;
     int Deckcount = 52;
-    Cards card = new Cards(Cards.Effect.Effecttpye.deletecolumn); //make a card with an effect
+//    Cards card = new Cards(Cards.Effect.Effecttpye.deletecolumn); //make a card with an effect
 
    
     public event EventHandler effecthandler;

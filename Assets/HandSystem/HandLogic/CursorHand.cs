@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class CursorHand
 {
-    //needs to work without monobehavior
+    //works without monobehavior
     //get animation controller for hand
     //bind hand to mouse position.
     //play animation when clicked
@@ -36,7 +36,7 @@ public class CursorHand
         {
             Debug.Log("mouse left" + Hand.transform.position);
             HandController.Play("Armature|Hand grab");
-            CastRay(true);
+          //  CastRay(true);
             //card selected
             //checker selected
             return;
@@ -52,22 +52,19 @@ public class CursorHand
         } 
    }
 
-    
-
-
-    void CastRay(bool _mouseselect) //see if we select a card
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-        if (hit)
-        {
-            if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
-            {
-                Debug.Log(hit.collider.gameObject.name);
-                hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-            }
-        }
-    }
+    //void CastRay(bool _mouseselect) //see if we select a card
+    //{
+    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //    RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+    //    if (hit)
+    //    {
+    //        if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
+    //        {
+    //            Debug.Log(hit.collider.gameObject.name);
+    //            hit.collider.gameObject.transform.position = ray.GetPoint(0f);
+    //        }
+    //    }
+    //}
     public Vector3 UpdateHandVisual()
     {
     return TrackedPos;
@@ -77,37 +74,23 @@ public class CursorHand
     {
         HandController.Play(name);
     }
-
-    //public IEnumerator animationruitine(AnimationClip frames, string name )
-    //{
-
-    //    for (float alpha = 0f; alpha <= frames.length; alpha += 1f)
-    //    {
-    //        //play:
-    //        HandController.Play(name);
-    //        yield return new WaitForSeconds(1f);
-    //        HandController.StopPlayback();
-    //        //done playing.
-    //    }
-    //}
 }
 
-
-public class Whitehand //returns true if white is at play
-{
-    Gamestate myTurn;
-    public bool MyTurn(Gamestate _current, WhiteTurn _myTurn)
-    {
-        myTurn = _myTurn;
-        return (_current == _myTurn);   
-    }
-}
-public class Blackhand //returns true if black is at play
-{
-    Gamestate myTurn;
-    public bool MyTurn(Gamestate _current, WhiteTurn _myTurn)
-    {
-        myTurn = _myTurn;
-        return (_current == _myTurn);
-    }
-}
+//public class Whitehand //returns true if white is at play
+//{
+//    Gamestate myTurn;
+//    public bool MyTurn(Gamestate _current, WhiteTurn _myTurn)
+//    {
+//        myTurn = _myTurn;
+//        return (_current == _myTurn);   
+//    }
+//}
+//public class Blackhand //returns true if black is at play
+//{
+//    Gamestate myTurn;
+//    public bool MyTurn(Gamestate _current, WhiteTurn _myTurn)
+//    {
+//        myTurn = _myTurn;
+//        return (_current == _myTurn);
+//    }
+//}

@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
     //the size of the board
     public int boardX, boardY;
 
-    public Card_ScriptableObject[] cards;
+   // public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
-
+    public GameObject handvisual;
     private InputHandler inputHandler;
 
-    InventoryManager hand;
+    // InventoryManager hand;
+    Hand hand;
     private IPlaceable selectedPlaceable;
     private Vector2 gridStartPosition;
     private Vector3 scaleValue;
@@ -29,16 +30,18 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hand = new Hand(handvisual);
         inputHandler = new InputHandler();
         inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
 
-        hand = new InventoryManager(cards, 10);
+       // hand = new InventoryManager(cards, 10);
 
         StartGame();
     }
 
     private void Update()
     {
+     //  handvisual.transform.position = hand.Tick();
         Debug.Log(selectedPlaceable);
 
 
@@ -67,35 +70,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.A)) //gives the player a card
-        {
-            hand.StartTurn();
-        }
-
-        if (Input.GetMouseButton(0)) //picking up Cards ToDo: place on grid tile to activate effect.
-        {
-            //Debug.Log("Pressed left click, casting ray.");
-            if (selectedCard != null)
-            {
-                Vector3 Mouseinput = Input.mousePosition;
-
-                //hover
-                if (selectedCard.transform.localScale.x <= scaleValue.x * 2)
-                    selectedCard.transform.localScale = selectedCard.transform.localScale * 2;
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0) && currentCard != null)
-        {
-            currentCard.transform.localScale = scaleValue;
-            currentCard = null;
-        }
-
-    }
-   
     GridPos ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -168,6 +142,7 @@ public class GameManager : MonoBehaviour
 
                 //the board will always spawn in the center of the screen. Each tile will spawn individually
                 Instantiate(tiles[i, j], new Vector3((Camera.main.transform.position.x - GridSystem.xSize / 2 + 0.5f) + i, (Camera.main.transform.position.y - GridSystem.ySize / 2 + 0.5f) + j, 0.1f), new Quaternion(0, 0, 0, 0));
+                //instantiate(gridsysyem())
             }
         }
         
