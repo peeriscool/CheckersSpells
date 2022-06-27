@@ -6,16 +6,40 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class DisplayInventory
+//https://docs.unity3d.com/2019.1/Documentation/ScriptReference/EventSystems.UIBehaviour.html
+public class DisplayInventory : UIBehaviour
 {
     public InventoryObject inventory; //displayed inventory
-    //public ItemInteraction activeinventory;
+                                      //public ItemInteraction activeinventory;
+    public GameObject inventoryprefab; //item that holds all sprites
+
+
     public int X_start; //horizontal offset
     public int Y_start; //vertical offset
     public int X_Spacer;
     public int Column;
     public int Y_Spacer;
-    public GameObject inventoryprefab; //item that holds all sprites
+    /// <summary>
+    /// inventory sytem for cards
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="xpace"></param>
+    /// <param name="column"></param>
+    /// <param name="yspace"></param>
+    /// <param name="_inventory"></param>
+    /// <param name="_inventoryprefab"></param>
+    public DisplayInventory(int x,int y, int xpace, int column, int yspace, InventoryObject _inventory, GameObject _inventoryprefab)
+    {
+        X_start = x;
+        Y_start = y;
+        X_Spacer = xpace;
+        Column = column;
+        Y_Spacer = yspace;
+        inventory = _inventory;
+        inventoryprefab = _inventoryprefab;
+    }
+  
 
     Dictionary<InventorySlot, GameObject> itemsDisplayed = new Dictionary<InventorySlot, GameObject>();
     private void Start()
@@ -24,7 +48,6 @@ public class DisplayInventory
         //{
         //    inventory = activeinventory.inventory;
         //}
-
         CreateDisplay();
     }
     private void Update()
@@ -35,7 +58,6 @@ public class DisplayInventory
     public Vector3 GetPosition(int index)//assign inventory location
     {
         return new Vector3(X_start + (X_Spacer * (index % Column)), Y_start + (-Y_Spacer * (index / Column)), 0f); //use start locations
-                                                                                                                   //  return new Vector3(X_start + (X_Spacer * (index % Column)), (-Y_Spacer * (index / Column)), 0f); //no pre defined positions
     }
     public void CreateDisplay()
     {

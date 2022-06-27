@@ -26,8 +26,13 @@ public class GameManager : MonoBehaviour
     private GameObject currentCard;
     private GameObject[,] tiles;
     private GameObject selectedCard;
+
     [SerializeField]
-    protected GameObject UI;
+    protected GameObject HandUI;
+    [SerializeField]
+    protected GameObject CardUI;
+    [SerializeField]
+    protected InventoryObject player1;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,8 +85,9 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        UI.SetActive(false);
-   
+        HandUI.SetActive(true);
+        DisplayInventory HandUIDisplay = new DisplayInventory(800,800,10,10,10, player1, CardUI.gameObject);
+        HandUIDisplay.CreateDisplay();
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);
         SpawnGrid();
