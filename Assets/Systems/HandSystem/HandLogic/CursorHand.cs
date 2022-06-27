@@ -34,8 +34,9 @@ public class CursorHand
 
         if (MouseLeft)
         {
-            Debug.Log("mouse left" + Hand.transform.position);
+          //  Debug.Log("mouse left" + Hand.transform.position);
             HandController.Play("Armature|Hand grab");
+
           //  CastRay(true);
             //card selected
             //checker selected
@@ -43,7 +44,7 @@ public class CursorHand
         }
         if (MouseRight)
         {
-            Debug.Log("mouse right" + TrackedPos);
+           // Debug.Log("mouse right" + TrackedPos);
             playanimation("Armature|Hand cards");
             HandController.ResetTrigger("cursormode");
             //card removed

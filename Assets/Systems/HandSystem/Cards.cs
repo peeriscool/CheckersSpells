@@ -6,12 +6,17 @@ using System;
 // Cards.Effect effect = new Cards.Effect();
 public class Cards : DeckSystem
 {
- //   Effect myeffect = new Effect();
+    public List<Cards> deck { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+    public int handcount => throw new NotImplementedException();
+
+    //   Effect myeffect = new Effect();
     public Cards(Effect.Effecttpye _param)
     {
         //myeffect.mytype = _param;
     }
     public event EventHandler cardeffect;
+    public event EventHandler effecthandler;
 
     public void setabbility(Cards.Effect e)
     {
@@ -33,7 +38,23 @@ public class Cards : DeckSystem
         handler?.Invoke(this, e);
         Debug.Log("Runf");
     }
-   public class Effect
+
+    public void initialize()
+    {
+         deck = new List<Cards>();
+     //   cards = new List<int>();
+
+    }
+
+    public void generateDeck()
+    {
+        for (int i = 0; i < deck.Count; i++)
+        {
+            deck[i] = new Cards(Cards.Effect.Effecttpye.deletecolumn);
+        }
+    }
+
+    public class Effect
     {
        public enum Effecttpye
         {

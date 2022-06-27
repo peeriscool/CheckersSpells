@@ -13,11 +13,11 @@ public class GameManager : MonoBehaviour
 
    // public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
-    public GameObject handvisual;
+  //  public GameObject handvisual;
     private InputHandler inputHandler;
 
     // InventoryManager hand;
-    Hand hand;
+  //  Hand hand;
     private IPlaceable selectedPlaceable;
     private Vector2 gridStartPosition;
     private Vector3 scaleValue;
@@ -26,11 +26,12 @@ public class GameManager : MonoBehaviour
     private GameObject currentCard;
     private GameObject[,] tiles;
     private GameObject selectedCard;
-
+    [SerializeField]
+    protected GameObject UI;
     // Start is called before the first frame update
     void Start()
     {
-        hand = new Hand(handvisual);
+     //   hand = new Hand(handvisual);
         inputHandler = new InputHandler();
         inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
 
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
      //  handvisual.transform.position = hand.Tick();
-        Debug.Log(selectedPlaceable);
+    //    Debug.Log(selectedPlaceable);
 
 
         //replace this with input from the inputHandler
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        GameObject.Find("UI").SetActive(false);
+        UI.SetActive(false);
    
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);
