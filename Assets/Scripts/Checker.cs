@@ -28,6 +28,13 @@ public class Checker : IPlaceable
         myPos = _pos;
     }
 
+    //Update the visual representation of the checker
+    public void UpdateVisual(GridPos _Offset)
+    {
+        Debug.Log("moving " + body.name + " to " + new Vector2(body.transform.position.x + _Offset.x, body.transform.position.y + _Offset.y));
+        body.transform.position = new Vector2(body.transform.position.x - _Offset.x, body.transform.position.y - _Offset.y);
+    }
+
     //Function to fetch the body of the checker
     public GameObject Get_Body(Checker _prefab)
     {

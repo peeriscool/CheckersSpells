@@ -79,15 +79,17 @@ public class GameManager : MonoBehaviour
     GridPos ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Debug.Log(worldPosition);
 
         return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
     }
 
     void StartGame()
     {
-        HandUI.SetActive(true);
-        DisplayInventory HandUIDisplay = new DisplayInventory(800,800,10,10,10, player1, CardUI.gameObject);
-        HandUIDisplay.CreateDisplay();
+        //HandUI.SetActive(true);
+        //DisplayInventory HandUIDisplay = new DisplayInventory(800,800,10,10,10, player1, CardUI.gameObject);
+        //HandUIDisplay.CreateDisplay();
+
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);
         SpawnGrid();
@@ -183,8 +185,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Instantiate(temp, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
-        GridSystem.AddPlaceable(new Checker(_initPos, _color, temp), _initPos);
+        GameObject visualRepresentation = Instantiate(temp, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
+        GridSystem.AddPlaceable(new Checker(_initPos, _color, visualRepresentation), _initPos);
     }
 
 }

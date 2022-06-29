@@ -13,6 +13,8 @@ public interface IPlaceable
     //function to Update the position of an IPlaceable using GridPos
     void UpdatePos(GridPos _pos);
 
+    void UpdateVisual(GridPos _Offset);
+
     //function to fetch the body of an IPlaceable
     GameObject Get_Body(Checker _prefab);
 
