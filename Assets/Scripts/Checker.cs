@@ -8,8 +8,9 @@ public class Checker : IPlaceable
     //One color is even, the other is odd. 1+1 = 2, 2+2 = 4, 5+7 = 12
     public GridPos myPos { get; private set; }
 
-    //true for black, false for white
-    public int blackOrWhite { get; private set; }    
+    //0 for black, 1 for white
+    public int blackOrWhite { get; private set; }
+    int direction;
     
     //in game respresentation of the checker
     protected GameObject body;
@@ -18,6 +19,15 @@ public class Checker : IPlaceable
     public Checker(GridPos _initPos, int _blackOrWhite, GameObject _body)
     {
         blackOrWhite = _blackOrWhite;
+        if (blackOrWhite == 0)
+        {
+            direction = -1;
+        }
+        if(blackOrWhite == 1)
+        {
+            direction = 1;
+        }
+
         myPos = _initPos;
         body = _body;
     }

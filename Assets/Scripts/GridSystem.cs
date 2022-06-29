@@ -48,6 +48,13 @@ static class GridSystem
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] == null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
+            GridPos direction = _newPos - _oldPos;
+            if((direction.y < 0 && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite == 1) || (direction.y > 0 && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite == 0))
+            {
+                Debug.Log("Can't go that direction");
+                return;
+            }
+
             checkerGrid[_newPos.x, _newPos.y] = checkerGrid[_oldPos.x, _oldPos.y];
             checkerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
             checkerGrid[_newPos.x, _newPos.y].UpdateVisual(_oldPos - _newPos);

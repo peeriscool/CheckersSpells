@@ -7,7 +7,7 @@ public interface IPlaceable
     //location of the IPlaceable
     GridPos myPos { get; }
 
-    //int to determine to which player the IPlaceable belongs. It's an int so more player could be added and there can be options for IPlaceables that belong to noone
+    //int to determine to which player the IPlaceable belongs. It's an int so more player could be added and there can be options for IPlaceables that belong to no-one
     int blackOrWhite { get;}
 
     //function to Update the position of an IPlaceable using GridPos
