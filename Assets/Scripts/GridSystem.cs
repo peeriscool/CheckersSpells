@@ -48,8 +48,16 @@ static class GridSystem
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] == null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
+            GridPos direction = _newPos - _oldPos;
+            if((direction.y < 0 && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite == 1) || (direction.y > 0 && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite == 0))
+            {
+                Debug.Log("Can't go that direction");
+                return;
+            }
+
             checkerGrid[_newPos.x, _newPos.y] = checkerGrid[_oldPos.x, _oldPos.y];
             checkerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
+            checkerGrid[_newPos.x, _newPos.y].UpdateVisual(_oldPos - _newPos);
             checkerGrid[_oldPos.x, _oldPos.y] = null;
         }
 
@@ -62,6 +70,7 @@ static class GridSystem
     //Attack another piece, and remove it if it's a legal move
     public static void AttackChecker(GridPos _oldPos, GridPos _newPos)
     {
+        Debug.Log("ATTACK");
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] != null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1)
             && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite != checkerGrid[_newPos.x, _newPos.y].blackOrWhite)
@@ -78,6 +87,7 @@ static class GridSystem
                 checkerGrid[_oldPos.x, _oldPos.y] = null;
                 //Debug.Log(checkerGrid[landPos.x, landPos.y]);
                 checkerGrid[landPos.x, landPos.y].UpdatePos(landPos);
+                checkerGrid[landPos.x, landPos.y].UpdateVisual(_oldPos - landPos);
             }
 
             else
@@ -117,9 +127,24 @@ public struct GridPos
     public int x;
     public int y;
 
-    public GridPos(int _x, int _y)
+    public GridPos(int x, int y)
     {
-        x = _x;
-        y = _y;
+        this.x = x;
+        this.y = y;
+    }
+
+    public static GridPos operator +(GridPos lhs, GridPos rhs)
+    {
+        return new GridPos(lhs.x + rhs.x, lhs.y + rhs.y);
+    }
+
+    public static GridPos operator -(GridPos lhs, GridPos rhs)
+    {
+        return new GridPos(lhs.x - rhs.x, lhs.y - rhs.y);
+    }
+
+    public static GridPos operator -(GridPos v)
+    {
+        return new GridPos(-v.x, -v.y);
     }
 }

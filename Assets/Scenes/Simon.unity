@@ -318,7 +318,6 @@ MonoBehaviour:
   rowsOfCheckers: 3
   boardX: 0
   boardY: 0
-  cards: []
   blackSquare: {fileID: 4563935059874933855, guid: 67c4c074367e2504aa7cd3eede26fcf6,
     type: 3}
   whiteSquare: {fileID: 3507390450633982442, guid: efa1b880e477dd9448e9dde6049a40b0,
@@ -327,6 +326,7 @@ MonoBehaviour:
     type: 3}
   whitePiece: {fileID: 651911865386371137, guid: c89083cb4eaf08c4dbd93d9eae277dd1,
     type: 3}
+  UI: {fileID: 146103714}
 --- !u!1 &1893600285
 GameObject:
   m_ObjectHideFlags: 0
