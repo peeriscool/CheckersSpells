@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "ItemDatabase", menuName = "Inventory system/Items/Database")]
-public class ItemDatabaseObject : ScriptableObject, ISerializationCallbackReceiver
+public class ItemDatabase : ScriptableObject, ISerializationCallbackReceiver
 {
     public ItemObject[] Items;
     public Dictionary<int, ItemObject> Itemdict = new Dictionary<int, ItemObject>();

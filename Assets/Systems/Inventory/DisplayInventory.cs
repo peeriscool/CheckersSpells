@@ -36,20 +36,20 @@ public class DisplayInventory : UIBehaviour
         X_Spacer = xpace;
         Column = column;
         Y_Spacer = yspace;
-        inventory = _inventory;
+        inventory = _inventory;   
         inventoryprefab = _inventoryprefab;
     }
   
 
     Dictionary<InventorySlot, GameObject> itemsDisplayed = new Dictionary<InventorySlot, GameObject>();
-    private void Start()
-    {
-        //if(activeinventory != null & inventory == null) //use item interaction inventory when we have no inventory
-        //{
-        //    inventory = activeinventory.inventory;
-        //}
-        CreateDisplay();
-    }
+    //private void Init()
+    //{
+    //    //if(activeinventory != null & inventory == null) //use item interaction inventory when we have no inventory
+    //    //{
+    //    //    inventory = activeinventory.inventory;
+    //    //}
+    //    CreateDisplay();
+    //}
     private void Update()
     {
         UpdateDisplay();
@@ -61,15 +61,17 @@ public class DisplayInventory : UIBehaviour
     }
     public void CreateDisplay()
     {
+        GameObject obj = inventoryprefab;
         for (int i = 0; i < inventory.Container.items.Count; i++)
         {
             InventorySlot slot = inventory.Container.items[i];
-            var obj = GameObject.Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity);//mising transform
+            //var obj = GameObject.Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity,transform);
             //var obj = Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity,  transform);
-            Debug.Log("getting items: " + slot.item.id);
+            Debug.Log("getting items: " + slot.item.id); //+ "sprite: " +obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite);
             obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite = inventory.database.Itemdict[slot.item.id].UI;  //inventory.Container[i].item.UI
+            obj.transform.GetChild(1).GetComponentInChildren<Image>().sprite = inventory.database.Itemdict[slot.item.id].UI;
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
-            obj.GetComponentInChildren<TextMeshProUGUI>().text = slot.amount.ToString("n0"); //n0 = format with commas           
+          //  obj.GetComponentInChildren<TextMeshProUGUI>().text = slot.amount.ToString("n0"); //n0 = format with commas           
             itemsDisplayed.Add(slot, obj);
         }
     }

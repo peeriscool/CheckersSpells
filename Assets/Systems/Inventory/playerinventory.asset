@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: playerinventory
   m_EditorClassIdentifier: 
   savepath: /Inventory.save
-  database: {fileID: 11400000, guid: a9719209677a98e4bb66748878eaa6a7, type: 2}
+  database: {fileID: 11400000, guid: 84e4303d148d27d4dadd69f6d06c8cf0, type: 2}
   Container:
     items:
     - id: 0
       item:
-        name: fireball
+        name: peer
         id: 0
         buffs: []
-      amount: 0
+      amount: 1
+    - id: 1
+      item:
+        name: fireball
+        id: 1
+        buffs: []
+      amount: 1

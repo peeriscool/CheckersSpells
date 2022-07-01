@@ -10,7 +10,7 @@ using System.IO;
 public class InventoryObject : ScriptableObject
 {
     public string savepath;
-    public ItemDatabaseObject database;
+    public ItemDatabase database;
     public Inventory Container;
 
     public void Additem(Item _item, int _amount)

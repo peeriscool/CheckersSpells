@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 
    // public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
-  //  public GameObject handvisual;
+    public GameObject handvisual;
+    Hand hand;
     private InputHandler inputHandler;
 
     // InventoryManager hand;
@@ -29,14 +30,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     protected GameObject HandUI;
-    [SerializeField]
-    protected GameObject CardUI;
+
     [SerializeField]
     protected InventoryObject player1;
     // Start is called before the first frame update
     void Start()
     {
-     //   hand = new Hand(handvisual);
+        hand = new Hand(handvisual);
         inputHandler = new InputHandler();
         inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
 
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-     //  handvisual.transform.position = hand.Tick();
+       handvisual.transform.position = hand.Tick();
     //    Debug.Log(selectedPlaceable);
 
 
@@ -72,7 +72,26 @@ public class GameManager : MonoBehaviour
             {
                 if (clickedTile != null)
                     selectedPlaceable = clickedTile;
+                
             }
+        }
+        if(Input.GetMouseButtonDown(1))
+        {
+            //check if we are over a card
+            //move the ui component
+            // avtivate effect
+            Transform card = HandUI.GetComponentInChildren<Transform>();
+            card.position = hand.Tick();
+            //if (true)
+            //{
+            //    Debug.Log("Card check");
+            //    RaycastHit hit;
+            //    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, 8)) //8 = cardlayer
+            //    {
+            //        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            //        Debug.Log("Did Hit");
+            //    }
+            //}
         }
     }
 
@@ -86,9 +105,9 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        //HandUI.SetActive(true);
-        //DisplayInventory HandUIDisplay = new DisplayInventory(800,800,10,10,10, player1, CardUI.gameObject);
-        //HandUIDisplay.CreateDisplay();
+        HandUI.SetActive(true);
+        DisplayInventory HandUIDisplay = new DisplayInventory(400, 400, 10, 10, 10, player1, HandUI);
+        HandUIDisplay.CreateDisplay();
 
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);

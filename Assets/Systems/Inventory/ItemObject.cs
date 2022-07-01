@@ -11,11 +11,11 @@ public enum ItemType
     terrain,
 }
 
-public enum attribute
+public enum Attribute
 {
-    extrastep, //1 free extra walking step
-    freepunch, //1 free punch
-    obstaclediscount, //1 free movement for obstacles
+    Cardeffect,
+    ExtraDraw, 
+    Cardeffect2, 
 }
 public abstract class ItemObject : ScriptableObject
 {
@@ -54,7 +54,7 @@ public class Item
 [System.Serializable]
 public class Buff
 {
-    public attribute myattribute;
+    public Attribute myattribute;
     public int value;
     public int min;
     public int max;
@@ -62,9 +62,9 @@ public class Buff
     {
         min = _min;
         max = _max;
-        generatevalue();
+        Generatevalue();
     }
-    public void generatevalue()
+    public void Generatevalue()
     {
         value = UnityEngine.Random.Range(min, max);
     }
