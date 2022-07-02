@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Gamestate
 {
+    public List<StateTransition> Transitions { get; protected set; }
+
     public virtual void Enter()
     {
 
@@ -15,6 +17,11 @@ public abstract class Gamestate
     }
 
     public virtual void LogicUpdate()
+    {
+
+    }
+
+    public virtual void OnSwitch()
     {
 
     }
