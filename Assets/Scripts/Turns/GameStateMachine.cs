@@ -32,7 +32,7 @@ public class GameStateMachine
         {
             if (transition.condition())
             {
-                SwitchState(transition.target);
+            //    SwitchState(transition.target);
             }
         }
     }

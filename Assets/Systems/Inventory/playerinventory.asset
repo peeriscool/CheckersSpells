@@ -22,9 +22,3 @@ MonoBehaviour:
         id: 0
         buffs: []
       amount: 1
-    - id: 1
-      item:
-        name: fireball
-        id: 1
-        buffs: []
-      amount: 1

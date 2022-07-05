@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     protected InventoryObject player1;
+    DisplayInventory HandUIDisplay;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,8 +60,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
        handvisual.transform.position = hand.Tick();
-    //    Debug.Log(selectedPlaceable);
-
+        //    Debug.Log(selectedPlaceable);
+        HandUIDisplay.UpdateDisplay();
 
         //replace this with input from the inputHandler
         if (Input.GetMouseButtonDown(0))
@@ -121,7 +122,7 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         HandUI.SetActive(true);
-        DisplayInventory HandUIDisplay = new DisplayInventory(400, 400, 10, 10, 10, player1, HandUI);
+        HandUIDisplay = new DisplayInventory(400, 400, 10, 10, 10, player1, HandUI);
         HandUIDisplay.CreateDisplay();
 
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
