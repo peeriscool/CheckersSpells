@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackTurn : Gamestate
+public class WhiteTurn : Gamestate
 {
-    //it's black's turn
+    //it's white's turn
     private IPlaceable selectedPlaceable;
+    bool turnFinished = false;
+
+    public WhiteTurn()
+    {
+        Transitions = new List<StateTransition>();
+        Transitions.Add(new StateTransition(typeof(BlackTurn), () => turnFinished == true));
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        turnFinished = false;
+    }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         MovePieces();
+        Debug.Log(turnFinished);
     }
     void MovePieces()
     {
@@ -22,24 +36,20 @@ public class BlackTurn : Gamestate
 
             if (selectedPlaceable != null)
             {
-                bool succeededTurn = false;
+
                 if (clickedTile != null)
-                    succeededTurn = GridSystem.AttackChecker(selectedPlaceable.myPos, clickedPos);
+                    turnFinished = GridSystem.AttackChecker(selectedPlaceable.myPos, clickedPos);
 
                 else if (clickedTile == null)
-                    succeededTurn = GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
+                    turnFinished = GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
 
                 selectedPlaceable = null;
 
-                if(succeededTurn == true)
-                {
-                    //Go to the next player's turn?
-                }
             }
 
             else if (selectedPlaceable == null)
             {
-                if (clickedTile != null && clickedTile.blackOrWhite == 0)
+                if (clickedTile != null && clickedTile.placeableType == 1)
                     selectedPlaceable = clickedTile;
             }
         }

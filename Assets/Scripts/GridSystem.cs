@@ -11,13 +11,16 @@ static class GridSystem
     public static int ySize { get; private set; }
 
     //an array that tracks where the checkers are
-    private static IPlaceable[,] checkerGrid;
+    private static ObjectPool<PlaceAble> blackPieces = new ObjectPool<PlaceAble>();
+    private static ObjectPool<PlaceAble> whitePieces = new ObjectPool<PlaceAble>();
+
+    private static PlaceAble[,] checkerGrid;
     private static GameObject[,] tiles;
 
     //Initializes the grid, by input size
     public static void SetGridSize(int _xSize, int _ySize)
     {
-        checkerGrid = new Checker[_xSize, _ySize];
+        checkerGrid = new PlaceAble[_xSize, _ySize];;
         xSize = _xSize;
         ySize = _ySize;
         
@@ -65,29 +68,52 @@ static class GridSystem
     public static GridPos ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(worldPosition);
+        
 
         return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
     }
 
     //Remove a checker on a specific coordinate in case they get hit, or we need to remove them for any other reason
-    public static void RemoveChecker(GridPos _gridPos)
+    public static void RemoveIplacable(GridPos _gridPos)
     {
         if (checkerGrid[_gridPos.x, _gridPos.y] == null)
         {
+            Debug.LogError("Couldn't remove IPlaceable, because checkerGrid[" + _gridPos.x + ", " + _gridPos.y + "] is null");
             return;
         }
-        checkerGrid[_gridPos.x, _gridPos.y].Kill();
+        
+        switch(checkerGrid[_gridPos.x, _gridPos.y].placeableType)
+        {
+            case 0:
+                blackPieces.ReturnObjectToPool(checkerGrid[_gridPos.x, _gridPos.y]);
+                break;
+            case 1:
+                whitePieces.ReturnObjectToPool(checkerGrid[_gridPos.x, _gridPos.y]);
+                break;
+        }
         checkerGrid[_gridPos.x, _gridPos.y] = null;
     }
 
     //function that can add a checker to a specific position on the board
-    public static void AddPlaceable(IPlaceable _placeable, GridPos _gridPos)
+    public static void AddPlaceable(int _placeAbleType, GridPos _gridPos)
     {
         if (checkerGrid[_gridPos.x, _gridPos.y] != null)
             return;
 
-        checkerGrid[_gridPos.x, _gridPos.y] = _placeable;
+        switch (_placeAbleType)
+        {
+            case 0:
+                checkerGrid[_gridPos.x, _gridPos.y] = blackPieces.RequestItem();
+                break;
+
+            case 1:
+                checkerGrid[_gridPos.x, _gridPos.y] = whitePieces.RequestItem();
+                break;
+        }
+
+        checkerGrid[_gridPos.x, _gridPos.y].InitializePlaceable(_gridPos, _placeAbleType);
+        checkerGrid[_gridPos.x, _gridPos.y].UpdatePos(_gridPos);
+        checkerGrid[_gridPos.x, _gridPos.y].UpdateVisual(_gridPos);
     }
 
     //move a checker, from a chosen position to a new position. Will only work if it's a legal move
@@ -98,7 +124,7 @@ static class GridSystem
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
             GridPos direction = _newPos - _oldPos;
-            if((direction.y < 0 && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite == 1) || (direction.y > 0 && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite == 0))
+            if((direction.y < 0 && checkerGrid[_oldPos.x, _oldPos.y].placeableType == 1) || (direction.y > 0 && checkerGrid[_oldPos.x, _oldPos.y].placeableType == 0))
             {
                 Debug.Log("Can't go that direction");
                 return false;
@@ -106,7 +132,7 @@ static class GridSystem
 
             checkerGrid[_newPos.x, _newPos.y] = checkerGrid[_oldPos.x, _oldPos.y];
             checkerGrid[_newPos.x, _newPos.y].UpdatePos(_newPos);
-            checkerGrid[_newPos.x, _newPos.y].UpdateVisual(_oldPos - _newPos);
+            checkerGrid[_newPos.x, _newPos.y].UpdateVisual(_newPos);
             checkerGrid[_oldPos.x, _oldPos.y] = null;
             return true;
         }
@@ -124,7 +150,7 @@ static class GridSystem
         Debug.Log("ATTACK");
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] != null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1)
-            && checkerGrid[_oldPos.x, _oldPos.y].blackOrWhite != checkerGrid[_newPos.x, _newPos.y].blackOrWhite)
+            && checkerGrid[_oldPos.x, _oldPos.y].placeableType != checkerGrid[_newPos.x, _newPos.y].placeableType)
         {
             int xDirection = _newPos.x - _oldPos.x;
             int yDirection = _newPos.y - _oldPos.y;
@@ -132,13 +158,13 @@ static class GridSystem
 
             if (landPos.x >= 0 && landPos.x < xSize && landPos.y >= 0 && landPos.y < ySize && checkerGrid[landPos.x, landPos.y] == null)
             {
-                RemoveChecker(_newPos);
+                RemoveIplacable(_newPos);
 
                 checkerGrid[landPos.x, landPos.y] = checkerGrid[_oldPos.x, _oldPos.y];
                 checkerGrid[_oldPos.x, _oldPos.y] = null;
                 //Debug.Log(checkerGrid[landPos.x, landPos.y]);
                 checkerGrid[landPos.x, landPos.y].UpdatePos(landPos);
-                checkerGrid[landPos.x, landPos.y].UpdateVisual(_oldPos - landPos);
+                checkerGrid[landPos.x, landPos.y].UpdateVisual(landPos);
                 return true;
             }
 
@@ -159,6 +185,11 @@ static class GridSystem
     public static IPlaceable checkGridPosition(GridPos _gridPos)
     {
         return checkerGrid[_gridPos .x, _gridPos.y];
+    }
+
+    public static Vector2 FetchVector2FromGridpos(GridPos _gridPos)
+    {
+        return gridStartPosition + new Vector2(_gridPos.x, _gridPos.y);
     }
 
     //public Sprite[] GenerateVisual()

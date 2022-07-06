@@ -328,8 +328,9 @@ MonoBehaviour:
     type: 3}
   whitePiece: {fileID: 651911865386371137, guid: c89083cb4eaf08c4dbd93d9eae277dd1,
     type: 3}
-  HandUI: {fileID: 0}
-  CardUI: {fileID: 0}
+  handvisual: {fileID: 7907057367094368893, guid: db634e36489ee01448b205abfca054b4,
+    type: 3}
+  HandUI: {fileID: 146103714}
   player1: {fileID: 0}
 --- !u!1 &1893600285
 GameObject:
