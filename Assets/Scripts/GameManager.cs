@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //hand = new Hand(handvisual);
+        hand = new Hand(handvisual);
         //since there is only one canvas, we can search for it
         canvas = FindObjectOfType<Canvas>();
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
@@ -60,13 +60,9 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1))
         {
-            //check if we are over a card
-            //move the ui component
-            // avtivate effect
-            //  Transform card = HandUI.GetComponentInChildren<Transform>();
-
-            
-
+            //check if we are over a card DONE
+            //move the ui component Kinda DONE
+            // avtivate effect NOT YET
             Debug.Log("Check");
             RaycastHit2D hit = Physics2D.Raycast(handvisual.transform.position, transform.TransformDirection(Vector3.forward));
             Debug.DrawRay(handvisual.transform.position, transform.TransformDirection(Vector3.forward), Color.white, 1f, true);
@@ -82,30 +78,7 @@ public class GameManager : MonoBehaviour
                 }
                   
             }
-                //RaycastHit hit;
-                //if (Physics.Raycast(handvisual.transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, 8)) //8 = cardlayer
-                //{
-                //    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.red, 10f);
-                //    Debug.Log(hit.collider.gameObject);
-
-
-
-                //    //foreach (GameObject item in HandUI.GetComponentInChildren<Transform>())
-                //    //{
-                //    //    if (hit.transform == item.transform)
-                //    //    {
-                //    //        // Transform onj = HandUI.GetComponentInChildren<Transform>();
-                //    //        //   onj.position = handvisual.transform.position;
-                //    //        
-                //    //    }
-                //    //}
-                //}
-                //else
-                //{
-                //    Debug.DrawRay(handvisual.transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.blue, 10f);
-                //}
-
-            }
+        }
     }
 
     GridPos ClickOnTiles()

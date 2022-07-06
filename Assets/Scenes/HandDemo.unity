@@ -121,12 +121,44 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &262542789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1395118623739127748, guid: 7361a7dc5a6bb3545b709b99cd2c3df7,
+    type: 3}
+  m_PrefabInstance: {fileID: 995274881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &262542790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1669469520830179398, guid: 7361a7dc5a6bb3545b709b99cd2c3df7,
     type: 3}
   m_PrefabInstance: {fileID: 995274881}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &262542792
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262542789}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.0545506, y: 10.82}
+    newSize: {x: 6.05, y: 10.82}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.0545506, y: 10.82}
+  m_EdgeRadius: 0
 --- !u!1001 &279185263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -660,7 +692,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1119123080}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: physicalcards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1184,10 +1216,6 @@ MonoBehaviour:
   blackSquare: {fileID: 4563935059874933855, guid: 67c4c074367e2504aa7cd3eede26fcf6,
     type: 3}
   whiteSquare: {fileID: 3507390450633982442, guid: efa1b880e477dd9448e9dde6049a40b0,
-    type: 3}
-  blackPiece: {fileID: 8825034445345020068, guid: 34a10289c7a383440b6e7f5c2936462c,
-    type: 3}
-  whitePiece: {fileID: 651911865386371137, guid: c89083cb4eaf08c4dbd93d9eae277dd1,
     type: 3}
   handvisual: {fileID: 1335207396}
   HandUI: {fileID: 1119123079}
