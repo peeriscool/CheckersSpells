@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: card2
+  m_Name: card4
   m_EditorClassIdentifier: Assembly-CSharp::CardItem
-  id: 0
-  UI: {fileID: 21300000, guid: e6d66f5bec530404ba7faff967129d98, type: 3}
-  type: 1
-  description: grote vuurbal jonge
+  id: 3
+  UI: {fileID: 21300000, guid: 7a291319dc108374f9eba2c628bb6535, type: 3}
+  type: 0
+  description: 
   mybuffs:
-  - myattribute: 2
-    value: 1000
-    min: 1
-    max: 1000
+  - myattribute: 0
+    value: 0
+    min: 0
+    max: 0

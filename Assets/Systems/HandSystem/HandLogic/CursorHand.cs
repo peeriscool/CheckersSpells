@@ -30,13 +30,13 @@ public class CursorHand
     }
    public void recieveInput(Vector3 Pos,bool MouseLeft, bool MouseRight ) //gets the mouse position and click functions
     {
-         TrackedPos = new Vector3(Pos.x,Pos.y,0f);
+         TrackedPos = new Vector3(Pos.x,Pos.y,-4f);
 
         if (MouseLeft)
         {
           //  Debug.Log("mouse left" + Hand.transform.position);
             HandController.Play("Armature|Hand grab");
-
+          //  TrackedPos.z =+ 1;
           //  CastRay(true);
             //card selected
             //checker selected
@@ -47,6 +47,7 @@ public class CursorHand
            // Debug.Log("mouse right" + TrackedPos);
             playanimation("Armature|Hand cards");
             HandController.ResetTrigger("cursormode");
+           // TrackedPos.z = -1;
             //card removed
             //checker removed
             return;

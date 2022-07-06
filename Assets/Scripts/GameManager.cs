@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
     {
        handvisual.transform.position = hand.Tick();
         //    Debug.Log(selectedPlaceable);
-        HandUIDisplay.UpdateDisplay();
 
         //replace this with input from the inputHandler
         if (Input.GetMouseButtonDown(0))
@@ -92,19 +91,49 @@ public class GameManager : MonoBehaviour
             //check if we are over a card
             //move the ui component
             // avtivate effect
-            Transform card = HandUI.GetComponentInChildren<Transform>();
-            card.position = hand.Tick();
-            //if (true)
-            //{
-            //    Debug.Log("Card check");
-            //    RaycastHit hit;
-            //    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, 8)) //8 = cardlayer
-            //    {
-            //        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-            //        Debug.Log("Did Hit");
-            //    }
-            //}
-        }
+            //  Transform card = HandUI.GetComponentInChildren<Transform>();
+
+            
+
+            Debug.Log("Check");
+            RaycastHit2D hit = Physics2D.Raycast(handvisual.transform.position, transform.TransformDirection(Vector3.forward));
+            Debug.DrawRay(handvisual.transform.position, transform.TransformDirection(Vector3.forward), Color.white, 1f, true);
+            if (hit.collider != null)
+            {
+                Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
+                foreach (Transform child in HandUI.transform)
+                {
+                    if (hit.transform.transform == child)
+                    {
+                        child.gameObject.transform.position = handvisual.transform.position;
+                    }
+                }
+                  
+            }
+                //RaycastHit hit;
+                //if (Physics.Raycast(handvisual.transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, 8)) //8 = cardlayer
+                //{
+                //    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.red, 10f);
+                //    Debug.Log(hit.collider.gameObject);
+
+
+
+                //    //foreach (GameObject item in HandUI.GetComponentInChildren<Transform>())
+                //    //{
+                //    //    if (hit.transform == item.transform)
+                //    //    {
+                //    //        // Transform onj = HandUI.GetComponentInChildren<Transform>();
+                //    //        //   onj.position = handvisual.transform.position;
+                //    //        
+                //    //    }
+                //    //}
+                //}
+                //else
+                //{
+                //    Debug.DrawRay(handvisual.transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.blue, 10f);
+                //}
+
+            }
     }
 
     GridPos ClickOnTiles()
@@ -122,9 +151,9 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         HandUI.SetActive(true);
-        HandUIDisplay = new DisplayInventory(400, 400, 10, 10, 10, player1, HandUI);
+        HandUIDisplay = new DisplayInventory(0, 0, 10, 10, 10, player1, HandUI);
         HandUIDisplay.CreateDisplay();
-
+        HandUIDisplay.UpdateDisplay(); //FIX: run when item amount changes
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         GridSystem.SetGridSize(8, 8);
 
