@@ -5,8 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new default obj", menuName = "Inventory system/Items/CardItem")]
 public class CardItem : ItemObject , IPlaceable
 {
+    public bool Active { get; set; }
+    public void OnEnableObject()
+    {
+
+    }
+    public void OnDisableObject()
+    {
+
+    }
+
     public GridPos myPos { get; private set; }
-    public int blackOrWhite { get; private set; }
+    public int placeableType { get; private set; }
 
     //set to toy by default
     public void Awake()
@@ -14,7 +24,12 @@ public class CardItem : ItemObject , IPlaceable
         type = ItemType.action;
     }
 
-    public GameObject Get_Body(Checker _prefab)
+    public void InitializePlaceable(GridPos _initpos, int _placeableType)
+    {
+
+    }
+
+    public GameObject Get_Body()
     {
        return GameObject.CreatePrimitive(PrimitiveType.Plane);//getting a plane to put the sprite on 
     }

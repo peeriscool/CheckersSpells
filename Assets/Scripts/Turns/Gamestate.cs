@@ -2,8 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Gamestate
+public abstract class Gamestate : IState
 {
+    public bool Active { get; set; }
+    public void OnEnableObject()
+    {
+
+    }
+    public void OnDisableObject()
+    {
+
+    }
     public List<StateTransition> Transitions { get; protected set; }
 
     public virtual void Enter()

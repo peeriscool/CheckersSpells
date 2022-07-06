@@ -17,14 +17,13 @@ public class GameManager : MonoBehaviour
 
 
     // public Card_ScriptableObject[] cards;
-    public GameObject blackSquare, whiteSquare, blackPiece, whitePiece;
+    public GameObject blackSquare, whiteSquare;
     public GameObject handvisual;
     Hand hand;
     private InputHandler inputHandler;
 
     // InventoryManager hand;
   //  Hand hand;
-    private IPlaceable selectedPlaceable;
     private Vector2 gridStartPosition;
     private Vector3 scaleValue;
     private bool mouseSelect = true;
@@ -41,10 +40,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hand = new Hand(handvisual);
+        //hand = new Hand(handvisual);
         //since there is only one canvas, we can search for it
         canvas = FindObjectOfType<Canvas>();
-        stateMachine = new GameStateMachine();
+        stateMachine = new GameStateMachine(typeof(WhiteTurn));
 
         inputHandler = new InputHandler();
         inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
@@ -52,40 +51,13 @@ public class GameManager : MonoBehaviour
         //Instantiate(StartMenu, canvas.transform);
 
         // hand = new InventoryManager(cards, 10);
-
-        stateMachine.Initialize();
         StartGame();
     }
 
     private void Update()
     {
        handvisual.transform.position = hand.Tick();
-        //    Debug.Log(selectedPlaceable);
 
-        //replace this with input from the inputHandler
-        if (Input.GetMouseButtonDown(0))
-        {
-            IPlaceable clickedTile = GridSystem.checkGridPosition(ClickOnTiles());
-            GridPos clickedPos = ClickOnTiles();
-
-            if (selectedPlaceable != null)
-            {
-                if (clickedTile != null)
-                    GridSystem.AttackChecker(selectedPlaceable.myPos, clickedPos);
-
-                else if (clickedTile == null)
-                    GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
-
-                selectedPlaceable = null;
-            }
-
-            else if (selectedPlaceable == null)
-            {
-                if (clickedTile != null)
-                    selectedPlaceable = clickedTile;
-                
-            }
-        }
         if(Input.GetMouseButtonDown(1))
         {
             //check if we are over a card
@@ -142,8 +114,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(worldPosition);
 
         return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
-        //  handvisual.transform.position = hand.Tick();
-        //    Debug.Log(selectedPlaceable);
+        
 
         stateMachine.StateUpdate();
     }
@@ -154,8 +125,8 @@ public class GameManager : MonoBehaviour
         HandUIDisplay = new DisplayInventory(0, 0, 10, 10, 10, player1, HandUI);
         HandUIDisplay.CreateDisplay();
         HandUIDisplay.UpdateDisplay(); //FIX: run when item amount changes
-        //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
-        GridSystem.SetGridSize(8, 8);
+
+        GridSystem.SetGridSize(8,8);
 
         //grid is at the center of the screen, so the start position will be taken from there
         gridStartPosition = new Vector2(Camera.main.transform.position.x - GridSystem.xSize / 2 + 0.5f, Camera.main.transform.position.y - GridSystem.ySize / 2 + 0.5f);
@@ -190,30 +161,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void SpawnChecker(GridPos _initPos, int _color)
+    void SpawnChecker(GridPos _initPos, int _placeableType)
     {
         Debug.Log("Spawning Checker");
-        GameObject temp = null;
-
-        //black piece
-        if (_color == 0)
-        {
-            temp = blackPiece;
-        }
-
-        //white piece
-        if(_color == 1)
-        {
-            temp = whitePiece;
-        }
-
-        if(temp == null)
-        {
-            return;
-        }
-
-        GameObject visualRepresentation = Instantiate(temp, new Vector2(gridStartPosition.x + _initPos.x, gridStartPosition.y + _initPos.y), new Quaternion(0, 0, 0, 0));
-        GridSystem.AddPlaceable(new Checker(_initPos, _color, visualRepresentation), _initPos);
+        GridSystem.AddPlaceable(_placeableType, _initPos);
     }
 }
 

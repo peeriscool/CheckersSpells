@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WhiteTurn : Gamestate
+public class BlackTurn : Gamestate
 {
-    //it's white's turn
+    //it's black's turn
     private IPlaceable selectedPlaceable;
+    bool turnFinished = false;
+
+    public BlackTurn()
+    {
+        Transitions = new List<StateTransition>();
+        Transitions.Add(new StateTransition(typeof(WhiteTurn), () => turnFinished == true));
+        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+    }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         MovePieces();
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        turnFinished = false;
     }
     void MovePieces()
     {
@@ -22,21 +36,21 @@ public class WhiteTurn : Gamestate
 
             if (selectedPlaceable != null)
             {
-                bool turnFinished = false;
-
                 if (clickedTile != null)
                     turnFinished = GridSystem.AttackChecker(selectedPlaceable.myPos, clickedPos);
 
                 else if (clickedTile == null)
                     turnFinished = GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
 
+                //if (turnFinished)
+                //    Camera.main.transform.Rotate(0, 0, 180);
+                
                 selectedPlaceable = null;
-
             }
 
             else if (selectedPlaceable == null)
             {
-                if (clickedTile != null && clickedTile.blackOrWhite == 1)
+                if (clickedTile != null && clickedTile.placeableType == 0)
                     selectedPlaceable = clickedTile;
             }
         }
@@ -45,6 +59,5 @@ public class WhiteTurn : Gamestate
     public override void OnSwitch()
     {
         base.OnSwitch();
-        Camera.main.transform.Rotate(0, 0, 180);
     }
 }
