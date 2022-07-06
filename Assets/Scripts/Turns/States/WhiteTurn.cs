@@ -12,6 +12,7 @@ public class WhiteTurn : Gamestate
     {
         Transitions = new List<StateTransition>();
         Transitions.Add(new StateTransition(typeof(BlackTurn), () => turnFinished == true));
+        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
     }
 
     public override void Enter()
@@ -43,6 +44,9 @@ public class WhiteTurn : Gamestate
                 else if (clickedTile == null)
                     turnFinished = GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
 
+                //if (turnFinished)
+                //    Camera.main.transform.Rotate(0, 0, 180);
+
                 selectedPlaceable = null;
 
             }
@@ -58,6 +62,5 @@ public class WhiteTurn : Gamestate
     public override void OnSwitch()
     {
         base.OnSwitch();
-        Camera.main.transform.Rotate(0, 0, 180);
     }
 }

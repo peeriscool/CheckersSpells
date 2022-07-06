@@ -32,7 +32,15 @@ public class GameStateMachine
         {
             if (transition.condition())
             {
+                Debug.Log(transition.target);
+                if (transition.target == typeof(PauseState))
+                {
+                    PauseState pause = GetState(transition.target) as PauseState;
+                    pause.GetPreviousState(currenstate.GetType());
+                }
+
                 SwitchState(GetState(transition.target));
+                break;
             }
         }
     }

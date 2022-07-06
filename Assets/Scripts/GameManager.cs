@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     // InventoryManager hand;
   //  Hand hand;
-    private IPlaceable selectedPlaceable;
     private Vector2 gridStartPosition;
     private Vector3 scaleValue;
     private bool mouseSelect = true;
@@ -41,7 +40,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hand = new Hand(handvisual);
+        //hand = new Hand(handvisual);
         //since there is only one canvas, we can search for it
         canvas = FindObjectOfType<Canvas>();
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
@@ -57,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-       handvisual.transform.position = hand.Tick();
+       //handvisual.transform.position = hand.Tick();
     //    Debug.Log(selectedPlaceable);
 
         if(Input.GetMouseButtonDown(1))
@@ -65,8 +64,8 @@ public class GameManager : MonoBehaviour
             //check if we are over a card
             //move the ui component
             // avtivate effect
-            Transform card = HandUI.GetComponentInChildren<Transform>();
-            card.position = hand.Tick();
+            //Transform card = HandUI.GetComponentInChildren<Transform>();
+            //card.position = hand.Tick();
             
             
             //if (true)
@@ -86,9 +85,9 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        HandUI.SetActive(true);
-        HandUIDisplay = new DisplayInventory(400, 400, 10, 10, 10, player1, HandUI);
-        HandUIDisplay.CreateDisplay();
+        //HandUI.SetActive(true);
+        //HandUIDisplay = new DisplayInventory(400, 400, 10, 10, 10, player1, HandUI);
+        //HandUIDisplay.CreateDisplay();
 
         //set the initial gridsize. Initial size will always be 8x8, because thats the size of a regular checkerboard
         //If grid is bigger than camera view, move camera

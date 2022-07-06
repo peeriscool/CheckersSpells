@@ -12,6 +12,7 @@ public class BlackTurn : Gamestate
     {
         Transitions = new List<StateTransition>();
         Transitions.Add(new StateTransition(typeof(WhiteTurn), () => turnFinished == true));
+        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
     }
 
     public override void LogicUpdate()
@@ -41,6 +42,9 @@ public class BlackTurn : Gamestate
                 else if (clickedTile == null)
                     turnFinished = GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
 
+                //if (turnFinished)
+                //    Camera.main.transform.Rotate(0, 0, 180);
+                
                 selectedPlaceable = null;
             }
 
@@ -55,6 +59,5 @@ public class BlackTurn : Gamestate
     public override void OnSwitch()
     {
         base.OnSwitch();
-        Camera.main.transform.Rotate(0, 0, 180);
     }
 }
