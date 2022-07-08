@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         hand = new Hand(handvisual);
+        stateMachine = new GameStateMachine(typeof(WhiteTurn));
         //since there is only one canvas, we can search for it
         canvas = FindObjectOfType<Canvas>();
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
@@ -56,9 +57,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-       handvisual.transform.position = hand.Tick();
+        handvisual.transform.position = hand.Tick();
 
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             //check if we are over a card DONE
             //move the ui component Kinda DONE
@@ -76,18 +77,9 @@ public class GameManager : MonoBehaviour
                         child.gameObject.transform.position = handvisual.transform.position;
                     }
                 }
-                  
+
             }
         }
-    }
-
-    GridPos ClickOnTiles()
-    {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(worldPosition);
-
-        return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
-        
 
         stateMachine.StateUpdate();
     }
