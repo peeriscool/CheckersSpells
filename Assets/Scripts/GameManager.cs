@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-     //   hand.Ticklocal();
+        hand.Ticklocal();
         stateMachine.StateUpdate();
     }
 
