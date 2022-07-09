@@ -8,17 +8,17 @@ public class ItemDatabase : ScriptableObject
 {
     public CardItem[] items;
     public Dictionary<int, CardItem> itemdict = new Dictionary<int, CardItem>();
-    //public void FillItems()
-    //{
-    //    for (int i = 0; i < items.Length; i++)
-    //    {
-    //        items[i].id = i;
-    //        itemdict.Add(i, items[i]);
-    //    }
-    //}
+    public void FillItems()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].id = i;
+            itemdict.Add(i, items[i]);
+        }
+    }
 
-    //public void CreateDatabase()
-    //{
-    //    itemdict = new Dictionary<int, CardItem>();
-    //}
+    public void CreateDatabase()
+    {
+        itemdict = new Dictionary<int, CardItem>();
+    }
 }
