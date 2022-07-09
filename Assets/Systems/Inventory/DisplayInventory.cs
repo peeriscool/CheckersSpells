@@ -37,6 +37,13 @@ public class DisplayInventory //hand visualizer
         inventory = _inventory;
         inventoryprefab = GenerateInventory(inventory);
     }
+    public static void AddCardToInventory()
+    {
+        var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
+        obj.name = "card";
+        obj.transform.SetParent(Inventory.transform);
+        //Todo we need to assign the carditem
+    }
     private GameObject GenerateInventory(InventoryObject _inventory)
     {
         GameObject Inventoryholder = Object.Instantiate(new GameObject());

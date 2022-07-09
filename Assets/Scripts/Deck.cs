@@ -49,6 +49,30 @@ public class Deck
 
     public ItemObject.myeffect Effect(CardItem _item)
     {
+
+       if( _item.mybuffs[0].myattribute == Attribute.Cardeffect)
+        {
+            int value;
+            value = Random.Range(_item.mybuffs[0].min, _item.mybuffs[0].max);
+            if(value >= 0)
+            {
+                //valid action
+            }
+        }
+        if (_item.mybuffs[0].myattribute == Attribute.ExtraDraw)
+        {
+            //add card to screen
+            DisplayInventory.AddCardToInventory();
+        }
+
+        if (_item.mybuffs[0].myattribute == Attribute.Cardeffect2)
+        {
+            int value = _item.mybuffs[0].value;
+            if (value >= 0)
+            {
+                //valid action
+            }
+        }
         GameObject.Destroy( _item.instancedrefrence);
         Debug.Log("Item Destroyed");
         return null;
