@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class Deck
 {
-    private ObjectPool<CardItem> pool;
-    ItemDatabase database;
+    private readonly ObjectPool<CardItem> pool;
+    private readonly ItemDatabase database;
     public Deck()
     {
         pool = new ObjectPool<CardItem>();
-        database = Resources.Load("Allcards_Database 1") as ItemDatabase;
+        database = Resources.Load("ItemDatabase") as ItemDatabase;
+        database.CreateDatabase();
+        database.FillItems();
+
     }
 
-  public void Generatedeck()
+    public void Generatedeck()
     {
-        Debug.Log("cards known " + database.Items.Length);
-        for (int i = 0; i < database.Items.Length; i++)
+        Debug.Log("cards known " + database.items.Length);
+        for (int i = 0; i < database.items.Length; i++)
         {
-            CardItem carditem = new CardItem();
-            carditem = database.Items[i] as CardItem;
+            CardItem carditem;
+            carditem = database.items[i] as CardItem;
             carditem.mypos = new Vector2(i, 0);
              pool.ReturnObjectToPool(carditem); //add card to pool
         }
@@ -29,7 +32,7 @@ public class Deck
     {
         Debug.Log("Checking deck for correct card" + _checkpos);
 
-        foreach (CardItem card in database.Items)
+        foreach (CardItem card in database.items)
         {
             if (card.InRangeofCard(_checkpos))
             {
@@ -76,12 +79,5 @@ public class Deck
         GameObject.Destroy( _item.instancedrefrence);
         Debug.Log("Item Destroyed");
         return null;
-    }
-    void BindEffect(CardItem _card)
-    {
-        _card = Drawcard();
-        _card.effect += Effect(_card);
-        Debug.Log(_card.description);
-        Debug.Log(_card.UI.name);
     }
 }

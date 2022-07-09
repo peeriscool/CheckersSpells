@@ -12,42 +12,43 @@ public class DisplayInventory //hand visualizer
     public static GameObject Inventory;
     public InventoryObject inventory; //displayed inventory
     public GameObject inventoryprefab; //item that gets card sprites assigned
-    public int X_start; //horizontal offset
-    public int Y_start; //vertical offset
-    public int X_Spacer;
-    public int Column;
-    public int Y_Spacer;
+    public int x_start; //horizontal offset
+    public int y_start; //vertical offset
+    public int x_Spacer;
+    public int column;
+    public int y_Spacer;
     /// <summary>
-    /// inventory sytem for cards
+    /// inventory system for managing cards on screen
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="xpace"></param>
-    /// <param name="column"></param>
-    /// <param name="yspace"></param>
-    /// <param name="_inventory"></param>
-    /// <param name="_inventoryprefab"></param>
-    public DisplayInventory(int x,int y, int xpace, int column, int yspace, InventoryObject _inventory)
+    /// <param name="x">x start location</param>
+    /// <param name="y">y start location</param>
+    /// <param name="xpace">spacing between items</param>
+    /// <param name="column">Preffered items per column</param>
+    /// <param name="yspace">spacing between items</param>
+    /// <param name="_inventory">InventoryObject</param>
+    public DisplayInventory(int _x,int _y, int _xpace, int _column, int _yspace, InventoryObject _inventory)
     {
-        X_start = x;
-        Y_start = y;
-        X_Spacer = xpace;
-        Column = column;
-        Y_Spacer = yspace;
+        x_start = _x;
+        y_start = _y;
+        x_Spacer = _xpace;
+        column = _column;
+        y_Spacer = _yspace;
         inventory = _inventory;
+        //inventory.database.FillItems();
+        //inventory.database.CreateDatabase();
         inventoryprefab = GenerateInventory(inventory);
+        
     }
     public static void AddCardToInventory()
     {
         var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
         obj.name = "card";
         obj.transform.SetParent(Inventory.transform);
-        //Todo we need to assign the carditem
     }
     private GameObject GenerateInventory(InventoryObject _inventory)
     {
-        GameObject Inventoryholder = Object.Instantiate(new GameObject());
-        Inventoryholder.name = "Inventory";
+        GameObject inventoryholder = Object.Instantiate(new GameObject());
+        inventoryholder.name = "Inventory";
         Debug.Log(_inventory.Container.items);
         foreach (InventorySlot slot in _inventory.Container.items)
         {
@@ -55,10 +56,10 @@ public class DisplayInventory //hand visualizer
             {
                 var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
                 obj.name = "card";
-                obj.transform.SetParent(Inventoryholder.transform);
+                obj.transform.SetParent(inventoryholder.transform);
             }
         }
-        Inventory = Inventoryholder;
+        Inventory = inventoryholder;
        return Inventory; //_inventoryprefab;
     }
 
@@ -66,7 +67,7 @@ public class DisplayInventory //hand visualizer
 
     public Vector3 GetPosition(int index)//assign inventory location
     {
-        return new Vector3(X_start + (X_Spacer * (index % Column)), Y_start + (-Y_Spacer * (index / Column)), 0f); //use start locations with offset --0--0--0--;
+        return new Vector3(x_start + (x_Spacer * (index % column)), y_start + (-y_Spacer * (index / column)), 0f); //use start locations with offset --0--0--0--;
     }
     public void CreateDisplay()
     {
@@ -75,7 +76,7 @@ public class DisplayInventory //hand visualizer
         {
             InventorySlot slot = inventory.Container.items[i];
             Debug.Log("getting items: " + slot.item.id); //+ "sprite: " +obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite);
-            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.Itemdict[i].UI;
+            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[i].UI;
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             itemsDisplayed.Add(slot, obj);
@@ -95,7 +96,7 @@ public class DisplayInventory //hand visualizer
             else //new item 
             {
                     var obj = GameObject.Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity); //mising transform
-                    obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.Itemdict[slot.item.id].UI;
+                    obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[slot.item.id].UI;
                     obj.GetComponent<Transform>().localPosition = GetPosition(i);
                     itemsDisplayed.Add(inventory.Container.items[i], obj);
             }

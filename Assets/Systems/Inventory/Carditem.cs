@@ -13,7 +13,6 @@ public class CardItem : ItemObject , IPoolable
     {
         //if && ||
         //check if recieved position =~ to known postion of card
-      //  Debug.Log("see if card is in range");
         if (_pos.x >= mypos.x - offsetX && _pos.x <= mypos.x + offsetX && _pos.y >= mypos.y - offsetY && _pos.y <= mypos.x + offsetY)
         {
             //in range
@@ -27,15 +26,14 @@ public class CardItem : ItemObject , IPoolable
         return false;
     }
     public bool Active { get; set; }
-    public void OnEnableObject()
+    public void OnEnableObject() //ipoolable
     {
 
     }
-    public void OnDisableObject()
+    public void OnDisableObject() //ipoolable
     {
 
     }
-    //set to toy by default
     public void Awake()
     {
         type = ItemType.action;

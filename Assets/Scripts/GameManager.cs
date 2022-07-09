@@ -19,15 +19,15 @@ public class GameManager : MonoBehaviour
     // public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare;
     //   public GameObject handvisual;
-    Hand hand;
+    private Hand hand;
     private InputHandler inputHandler;
 
     // InventoryManager hand;
   //  Hand hand;
     private Vector2 gridStartPosition;
     private Vector3 scaleValue;
-    private bool mouseSelect = true;
-    private bool once = true;
+    private readonly bool mouseSelect = true;
+    private readonly bool once = true;
 
     [SerializeField]
     protected InventoryObject player1;
@@ -52,15 +52,16 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-      //  hand.Ticklocal();
+     //   hand.Ticklocal();
         stateMachine.StateUpdate();
     }
 
     void StartGame()
     {
+        player1.database = Resources.Load("ItemDatabase") as ItemDatabase;
         HandUIDisplay = new DisplayInventory(-4, -5, 1, 4, 1, player1);
         HandUIDisplay.CreateDisplay();
-        HandUIDisplay.UpdateDisplay(); //FIX: run when item amount changes
+        HandUIDisplay.UpdateDisplay();
 
        // Deck deck1 = new Deck();
       //  deck1.Generatedeck(HandUIDisplay);
