@@ -5,13 +5,18 @@ using UnityEngine;
 public class BlackTurn : Gamestate
 {
     //it's black's turn
+
+
     private IPlaceable selectedPlaceable;
     bool turnFinished = false;
 
     public BlackTurn()
     {
         Transitions = new List<StateTransition>();
+
+        //Transition to white's turn when you make a move
         Transitions.Add(new StateTransition(typeof(WhiteTurn), () => turnFinished == true));
+        //Transition to pause state when you press the escape button
         Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
     }
 
@@ -28,7 +33,6 @@ public class BlackTurn : Gamestate
     }
     void MovePieces()
     {
-        //replace this with input from the inputHandler?
         if (Input.GetMouseButtonDown(0))
         {
             IPlaceable clickedTile = GridSystem.checkGridPosition(GridSystem.ClickOnTiles());
@@ -36,18 +40,18 @@ public class BlackTurn : Gamestate
 
             if (selectedPlaceable != null)
             {
+                //if you click on a tile that's not empty, attack if possible
                 if (clickedTile != null)
                     turnFinished = GridSystem.AttackChecker(selectedPlaceable.myPos, clickedPos);
 
+                //if you click on an empty tile, move if possible
                 else if (clickedTile == null)
                     turnFinished = GridSystem.MoveChecker(selectedPlaceable.myPos, clickedPos);
 
-                //if (turnFinished)
-                //    Camera.main.transform.Rotate(0, 0, 180);
-                
                 selectedPlaceable = null;
             }
 
+            //if there's not already a placeable selected, assign a new one
             else if (selectedPlaceable == null)
             {
                 if (clickedTile != null && clickedTile.placeableType == 0)

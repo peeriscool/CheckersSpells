@@ -40,6 +40,7 @@ static class GridSystem
             for (int j = 0; j < ySize; j++)
             {
                 GameObject squareColor;
+
                 //check if it's even, all even tiles are black, all odd tiles are white. Quick math
                 if ((i + j) % 2 == 0)
                 {
@@ -53,27 +54,19 @@ static class GridSystem
 
                 //the board will always spawn in the center of the screen. Each tile will spawn individually
                 UnityEngine.Object.Instantiate(tiles[i, j], new Vector3(gridStartPosition.x + i, gridStartPosition.y + j, 0.1f), new Quaternion(0, 0, 0, 0));
-                //instantiate(gridsysyem())
             }
         }
 
-        //if the number of rows is bigger than half of the board, the players can't both get that amount of rows, so an error is given
-        //if (rowsOfCheckers > GridSystem.ySize / 2)
-        //{
-        //    Debug.LogError("Rows of checkers exceed the useable capacity. Make the rows smallers, or the grid larger");
-        //}
-
     }
 
+    //returns the gridposition of the location you click in game
     public static GridPos ClickOnTiles()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
-
         return new GridPos((int)Mathf.Round(worldPosition.x - gridStartPosition.x), (int)Mathf.Round(worldPosition.y - gridStartPosition.y));
     }
 
-    //Remove a checker on a specific coordinate in case they get hit, or we need to remove them for any other reason
+    //Return a placable on a specific coordinate to the pool in case they get hit, or we need to remove them for any other reason
     public static void RemoveIplacable(GridPos _gridPos)
     {
         if (checkerGrid[_gridPos.x, _gridPos.y] == null)
@@ -94,7 +87,7 @@ static class GridSystem
         checkerGrid[_gridPos.x, _gridPos.y] = null;
     }
 
-    //function that can add a checker to a specific position on the board
+    //function that can add a placeable to a specific position on the board
     public static void AddPlaceable(int _placeAbleType, GridPos _gridPos)
     {
         if (checkerGrid[_gridPos.x, _gridPos.y] != null)
@@ -119,7 +112,7 @@ static class GridSystem
     //move a checker, from a chosen position to a new position. Will only work if it's a legal move
     public static bool MoveChecker(GridPos _oldPos, GridPos _newPos)
     {
-        //for now it only works when they move any diagonal direction, should be changed to move only forward, and only backwards when you strike a piece
+
         if (checkerGrid[_oldPos.x, _oldPos.y] != null && checkerGrid[_newPos.x, _newPos.y] == null
             && (_newPos.x == _oldPos.x - 1 || _newPos.x == _oldPos.x + 1) && (_newPos.y == _oldPos.y - 1 || _newPos.y == _oldPos.y + 1))
         {
@@ -137,6 +130,7 @@ static class GridSystem
             return true;
         }
 
+        //return false when selected piece is not an option
         else
         {
             Debug.Log("Can't do that");
@@ -187,23 +181,11 @@ static class GridSystem
         return checkerGrid[_gridPos .x, _gridPos.y];
     }
 
+    //if you do need the vector2 position from 
     public static Vector2 FetchVector2FromGridpos(GridPos _gridPos)
     {
         return gridStartPosition + new Vector2(_gridPos.x, _gridPos.y);
     }
-
-    //public Sprite[] GenerateVisual()
-    // {
-    //     Sprite[] data = new Sprite[Xrow.Length];
-    //     for (int i = 0; i < Xrow.Length; i++)
-    //     {
-
-    //         // GameObject a = new GameObject(i.ToString(),typeof (cell));
-    //         Sprite a = Sprite.Create(null,new Rect() ,Vector2.zero);          
-    //         data[i] = a;
-    //     }
-    //     return data;
-    // }
 }
 
 //a struct for positions on the grid

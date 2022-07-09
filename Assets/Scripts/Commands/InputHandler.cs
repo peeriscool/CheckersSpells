@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//inputhandler ended up not being used, but I'll leave it in the files to show we tried.
+//we chose not to use it because we only use the mouse, and assigning commands over and over on one button while the player is playing seemed inefficient
 public class InputHandler
 {
     private List<KeyCommand> keyCommands = new List<KeyCommand>();
@@ -19,20 +21,20 @@ public class InputHandler
     }
 
     //binds keycodes to specific commands
-    public void BindInput(KeyCode keyCode, ICommand command)
+    public void BindInput(KeyCode _keyCode, ICommand _command)
     {
         //first unbind, because we only want one command per key
-        UnBindInput(keyCode);
+        UnBindInput(_keyCode);
 
         //then add the new input
-        keyCommands.Add(new KeyCommand() { key = keyCode, command = command });
+        keyCommands.Add(new KeyCommand() { key = _keyCode, command = _command });
     }
 
     
     //unbinds a key
-    public void UnBindInput(KeyCode keyCode)
+    public void UnBindInput(KeyCode _keyCode)
     {
-        var items = keyCommands.FindAll(x => x.key == keyCode);
+        var items = keyCommands.FindAll(x => x.key == _keyCode);
         items.ForEach(x => keyCommands.Remove(x));
     }
     public class KeyCommand

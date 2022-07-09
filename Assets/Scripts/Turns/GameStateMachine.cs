@@ -28,6 +28,8 @@ public class GameStateMachine
     {
         currenstate.LogicUpdate();
 
+
+        //Check each transition of a state, and if it wants to switch, switch.
         foreach (StateTransition transition in currenstate.Transitions)
         {
             if (transition.condition())
@@ -53,10 +55,14 @@ public class GameStateMachine
     private IState GetOrCreateState(System.Type t)
     {
         IState state;
+
+        //if statecollection has that type, fetch it
         if (stateCollection.TryGetValue(t, out state))
         {
             return state;
         }
+
+        //if it doesn't, make a new one.
         else
         { 
             object obj = System.Activator.CreateInstance(t);
