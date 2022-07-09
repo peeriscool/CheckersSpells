@@ -12,12 +12,14 @@ public interface IPlaceable : IPoolable
     //this could be an enum maybe
     int placeableType { get;}
 
+    //The first function you should call to, where you set the initial position of the placeable and what type of placeable it is
     void InitializePlaceable(GridPos _initPos, int _placeableType);
 
     //function to Update the position of an IPlaceable using GridPos
     void UpdatePos(GridPos _pos);
 
-    void UpdateVisual(GridPos _Offset);
+    //function to specifically update the visual feedback for the IPlaceable
+    void UpdateVisual(GridPos _pos);
 
     //function to fetch the body of an IPlaceable
     GameObject Get_Body();

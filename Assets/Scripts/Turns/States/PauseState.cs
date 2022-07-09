@@ -11,6 +11,7 @@ public class PauseState : Gamestate
         Transitions = new List<StateTransition>();
     }
 
+    //This should be called whenever you switch to the pause state, the previous state will be put through, and recalled when you unpause
     public void GetPreviousState(System.Type _previousState)
     {
         Transitions = new List<StateTransition>();
@@ -22,11 +23,6 @@ public class PauseState : Gamestate
     public override void Enter()
     {
         base.Enter();
-        //I also want to get the previous gamestate, so we can revert back to that if we want to unpause
-
-        //get the pause menu in screen + make sure player can't make a move
-        //also stop time for any vfx things happening
-
         Debug.Log("pausing game");
         Time.timeScale = 0;
     }

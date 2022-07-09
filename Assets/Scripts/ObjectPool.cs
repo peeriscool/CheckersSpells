@@ -35,16 +35,22 @@ public class ObjectPool<T> where T : IPoolable
     {
         item.OnEnableObject();
         item.Active = true;
+
+        //remove it from the inactive objects
         if (inActivePool.Contains(item))
         {
             inActivePool.Remove(item);
         }
+
+
+        //add it to the active objects
         activePool.Add(item);
         return item;
     }
 
     public void ReturnObjectToPool(T item)
     {
+        //remove it from the active objects
         if (activePool.Contains(item))
         {
             activePool.Remove(item);
@@ -52,6 +58,8 @@ public class ObjectPool<T> where T : IPoolable
 
         item.OnDisableObject();
         item.Active = false;
+
+        //add it to the inactive objects
         inActivePool.Add(item);
     }
 
