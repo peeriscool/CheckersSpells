@@ -17,3 +17,4 @@ MonoBehaviour:
   type: 1
   description: kaart 1
   mybuffs: []
+  mypos: {x: 3, y: 0}

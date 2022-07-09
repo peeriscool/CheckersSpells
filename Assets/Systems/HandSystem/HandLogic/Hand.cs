@@ -10,10 +10,6 @@ public class Hand
     /// <summary>
     ///  using the hand of the player with a visual
     /// </summary>
-
-    public Hand()
-    {
-    }
     public void Initialize()
     {
         hand = Resources.Load("Prefabs/hand") as GameObject;

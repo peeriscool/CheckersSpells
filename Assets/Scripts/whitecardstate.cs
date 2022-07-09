@@ -6,10 +6,14 @@ public class Whitecardstate : Gamestate
 {
    // GameObject handvisual;
     bool turnFinished = false;
+    Deck deck = new Deck();
+
     public Whitecardstate()
     {
         Transitions = new List<StateTransition>();
         Transitions.Add(new StateTransition(typeof(WhiteTurn), ()=> Input.GetMouseButtonDown(0)));
+        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+        deck.Generatedeck();
     }
 
     public override void Enter()
@@ -21,19 +25,20 @@ public class Whitecardstate : Gamestate
     {
         if (Input.GetMouseButtonDown(1))
         {
-
             Debug.Log("click card to select");
-            RaycastHit hit;
+            deck.CheckCardPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+          //  RaycastHit hit;
             // Does the ray intersect any objects excluding the player layer
-            if (Physics.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main.transform.TransformDirection(Vector3.forward) * 30f, out hit, Mathf.Infinity, 8))
-            {
-                Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-                Debug.Log("Did Hit");
-            }
-            else
-            {
-                Debug.DrawRay(  Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main.transform.TransformDirection(Vector3.forward) * 30f, Color.yellow);
-            }
+            //if (Physics.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main.transform.TransformDirection(Vector3.forward) * 30f, out hit, Mathf.Infinity, 8))
+            //{
+            //    Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            //    Debug.Log("Did Hit");
+            //}
+            //else
+            //{
+            //    Debug.DrawRay(  Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main.transform.TransformDirection(Vector3.forward) * 30f, Color.yellow);
+            //}
         }
     }
     public override void Exit()
@@ -47,8 +52,8 @@ public class Blackcardstate : Gamestate
     public Blackcardstate()
     {
         Transitions = new List<StateTransition>();
-        Transitions.Add(new StateTransition(typeof(Whitecardstate), () => turnFinished == true));
-        Transitions.Add(new StateTransition(typeof(PauseState), () => turnFinished == true));
+        Transitions.Add(new StateTransition(typeof(BlackTurn), () => Input.GetMouseButtonDown(0)));
+        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
     }
 
     public override void Enter()

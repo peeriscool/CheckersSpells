@@ -5,32 +5,35 @@ using UnityEngine;
 public class Deck
 {
     private ObjectPool<CardItem> pool;
-    DisplayInventory inventorycards;
+    ItemDatabase database;
     public Deck()
     {
         pool = new ObjectPool<CardItem>();
+        database = Resources.Load("Allcards_Database 1") as ItemDatabase;
     }
 
-  public void Generatedeck(DisplayInventory _inventorycards)
+  public void Generatedeck()
     {
-        for (int i = 0; i < _inventorycards.inventory.Container.items.Count; i++)
+        Debug.Log(database.Items.Length);
+        for (int i = 0; i < database.Items.Length; i++)
         {
             CardItem carditem = new CardItem();
-            carditem = _inventorycards.inventory.database.Items[i] as CardItem;
+            carditem = database.Items[i] as CardItem;
+            carditem.mypos = new Vector2(i, 0);
             pool.ReturnObjectToPool(carditem); //add card to pool
         }
-        inventorycards = _inventorycards;
     }
-    //void Shuffledeck()
-    //{
-
-    //}
+ 
    public void CheckCardPosition(Vector2 _checkpos)
     {
-        CardItem test = inventorycards.inventory.database.Items[0] as CardItem;
-        if(test.InRangeofCard(_checkpos))
-        {
+        Debug.Log("Checking deck for correct card" + _checkpos);
 
+        foreach (CardItem card in database.Items)
+        {
+            if (card.InRangeofCard(_checkpos))
+            {
+                Debug.Log(card.name);
+            }
         }
     }
    public CardItem Drawcard()
@@ -41,7 +44,6 @@ public class Deck
     public ItemObject.myeffect Effect()
     {
         Debug.Log("Example spawn obstacle");
-       // GameObject.CreatePrimitive(PrimitiveType.Cube);
         return null;
     }
     void BindEffect(CardItem _card)

@@ -62,8 +62,8 @@ public class GameManager : MonoBehaviour
         HandUIDisplay.CreateDisplay();
         HandUIDisplay.UpdateDisplay(); //FIX: run when item amount changes
 
-        Deck deck1 = new Deck();
-        deck1.Generatedeck(HandUIDisplay);
+       // Deck deck1 = new Deck();
+      //  deck1.Generatedeck(HandUIDisplay);
 
         
         GridSystem.SetGridSize(8,8);

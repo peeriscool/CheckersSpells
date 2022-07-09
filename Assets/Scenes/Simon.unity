@@ -324,14 +324,7 @@ MonoBehaviour:
     type: 3}
   whiteSquare: {fileID: 3507390450633982442, guid: efa1b880e477dd9448e9dde6049a40b0,
     type: 3}
-  blackPiece: {fileID: 8825034445345020068, guid: 34a10289c7a383440b6e7f5c2936462c,
-    type: 3}
-  whitePiece: {fileID: 651911865386371137, guid: c89083cb4eaf08c4dbd93d9eae277dd1,
-    type: 3}
-  handvisual: {fileID: 7907057367094368893, guid: db634e36489ee01448b205abfca054b4,
-    type: 3}
-  HandUI: {fileID: 146103714}
-  player1: {fileID: 0}
+  player1: {fileID: 11400000, guid: 57ae958f1d83bb0498bcbc3f72ceecc9, type: 2}
 --- !u!1 &1893600285
 GameObject:
   m_ObjectHideFlags: 0
