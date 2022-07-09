@@ -7,12 +7,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
 //https://docs.unity3d.com/2019.1/Documentation/ScriptReference/EventSystems.UIBehaviour.html
-public class DisplayInventory
+public class DisplayInventory //hand visualizer
 {
     public InventoryObject inventory; //displayed inventory
-                                      //public ItemInteraction activeinventory;
-    public GameObject inventoryprefab; //item that holds all sprites
-
+    public GameObject inventoryprefab; //item that gets card sprites assigned
 
     public int X_start; //horizontal offset
     public int Y_start; //vertical offset
@@ -29,36 +27,33 @@ public class DisplayInventory
     /// <param name="yspace"></param>
     /// <param name="_inventory"></param>
     /// <param name="_inventoryprefab"></param>
-    public DisplayInventory(int x,int y, int xpace, int column, int yspace, InventoryObject _inventory, GameObject _inventoryprefab)
+    public DisplayInventory(int x,int y, int xpace, int column, int yspace, InventoryObject _inventory)
     {
         X_start = x;
         Y_start = y;
         X_Spacer = xpace;
         Column = column;
         Y_Spacer = yspace;
-        inventory = _inventory;   
-        inventoryprefab = _inventoryprefab;
+        inventory = _inventory;
+        inventoryprefab = GenerateInventory(inventory);
     }
-  
+    public GameObject GenerateInventory(InventoryObject _inventory)
+    {
+        GameObject Inventory = Object.Instantiate(new GameObject());
+        Inventory.name = "Inventory";
+        foreach (InventorySlot slot in _inventory.Container.items)
+        {
+            for (int i = 0; i < slot.amount; i++)
+            {
+                var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
+                obj.name = "card";
+                obj.transform.SetParent(Inventory.transform);
+            }
+        }
+       return Inventory; //_inventoryprefab;
+    }
 
     Dictionary<InventorySlot, GameObject> itemsDisplayed = new Dictionary<InventorySlot, GameObject>();
-    //private void Init()
-    //{
-    //    //if(activeinventory != null & inventory == null) //use item interaction inventory when we have no inventory
-    //    //{
-    //    //    inventory = activeinventory.inventory;
-    //    //}
-    //    CreateDisplay();
-    //}
-    /// <summary>
-    /// recieve position to activate card on
-    /// </summary>
-    /// <param name="pos"></param>
-    public void registerinput(GridPos pos)
-    {
-       // UpdateDisplay();
-
-    }
 
     public Vector3 GetPosition(int index)//assign inventory location
     {
@@ -70,26 +65,16 @@ public class DisplayInventory
         for (int i = 0; i < inventory.Container.items.Count; i++)
         {
             InventorySlot slot = inventory.Container.items[i];
-            //var obj = GameObject.Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity,transform);
-            //var obj = Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity,  transform);
             Debug.Log("getting items: " + slot.item.id); //+ "sprite: " +obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite);
-            //for (int j = 0; j < inventory.database.Itemdict.Count; j++)
-            //{
-                obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.Itemdict[i].UI;
-                obj.GetComponent<Transform>().localPosition = GetPosition(i);
-           // }
-         //   obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite = inventory.database.Itemdict[slot.item.id].UI;  //inventory.Container[i].item.UI
-          //  obj.transform.GetChild(1).GetComponentInChildren<Image>().sprite = inventory.database.Itemdict[slot.item.id].UI;
-            obj.GetComponent<Transform>().localPosition = GetPosition(i);
-          //  obj.GetComponentInChildren<TextMeshProUGUI>().text = slot.amount.ToString("n0"); //n0 = format with commas           
+            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.Itemdict[i].UI;
+            obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
+            obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             itemsDisplayed.Add(slot, obj);
         }
     }
 
     public void UpdateDisplay()
     {
-
-
         for (int i = 0; i < inventory.Container.items.Count; i++) //item already exist update count
         {
             InventorySlot slot = inventory.Container.items[i];
@@ -100,7 +85,6 @@ public class DisplayInventory
             }
             else //new item 
             {
-            
                     var obj = GameObject.Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity); //mising transform
                     obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.Itemdict[slot.item.id].UI;
                     obj.GetComponent<Transform>().localPosition = GetPosition(i);

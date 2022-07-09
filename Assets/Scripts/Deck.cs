@@ -4,34 +4,51 @@ using UnityEngine;
 
 public class Deck
 {
-    Deck deck = new Deck();
-    int decksize = 10;
     private ObjectPool<CardItem> pool;
-    Deck()
+    DisplayInventory inventorycards;
+    public Deck()
     {
         pool = new ObjectPool<CardItem>();
-        Generatedeck();
     }
 
-    void Generatedeck()
+  public void Generatedeck(DisplayInventory _inventorycards)
     {
-        for (int i = 0; i < decksize; i++)
+        for (int i = 0; i < _inventorycards.inventory.Container.items.Count; i++)
         {
-            //string s = i.ToString();
-            CardItem s = new CardItem();
-            pool.ReturnObjectToPool(s); //add card to pool
+            CardItem carditem = new CardItem();
+            carditem = _inventorycards.inventory.database.Items[i] as CardItem;
+            pool.ReturnObjectToPool(carditem); //add card to pool
         }
-//            deck1.RequestItem();
+        inventorycards = _inventorycards;
+    }
+    //void Shuffledeck()
+    //{
 
-        //  deck1.ReturnObjectToPool() //add to obj pool
+    //}
+   public void CheckCardPosition(Vector2 _checkpos)
+    {
+        CardItem test = inventorycards.inventory.database.Items[0] as CardItem;
+        if(test.InRangeofCard(_checkpos))
+        {
+
+        }
+    }
+   public CardItem Drawcard()
+    {
+        return pool.RequestItem();
     }
 
-    void Shuffledeck()
+    public ItemObject.myeffect Effect()
     {
-
+        Debug.Log("Example spawn obstacle");
+       // GameObject.CreatePrimitive(PrimitiveType.Cube);
+        return null;
     }
-    void Drawcard()
+    void BindEffect(CardItem _card)
     {
-
+        _card = Drawcard();
+        _card.effect += Effect();
+        Debug.Log(_card.description);
+        Debug.Log(_card.UI.name);
     }
 }

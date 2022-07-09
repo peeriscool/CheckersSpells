@@ -18,6 +18,24 @@ MonoBehaviour:
     items:
     - id: 0
       item:
+        name: kaas
+        id: 1
+        buffs: []
+      amount: 1
+    - id: 1
+      item:
+        name: peer
+        id: 0
+        buffs: []
+      amount: 1
+    - id: 0
+      item:
+        name: peer
+        id: 0
+        buffs: []
+      amount: 1
+    - id: 0
+      item:
         name: peer
         id: 0
         buffs: []

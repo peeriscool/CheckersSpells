@@ -26,6 +26,8 @@ public abstract class ItemObject : ScriptableObject
     [TextArea(15, 20)]
     public string description;
     public Buff[] mybuffs;
+    public delegate void myeffect();
+    public event myeffect effect;
     public Item CreateItem()
     {
         Item newitem = new Item(this);
@@ -39,6 +41,7 @@ public class Item
     public string name;
     public int id;
     public Buff[] buffs;
+   
     public Item(ItemObject item)
     {
         name = item.name;
@@ -50,6 +53,7 @@ public class Item
             buffs[i] = new Buff(item.mybuffs[i].min, item.mybuffs[i].max);
         }
     }
+ 
 }
 [System.Serializable]
 public class Buff

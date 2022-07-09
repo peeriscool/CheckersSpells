@@ -28,11 +28,6 @@ public class GameManager : MonoBehaviour
     private Vector3 scaleValue;
     private bool mouseSelect = true;
     private bool once = true;
-    private GameObject currentCard;
-    private GameObject selectedCard;
-
-    [SerializeField]
-    protected GameObject HandUI;
 
     [SerializeField]
     protected InventoryObject player1;
@@ -44,7 +39,7 @@ public class GameManager : MonoBehaviour
         //since there is only one canvas, we can search for it
         canvas = FindObjectOfType<Canvas>();
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
-
+        stateMachine.GetState(typeof(Whitecardstate));
         inputHandler = new InputHandler();
         inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
 
@@ -63,11 +58,14 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        HandUI.SetActive(true);
-        HandUIDisplay = new DisplayInventory(0, 0, 10, 10, 10, player1, HandUI);
+        HandUIDisplay = new DisplayInventory(-4, -5, 1, 4, 1, player1);
         HandUIDisplay.CreateDisplay();
         HandUIDisplay.UpdateDisplay(); //FIX: run when item amount changes
 
+        Deck deck1 = new Deck();
+        deck1.Generatedeck(HandUIDisplay);
+
+        
         GridSystem.SetGridSize(8,8);
 
         //grid is at the center of the screen, so the start position will be taken from there

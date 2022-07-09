@@ -31,6 +31,6 @@ public class Hand
     Vector3 UpdateVisual()
     {
         Visual.recieveInput(Camera.main.ScreenToWorldPoint(Input.mousePosition), Input.GetKeyDown(KeyCode.Mouse0), Input.GetKeyDown(KeyCode.Mouse1));
-        return Visual.UpdateHandVisual();
+        return Visual.UpdatehandVisual();
     }
 }

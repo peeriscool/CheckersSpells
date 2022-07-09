@@ -13,6 +13,8 @@ public class WhiteTurn : Gamestate
         Transitions = new List<StateTransition>();
         Transitions.Add(new StateTransition(typeof(BlackTurn), () => turnFinished == true));
         Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+        Transitions.Add(new StateTransition(typeof(Whitecardstate), () => Input.GetMouseButtonDown(1)));
+
     }
 
     public override void Enter()

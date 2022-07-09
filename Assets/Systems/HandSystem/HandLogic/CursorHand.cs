@@ -11,50 +11,49 @@ public class CursorHand
     //play animation when clicked
 
     // Start is called before the first frame update
-    public Animator HandController;
-    public GameObject Hand;
-    Vector3 TrackedPos;
+    public Animator handController;
+    public GameObject hand;
+    Vector3 trackedPos;
     float time;
 
-    public CursorHand(GameObject _hand,Animator _Handcontroller )
+    public CursorHand(GameObject _hand,Animator _handcontroller )
     {
-        HandController = _Handcontroller;
-        Hand = _hand;
+        handController = _handcontroller;
+        hand = _hand;
         InitializeVisual();
     }
     void InitializeVisual()
     {
-        HandController.enabled = true;
-        TrackedPos = Vector3.zero;
-        Debug.Log(HandController.layerCount + "Hand Positions Availible");
+        handController.enabled = true;
+        trackedPos = Vector3.zero;
+        Debug.Log(handController.layerCount + "Hand Positions Availible");
     }
    public void recieveInput(Vector3 Pos,bool MouseLeft, bool MouseRight ) //gets the mouse position and click functions
     {
-         TrackedPos = new Vector3(Pos.x,Pos.y,-4f);
-
+        trackedPos = new Vector3(Pos.x,Pos.y,-4f);
         if (MouseLeft)
         {
-            HandController.Play("Armature|Hand grab");
+            handController.Play("Armature|Hand grab");
             //card selected
             //checker selected
             return;
         }
         if (MouseRight)
         {
-            playanimation("Armature|Hand cards");
-            HandController.ResetTrigger("cursormode");
+            Playanimation("Armature|Hand cards");
+            handController.ResetTrigger("cursormode");
             return;
         } 
    }
 
-    public Vector3 UpdateHandVisual()
+    public Vector3 UpdatehandVisual()
     {
-    return TrackedPos;
+    return trackedPos;
     }
 
-    public void playanimation(string name)
+    public void Playanimation(string name)
     {
-        HandController.Play(name);
+        handController.Play(name);
     }
 }
 

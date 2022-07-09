@@ -12,12 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: card3
   m_EditorClassIdentifier: Assembly-CSharp::CardItem
-  id: 1
-  UI: {fileID: 21300000, guid: 97a73b01b1b1fc240b42826e2867a7c9, type: 3}
+  id: 2
+  UI: {fileID: 21300000, guid: 7a291319dc108374f9eba2c628bb6535, type: 3}
   type: 1
-  description: a
-  mybuffs:
-  - myattribute: 0
-    value: 0
-    min: 0
-    max: 0
+  description: "kaart 3\t"
+  mybuffs: []
