@@ -6,17 +6,27 @@ public class Hand
 {
    // private GameObject hand;
     CursorHand Visual;
+    GameObject hand;
     /// <summary>
-    /// Start using the hand of the player
+    ///  using the hand of the player with a visual
     /// </summary>
-    /// <param name="_hand">Animator Required</param>
-    public Hand(GameObject _hand)
+
+    public Hand()
     {
-        Visual = new CursorHand(_hand, _hand.GetComponent<Animator>());
+    }
+    public void Initialize()
+    {
+        hand = Resources.Load("Prefabs/hand") as GameObject;
+        hand = Object.Instantiate(hand);
+        Visual = new CursorHand(hand, hand.GetComponent<Animator>());
     }
     public Vector3 Tick()
     {
         return UpdateVisual();
+    }
+    public void Ticklocal()
+    {
+        hand.transform.position = UpdateVisual();
     }
     Vector3 UpdateVisual()
     {

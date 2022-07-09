@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     // public Card_ScriptableObject[] cards;
     public GameObject blackSquare, whiteSquare;
-    public GameObject handvisual;
+    //   public GameObject handvisual;
     Hand hand;
     private InputHandler inputHandler;
 
@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hand = new Hand(handvisual);
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
         //since there is only one canvas, we can search for it
         canvas = FindObjectOfType<Canvas>();
@@ -50,37 +49,15 @@ public class GameManager : MonoBehaviour
         inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
 
         //Instantiate(StartMenu, canvas.transform);
-
+        hand = new Hand();
+        hand.Initialize();
         // hand = new InventoryManager(cards, 10);
         StartGame();
     }
 
     private void Update()
     {
-        handvisual.transform.position = hand.Tick();
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            //check if we are over a card DONE
-            //move the ui component Kinda DONE
-            // avtivate effect NOT YET
-            Debug.Log("Check");
-            RaycastHit2D hit = Physics2D.Raycast(handvisual.transform.position, transform.TransformDirection(Vector3.forward));
-            Debug.DrawRay(handvisual.transform.position, transform.TransformDirection(Vector3.forward), Color.white, 1f, true);
-            if (hit.collider != null)
-            {
-                Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
-                foreach (Transform child in HandUI.transform)
-                {
-                    if (hit.transform.transform == child)
-                    {
-                        child.gameObject.transform.position = handvisual.transform.position;
-                    }
-                }
-
-            }
-        }
-
+        hand.Ticklocal();
         stateMachine.StateUpdate();
     }
 

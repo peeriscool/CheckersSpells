@@ -34,39 +34,19 @@ public class CursorHand
 
         if (MouseLeft)
         {
-          //  Debug.Log("mouse left" + Hand.transform.position);
             HandController.Play("Armature|Hand grab");
-          //  TrackedPos.z =+ 1;
-          //  CastRay(true);
             //card selected
             //checker selected
             return;
         }
         if (MouseRight)
         {
-           // Debug.Log("mouse right" + TrackedPos);
             playanimation("Armature|Hand cards");
             HandController.ResetTrigger("cursormode");
-           // TrackedPos.z = -1;
-            //card removed
-            //checker removed
             return;
         } 
    }
 
-    //void CastRay(bool _mouseselect) //see if we select a card
-    //{
-    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //    RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-    //    if (hit)
-    //    {
-    //        if (hit.collider.gameObject.layer == 8) //card handler "CardLayer"
-    //        {
-    //            Debug.Log(hit.collider.gameObject.name);
-    //            hit.collider.gameObject.transform.position = ray.GetPoint(0f);
-    //        }
-    //    }
-    //}
     public Vector3 UpdateHandVisual()
     {
     return TrackedPos;
