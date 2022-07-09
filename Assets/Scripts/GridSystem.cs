@@ -5,6 +5,9 @@ using UnityEngine;
 
 static class GridSystem
 {
+    //this determines how many rows of checkers each player gets at the start
+    static int rowsOfCheckers = 3;
+
     static Vector2 gridStartPosition;
     //the size of the board, horizontally and vertically
     public static int xSize { get; private set; }
@@ -26,7 +29,7 @@ static class GridSystem
         
     }
 
-    public static void InitializeGrid(Vector2 _gridStartPosition, GameObject _blackSquare, GameObject _whiteSquare)
+    public static void InitializeGrid(Vector2 _gridStartPosition)
     {
         gridStartPosition = _gridStartPosition;
         tiles = new GameObject[xSize, ySize];
@@ -44,11 +47,11 @@ static class GridSystem
                 //check if it's even, all even tiles are black, all odd tiles are white. Quick math
                 if ((i + j) % 2 == 0)
                 {
-                    squareColor = _blackSquare;
+                    squareColor = Resources.Load("Prefabs/SquareBlack") as GameObject;
                 }
                 else
                 {
-                    squareColor = _whiteSquare;
+                    squareColor = Resources.Load("Prefabs/SquareWhite") as GameObject;
                 }
                 tiles[i, j] = squareColor;
 
@@ -173,6 +176,35 @@ static class GridSystem
             Debug.Log("Can't do that");
             return false;
         }
+    }
+
+    public static void SpawnAllCheckers()
+    {
+        //I spawn checkers based on the gridSize
+        int pieceColor = 2;
+        for (int i = 0; i < ySize; i++)
+        {
+            if (i < rowsOfCheckers)
+                pieceColor = 1;
+
+            if (i >= ySize - rowsOfCheckers)
+                pieceColor = 0;
+
+            if (i >= rowsOfCheckers && i < ySize - rowsOfCheckers)
+                continue;
+
+            for (int j = 0; j < xSize; j++)
+            {
+                if ((i + j) % 2 == 0)
+                    SpawnChecker(new GridPos(j, i), pieceColor);
+            }
+        }
+    }
+
+
+    public static void SpawnChecker(GridPos _initPos, int _placeableType)
+    {
+        AddPlaceable(_placeableType, _initPos);
     }
 
     //fetch what the checker is on a given location

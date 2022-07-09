@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class PlaceAble : IPlaceable
 {
-    public bool Active { get; set; }
-    public void OnEnableObject()
-    {
-
-    }
-    public void OnDisableObject()
-    {
-
-    }
     //if we wanna keep the checkers on one color,  we just have to check the sum of the gridPos (X + Y position)
     //One color is even, the other is odd. 1+1 = 2, 2+2 = 4, 5+7 = 12
     public GridPos myPos { get; private set; }
@@ -23,6 +14,16 @@ public class PlaceAble : IPlaceable
     
     //in game respresentation of the checker
     protected GameObject body;
+
+    public bool Active { get; set; }
+    public void OnEnableObject()
+    {
+        body?.SetActive(true);
+    }
+    public void OnDisableObject()
+    {
+        body?.SetActive(false);
+    }
 
     public void InitializePlaceable(GridPos _initPos , int _placeableType)
     {

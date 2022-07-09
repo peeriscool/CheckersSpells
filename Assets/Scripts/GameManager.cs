@@ -5,29 +5,16 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    Canvas canvas;
     GameStateMachine stateMachine;
-    //this determines how many rows of checkers each player gets at the start
-    public int rowsOfCheckers = 3;
 
     //the size of the board
     public int boardX, boardY;
-    [SerializeField]
-    private GameObject StartMenu;
 
+    
+    Hand hand;
 
-    // public Card_ScriptableObject[] cards;
-    public GameObject blackSquare, whiteSquare;
-    //   public GameObject handvisual;
-    private Hand hand;
-    private InputHandler inputHandler;
-
-    // InventoryManager hand;
-  //  Hand hand;
     private Vector2 gridStartPosition;
-    private Vector3 scaleValue;
-    private readonly bool mouseSelect = true;
-    private readonly bool once = true;
+
 
     [SerializeField]
     protected InventoryObject player1;
@@ -36,17 +23,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
-        //since there is only one canvas, we can search for it
-        canvas = FindObjectOfType<Canvas>();
-        stateMachine = new GameStateMachine(typeof(WhiteTurn));
         stateMachine.GetState(typeof(Whitecardstate));
-        inputHandler = new InputHandler();
-        inputHandler.BindInput(KeyCode.Escape, new PauseCommand());
-
-        //Instantiate(StartMenu, canvas.transform);
         hand = new Hand();
         hand.Initialize();
-        // hand = new InventoryManager(cards, 10);
+
         StartGame();
     }
 
@@ -61,10 +41,7 @@ public class GameManager : MonoBehaviour
         player1.database = Resources.Load("ItemDatabase") as ItemDatabase;
         HandUIDisplay = new DisplayInventory(-4, -5, 1, 4, 1, player1);
         HandUIDisplay.CreateDisplay();
-        HandUIDisplay.UpdateDisplay();
-
-       // Deck deck1 = new Deck();
-      //  deck1.Generatedeck(HandUIDisplay);
+        HandUIDisplay.UpdateDisplay(); 
 
         
         GridSystem.SetGridSize(8,8);
@@ -72,40 +49,9 @@ public class GameManager : MonoBehaviour
         //grid is at the center of the screen, so the start position will be taken from there
         gridStartPosition = new Vector2(Camera.main.transform.position.x - GridSystem.xSize / 2 + 0.5f, Camera.main.transform.position.y - GridSystem.ySize / 2 + 0.5f);
 
-        GridSystem.InitializeGrid(gridStartPosition, blackSquare, whiteSquare);
+        GridSystem.InitializeGrid(gridStartPosition);
 
-        SpawnAllCheckers();
-    }
-
-    void SpawnAllCheckers()
-    {
-
-        //I spawn checkers based on the gridSize
-        int pieceColor = 2;
-        for (int i = 0; i < GridSystem.ySize; i++)
-        {
-            if (i < rowsOfCheckers)
-                pieceColor = 1;
-
-            if (i >= GridSystem.ySize - rowsOfCheckers)
-                pieceColor = 0;
-
-            if (i >= rowsOfCheckers && i < GridSystem.ySize - rowsOfCheckers)
-                continue;
-
-            for (int j = 0; j < GridSystem.xSize; j++)
-            {
-                if ((i + j) % 2 == 0)
-                    SpawnChecker(new GridPos(j, i), pieceColor);
-            }
-        }
-    }
-
-
-    void SpawnChecker(GridPos _initPos, int _placeableType)
-    {
-        Debug.Log("Spawning Checker");
-        GridSystem.AddPlaceable(_placeableType, _initPos);
+        GridSystem.SpawnAllCheckers();
     }
 }
 

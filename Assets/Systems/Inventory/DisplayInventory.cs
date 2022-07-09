@@ -76,7 +76,7 @@ public class DisplayInventory //hand visualizer
         {
             InventorySlot slot = inventory.Container.items[i];
             Debug.Log("getting items: " + slot.item.id); //+ "sprite: " +obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite);
-            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[i].UI;
+            //obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[i].UI;
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             itemsDisplayed.Add(slot, obj);
