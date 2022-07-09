@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new default obj", menuName = "Inventory system/Items/CardItem")]
 public class CardItem : ItemObject , IPoolable
 {
+    public GameObject instancedrefrence;
     public Vector2 mypos;
     int offsetX = 2;
     int offsetY = 2;
@@ -12,7 +13,7 @@ public class CardItem : ItemObject , IPoolable
     {
         //if && ||
         //check if recieved position =~ to known postion of card
-        Debug.Log("see if card is in range");
+      //  Debug.Log("see if card is in range");
         if (_pos.x >= mypos.x - offsetX && _pos.x <= mypos.x + offsetX && _pos.y >= mypos.y - offsetY && _pos.y <= mypos.x + offsetY)
         {
             //in range

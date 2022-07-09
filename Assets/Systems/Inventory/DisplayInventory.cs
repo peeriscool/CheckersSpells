@@ -9,9 +9,9 @@ using UnityEngine.Events;
 //https://docs.unity3d.com/2019.1/Documentation/ScriptReference/EventSystems.UIBehaviour.html
 public class DisplayInventory //hand visualizer
 {
+    public static GameObject Inventory;
     public InventoryObject inventory; //displayed inventory
     public GameObject inventoryprefab; //item that gets card sprites assigned
-
     public int X_start; //horizontal offset
     public int Y_start; //vertical offset
     public int X_Spacer;
@@ -37,19 +37,21 @@ public class DisplayInventory //hand visualizer
         inventory = _inventory;
         inventoryprefab = GenerateInventory(inventory);
     }
-    public GameObject GenerateInventory(InventoryObject _inventory)
+    private GameObject GenerateInventory(InventoryObject _inventory)
     {
-        GameObject Inventory = Object.Instantiate(new GameObject());
-        Inventory.name = "Inventory";
+        GameObject Inventoryholder = Object.Instantiate(new GameObject());
+        Inventoryholder.name = "Inventory";
+        Debug.Log(_inventory.Container.items);
         foreach (InventorySlot slot in _inventory.Container.items)
         {
             for (int i = 0; i < slot.amount; i++)
             {
                 var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
                 obj.name = "card";
-                obj.transform.SetParent(Inventory.transform);
+                obj.transform.SetParent(Inventoryholder.transform);
             }
         }
+        Inventory = Inventoryholder;
        return Inventory; //_inventoryprefab;
     }
 
