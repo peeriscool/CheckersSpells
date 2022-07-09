@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new default obj", menuName = "Inventory system/Items/CardItem")]
 public class CardItem : ItemObject , IPoolable
 {
+    CardItem()
+    {
+        mypos = new Vector2();
+    }
     public GameObject instancedrefrence;
     public Vector2 mypos;
     int offsetX = 2;

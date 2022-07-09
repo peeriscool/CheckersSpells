@@ -315,15 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e68ef9dd0cf3264e829e298c0c717d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rowsOfCheckers: 3
   boardX: 0
   boardY: 0
-  StartMenu: {fileID: 2467375415423894809, guid: 7c09946b37a93df4da81e6894a18891f,
-    type: 3}
-  blackSquare: {fileID: 4563935059874933855, guid: 67c4c074367e2504aa7cd3eede26fcf6,
-    type: 3}
-  whiteSquare: {fileID: 3507390450633982442, guid: efa1b880e477dd9448e9dde6049a40b0,
-    type: 3}
   player1: {fileID: 11400000, guid: 57ae958f1d83bb0498bcbc3f72ceecc9, type: 2}
 --- !u!1 &1893600285
 GameObject:

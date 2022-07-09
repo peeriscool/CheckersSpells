@@ -10,8 +10,8 @@ public class Deck
     {
         pool = new ObjectPool<CardItem>();
         database = Resources.Load("ItemDatabase") as ItemDatabase;
-        database.CreateDatabase();
-        database.FillItems();
+      //  database.CreateDatabase();
+      //  database.FillItems();
 
     }
 
