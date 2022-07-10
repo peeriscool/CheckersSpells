@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //abstract base class for items colleactiable
-//Unity3D - Scriptable Object Inventory System | Part 1  https://www.youtube.com/watch?v=_IqTeruf3-s
-public enum ItemType
+//addapted by peer lomans based on Unity3D - Scriptable Object Inventory System | Part 1 - 4  https://www.youtube.com/watch?v=_IqTeruf3-s
+public enum ItemType //
 {
     effect,
     action,
@@ -19,9 +19,8 @@ public enum Attribute
 }
 public abstract class ItemObject : ScriptableObject
 {
-    //  public GameObject prefab;
-    public int id;
-    public Sprite UI;
+    public int id; 
+    public Sprite ui;
     public ItemType type;
     [TextArea(15, 20)]
     public string description;
@@ -56,7 +55,7 @@ public class Item
  
 }
 [System.Serializable]
-public class Buff
+public class Buff //buff with atrribute based on enums
 {
     public Attribute myattribute;
     public int value;

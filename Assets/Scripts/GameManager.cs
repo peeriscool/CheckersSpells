@@ -6,20 +6,15 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     GameStateMachine stateMachine;
-
     //the size of the board
     public int boardX, boardY;
-
-    
     Hand hand;
 
     private Vector2 gridStartPosition;
-
-
     [SerializeField]
     protected InventoryObject player1;
     DisplayInventory HandUIDisplay;
-    // Start is called before the first frame update
+    
     void Start()
     {
         stateMachine = new GameStateMachine(typeof(WhiteTurn));
@@ -43,7 +38,6 @@ public class GameManager : MonoBehaviour
         HandUIDisplay.CreateDisplay();
         HandUIDisplay.UpdateDisplay(); 
 
-        
         GridSystem.SetGridSize(8,8);
 
         //grid is at the center of the screen, so the start position will be taken from there

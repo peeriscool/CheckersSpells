@@ -9,11 +9,11 @@ using UnityEngine.Events;
 //https://docs.unity3d.com/2019.1/Documentation/ScriptReference/EventSystems.UIBehaviour.html
 public class DisplayInventory //hand visualizer
 {
-    public static GameObject Inventory;
+    public static GameObject inventoryObject;
     public InventoryObject inventory; //displayed inventory
     public GameObject inventoryprefab; //item that gets card sprites assigned
-    public int x_start; //horizontal offset
-    public int y_start; //vertical offset
+    public int x_start; 
+    public int y_start; 
     public int x_Spacer;
     public int column;
     public int y_Spacer;
@@ -43,24 +43,24 @@ public class DisplayInventory //hand visualizer
     {
         var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
         obj.name = "card";
-        obj.transform.SetParent(Inventory.transform);
+        obj.transform.SetParent(inventoryObject.transform);
     }
     private GameObject GenerateInventory(InventoryObject _inventory)
     {
         GameObject inventoryholder = Object.Instantiate(new GameObject());
         inventoryholder.name = "Inventory";
-        Debug.Log(_inventory.Container.items);
+        Debug.Log("Items available to player: " + _inventory.Container.items.Count);
         foreach (InventorySlot slot in _inventory.Container.items)
         {
             for (int i = 0; i < slot.amount; i++)
             {
                 var obj = Object.Instantiate(Resources.Load("Prefabs/Card") as GameObject);
-                obj.name = "card";
+                obj.name = "card " + i;
                 obj.transform.SetParent(inventoryholder.transform);
             }
         }
-        Inventory = inventoryholder;
-       return Inventory; //_inventoryprefab;
+        inventoryObject = inventoryholder;
+        return inventoryObject;
     }
 
     Dictionary<InventorySlot, GameObject> itemsDisplayed = new Dictionary<InventorySlot, GameObject>();
@@ -76,7 +76,7 @@ public class DisplayInventory //hand visualizer
         {
             InventorySlot slot = inventory.Container.items[i];
             Debug.Log("getting items: " + slot.item.id); //+ "sprite: " +obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite);
-            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[i].UI;
+            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[i].ui;
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             itemsDisplayed.Add(slot, obj);
@@ -90,13 +90,12 @@ public class DisplayInventory //hand visualizer
             InventorySlot slot = inventory.Container.items[i];
             if (itemsDisplayed.ContainsKey(slot))
             {
-                //          itemsDisplayed[slot].GetComponentInChildren<TextMeshPro>().text = slot.amount.ToString("n0");
                 return;
             }
             else //new item 
             {
                     var obj = GameObject.Instantiate(inventoryprefab, Vector3.zero, Quaternion.identity); //mising transform
-                    obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[slot.item.id].UI;
+                    obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[slot.item.id].ui;
                     obj.GetComponent<Transform>().localPosition = GetPosition(i);
                     itemsDisplayed.Add(inventory.Container.items[i], obj);
             }

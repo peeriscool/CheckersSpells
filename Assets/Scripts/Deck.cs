@@ -10,9 +10,6 @@ public class Deck
     {
         pool = new ObjectPool<CardItem>();
         database = Resources.Load("ItemDatabase") as ItemDatabase;
-      //  database.CreateDatabase();
-      //  database.FillItems();
-
     }
 
     public void Generatedeck()
@@ -25,20 +22,18 @@ public class Deck
             carditem.mypos = new Vector2(i, 0);
              pool.ReturnObjectToPool(carditem); //add card to pool
         }
-     
     }
  
    public void CheckCardPosition(Vector2 _checkpos)
     {
         Debug.Log("Checking deck for correct card" + _checkpos);
-
         foreach (CardItem card in database.items)
         {
             if (card.InRangeofCard(_checkpos))
             {
-                for (int i = 0; i < DisplayInventory.Inventory.transform.childCount; i++) //for every child object visualised on screen
+                for (int i = 0; i < DisplayInventory.inventoryObject.transform.childCount; i++) //for every child object visualised on screen
                 {
-                    card.instancedrefrence = DisplayInventory.Inventory.transform.GetChild(i).gameObject; //assign gameobject to refrence of scriptable obejct
+                    card.instancedrefrence = DisplayInventory.inventoryObject.transform.GetChild(i).gameObject; //assign gameobject to refrence of scriptable obejct
                 }
                 Debug.Log("Selected ="+card.name + "loading effect");
                 card.effect += Effect(card);
@@ -52,15 +47,14 @@ public class Deck
 
     public ItemObject.myeffect Effect(CardItem _item)
     {
-
        if( _item.mybuffs[0].myattribute == Attribute.Cardeffect)
         {
             int value;
             value = Random.Range(_item.mybuffs[0].min, _item.mybuffs[0].max);
-            if(value >= 0)
-            {
-                //valid action
-            }
+            //valid action
+            //Todo: an action with a chance element
+            //example 50% chance to spawn a extra checker
+            
         }
         if (_item.mybuffs[0].myattribute == Attribute.ExtraDraw)
         {
@@ -76,6 +70,7 @@ public class Deck
                 //valid action
             }
         }
+        //get rid of card after using
         GameObject.Destroy( _item.instancedrefrence);
         Debug.Log("Item Destroyed");
         return null;

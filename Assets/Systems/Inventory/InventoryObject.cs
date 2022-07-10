@@ -13,7 +13,7 @@ public class InventoryObject : ScriptableObject
     public ItemDatabase database;
     public Inventory Container;
 
-    public void Additem(Item _item, int _amount)
+    public void AddItem(Item _item, int _amount)
     {
 
         for (int i = 0; i < Container.items.Count; i++)
