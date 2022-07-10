@@ -52,7 +52,7 @@ public void CheckCardPosition(Vector2 _checkpos)
             {
                 for (int i = 0; i < DisplayInventory.inventoryObject.transform.childCount; i++) //for every child object visualised on screen
                 {
-                    card.instancedrefrence = DisplayInventory.inventoryObject.transform.GetChild(i).gameObject; //assign gameobject to refrence of scriptable obejct
+                    card.instancedreference = DisplayInventory.inventoryObject.transform.GetChild(i).gameObject; //assign gameobject to refrence of scriptable obejct
                 }
                 Debug.Log("Selected ="+card.name + "loading effect");
                 card.effect += Effect(card);
@@ -90,7 +90,7 @@ public void CheckCardPosition(Vector2 _checkpos)
             }
         }
         //get rid of card after using
-        GameObject.Destroy( _item.instancedrefrence);
+        GameObject.Destroy( _item.instancedreference);
         Debug.Log("Item Destroyed");
         return null;
     }

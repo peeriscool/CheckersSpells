@@ -15,7 +15,7 @@ public class PlaceAble : IPlaceable
     //in game respresentation of the checker
     protected GameObject body;
 
-    public bool Active { get; set; }
+    public bool active { get; set; }
     public void OnEnableObject()
     {
         body?.SetActive(true);
@@ -56,7 +56,7 @@ public class PlaceAble : IPlaceable
     }
 
     //Function to fetch the body of the checker
-    public GameObject Get_Body()
+    public GameObject GetBody()
     {
         return body;
     }

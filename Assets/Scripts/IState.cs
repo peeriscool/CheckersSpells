@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IState : IPoolable
 {
-    List<StateTransition> Transitions { get; }
+    List<StateTransition> transitions { get; }
     void Enter();
     void Exit();
     void LogicUpdate();

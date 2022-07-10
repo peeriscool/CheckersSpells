@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Gamestate : IState
 {
-    public bool Active { get; set; }
+    public bool active { get; set; }
     public void OnEnableObject(){}
     public void OnDisableObject(){}
-    public List<StateTransition> Transitions { get; protected set; }
+    public List<StateTransition> transitions { get; protected set; }
 
     public virtual void Enter(){}
 

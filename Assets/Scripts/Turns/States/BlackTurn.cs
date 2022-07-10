@@ -12,12 +12,17 @@ public class BlackTurn : Gamestate
 
     public BlackTurn()
     {
-        Transitions = new List<StateTransition>();
+        transitions = new List<StateTransition>();
 
         //Transition to white's turn when you make a move
-        Transitions.Add(new StateTransition(typeof(WhiteTurn), () => turnFinished == true));
+        transitions.Add(new StateTransition(typeof(WhiteTurn), () => turnFinished == true));
         //Transition to pause state when you press the escape button
-        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+        transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+    }
+    public override void Enter()
+    {
+        base.Enter();
+        turnFinished = false;
     }
 
     public override void LogicUpdate()
@@ -26,16 +31,11 @@ public class BlackTurn : Gamestate
         MovePieces();
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-        turnFinished = false;
-    }
     void MovePieces()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            IPlaceable clickedTile = GridSystem.checkGridPosition(GridSystem.ClickOnTiles());
+            IPlaceable clickedTile = GridSystem.CheckGridPosition(GridSystem.ClickOnTiles());
             GridPos clickedPos = GridSystem.ClickOnTiles();
 
             if (selectedPlaceable != null)
@@ -58,10 +58,5 @@ public class BlackTurn : Gamestate
                     selectedPlaceable = clickedTile;
             }
         }
-    }
-
-    public override void OnSwitch()
-    {
-        base.OnSwitch();
     }
 }

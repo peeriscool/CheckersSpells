@@ -31,36 +31,36 @@ public class ObjectPool<T> where T : IPoolable
         return ActivateItem(AddNewItemToPool());
     }
 
-    public T ActivateItem(T item)
+    public T ActivateItem(T _item)
     {
-        item.OnEnableObject();
-        item.Active = true;
+        _item.OnEnableObject();
+        _item.active = true;
 
         //remove it from the inactive objects
-        if (inActivePool.Contains(item))
+        if (inActivePool.Contains(_item))
         {
-            inActivePool.Remove(item);
+            inActivePool.Remove(_item);
         }
 
 
         //add it to the active objects
-        activePool.Add(item);
-        return item;
+        activePool.Add(_item);
+        return _item;
     }
 
-    public void ReturnObjectToPool(T item)
+    public void ReturnObjectToPool(T _item)
     {
         //remove it from the active objects
-        if (activePool.Contains(item))
+        if (activePool.Contains(_item))
         {
-            activePool.Remove(item);
+            activePool.Remove(_item);
         }
 
-        item.OnDisableObject();
-        item.Active = false;
+        _item.OnDisableObject();
+        _item.active = false;
 
         //add it to the inactive objects
-        inActivePool.Add(item);
+        inActivePool.Add(_item);
     }
 
 

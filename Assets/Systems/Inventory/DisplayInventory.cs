@@ -12,11 +12,12 @@ public class DisplayInventory //hand visualizer
     public static GameObject inventoryObject;
     public InventoryObject inventory; //displayed inventory
     public GameObject inventoryprefab; //item that gets card sprites assigned
-    public int x_start; 
-    public int y_start; 
-    public int x_Spacer;
+    public int xStart; 
+    public int yStart; 
+    public int xSpacer;
+    public int ySpacer;    
     public int column;
-    public int y_Spacer;
+
     /// <summary>
     /// inventory system for managing cards on screen
     /// </summary>
@@ -28,11 +29,11 @@ public class DisplayInventory //hand visualizer
     /// <param name="_inventory">InventoryObject</param>
     public DisplayInventory(int _x,int _y, int _xpace, int _column, int _yspace, InventoryObject _inventory)
     {
-        x_start = _x;
-        y_start = _y;
-        x_Spacer = _xpace;
+        xStart = _x;
+        yStart = _y;
+        xSpacer = _xpace;
         column = _column;
-        y_Spacer = _yspace;
+        ySpacer = _yspace;
         inventory = _inventory;
       //  inventory.database.FillItems();
       //  inventory.database.CreateDatabase();
@@ -67,7 +68,7 @@ public class DisplayInventory //hand visualizer
 
     public Vector3 GetPosition(int index)//assign inventory location
     {
-        return new Vector3(x_start + (x_Spacer * (index % column)), y_start + (-y_Spacer * (index / column)), 0f); //use start locations with offset --0--0--0--;
+        return new Vector3(xStart + (xSpacer * (index % column)), yStart + (-ySpacer * (index / column)), 0f); //use start locations with offset --0--0--0--;
     }
     public void CreateDisplay()
     {

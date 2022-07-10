@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new default obj", menuName = "Inventory system/Items/CardItem")]
 public class CardItem : ItemObject , IPoolable
 {
-    public GameObject instancedrefrence;
+    public GameObject instancedreference;
     public Vector2 mypos;
     int offsetX = 2;
     int offsetY = 2;
@@ -31,7 +31,7 @@ public class CardItem : ItemObject , IPoolable
         }
         return false;
     }
-    public bool Active { get; set; }
+    public bool active { get; set; }
     public void OnEnableObject() //ipoolable
     {
 

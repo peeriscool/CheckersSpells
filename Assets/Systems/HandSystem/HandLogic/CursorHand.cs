@@ -14,7 +14,6 @@ public class CursorHand
     public Animator handController;
     public GameObject hand;
     Vector3 trackedPos;
-    float time;
 
     public CursorHand(GameObject _hand,Animator _handcontroller )
     {
@@ -28,7 +27,7 @@ public class CursorHand
         trackedPos = Vector3.zero;
         Debug.Log(handController.layerCount + "Hand Positions Availible");
     }
-   public void recieveInput(Vector3 Pos,bool MouseLeft, bool MouseRight ) //gets the mouse position and click functions
+   public void ReceiveInput(Vector3 Pos,bool MouseLeft, bool MouseRight ) //gets the mouse position and click functions
     {
         trackedPos = new Vector3(Pos.x,Pos.y,-4f);
         if (MouseLeft)
@@ -46,7 +45,7 @@ public class CursorHand
         } 
    }
 
-    public Vector3 UpdatehandVisual()
+    public Vector3 UpdateHandVisual()
     {
     return trackedPos;
     }

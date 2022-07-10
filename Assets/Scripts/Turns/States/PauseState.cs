@@ -8,16 +8,16 @@ public class PauseState : Gamestate
 
     public PauseState()
     {
-        Transitions = new List<StateTransition>();
+        transitions = new List<StateTransition>();
     }
 
     //This should be called whenever you switch to the pause state, the previous state will be put through, and recalled when you unpause
     public void GetPreviousState(System.Type _previousState)
     {
-        Transitions = new List<StateTransition>();
+        transitions = new List<StateTransition>();
         previousState = _previousState;
         Debug.Log(previousState);
-        Transitions.Add(new StateTransition(previousState, () => Input.GetKeyDown(KeyCode.Escape)));
+        transitions.Add(new StateTransition(previousState, () => Input.GetKeyDown(KeyCode.Escape)));
     }
 
     public override void Enter()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IPoolable
 {
-    bool Active { get; set; }
+    bool active { get; set; }
     void OnEnableObject();
     void OnDisableObject();
 }

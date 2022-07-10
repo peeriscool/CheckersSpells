@@ -16,11 +16,11 @@ public class GameStateMachine
         currenstate = GetState(_initialState);
     }
 
-    public void SwitchState(IState newState)
+    public void SwitchState(IState _newState)
     {
         currenstate.OnSwitch();
         currenstate.Exit();
-        currenstate = newState;
+        currenstate = _newState;
         currenstate.Enter();
     }
 
@@ -30,7 +30,7 @@ public class GameStateMachine
 
 
         //Check each transition of a state, and if it wants to switch, switch.
-        foreach (StateTransition transition in currenstate.Transitions)
+        foreach (StateTransition transition in currenstate.transitions)
         {
             if (transition.condition())
             {
@@ -47,17 +47,17 @@ public class GameStateMachine
         }
     }
 
-    public IState GetState(System.Type t)
+    public IState GetState(System.Type _t)
     {
-        return GetOrCreateState(t);
+        return GetOrCreateState(_t);
     }
 
-    private IState GetOrCreateState(System.Type t)
+    private IState GetOrCreateState(System.Type _t)
     {
         IState state;
 
         //if statecollection has that type, fetch it
-        if (stateCollection.TryGetValue(t, out state))
+        if (stateCollection.TryGetValue(_t, out state))
         {
             return state;
         }
@@ -65,10 +65,10 @@ public class GameStateMachine
         //if it doesn't, make a new one.
         else
         { 
-            object obj = System.Activator.CreateInstance(t);
+            object obj = System.Activator.CreateInstance(_t);
             IState _instance = (IState)obj;
 
-            stateCollection.Add(t, _instance);
+            stateCollection.Add(_t, _instance);
 
             return _instance;
         }

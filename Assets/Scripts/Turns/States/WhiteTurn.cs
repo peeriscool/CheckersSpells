@@ -12,13 +12,13 @@ public class WhiteTurn : Gamestate
 
     public WhiteTurn()
     {
-        Transitions = new List<StateTransition>();
+        transitions = new List<StateTransition>();
         
         //Transition to black's turn when you make a move
-        Transitions.Add(new StateTransition(typeof(BlackTurn), () => turnFinished == true));
+        transitions.Add(new StateTransition(typeof(BlackTurn), () => turnFinished == true));
         //Transition to pause state when you press the escape button
-        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
-        Transitions.Add(new StateTransition(typeof(Whitecardstate), () => Input.GetMouseButtonDown(1)));
+        transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+        transitions.Add(new StateTransition(typeof(Whitecardstate), () => Input.GetMouseButtonDown(1)));
 
     }
 
@@ -37,7 +37,7 @@ public class WhiteTurn : Gamestate
     {
         if (Input.GetMouseButtonDown(0))
         {
-            IPlaceable clickedTile = GridSystem.checkGridPosition(GridSystem.ClickOnTiles());
+            IPlaceable clickedTile = GridSystem.CheckGridPosition(GridSystem.ClickOnTiles());
             GridPos clickedPos = GridSystem.ClickOnTiles();
 
             if (selectedPlaceable != null)
@@ -62,10 +62,5 @@ public class WhiteTurn : Gamestate
                     selectedPlaceable = clickedTile;
             }
         }
-    }
-
-    public override void OnSwitch()
-    {
-        base.OnSwitch();
     }
 }

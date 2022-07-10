@@ -208,7 +208,7 @@ static class GridSystem
     }
 
     //fetch what the checker is on a given location
-    public static IPlaceable checkGridPosition(GridPos _gridPos)
+    public static IPlaceable CheckGridPosition(GridPos _gridPos)
     {
         return checkerGrid[_gridPos .x, _gridPos.y];
     }

@@ -22,5 +22,5 @@ public interface IPlaceable : IPoolable
     void UpdateVisual(GridPos _pos);
 
     //function to fetch the body of an IPlaceable
-    GameObject Get_Body();
+    GameObject GetBody();
 }

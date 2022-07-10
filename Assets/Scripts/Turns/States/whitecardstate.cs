@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Whitecardstate : Gamestate
 {
-   // GameObject handvisual;
-    bool turnFinished = false;
+
     Deck deck = new Deck();
 
     public Whitecardstate()
     {
-        Transitions = new List<StateTransition>();
-        Transitions.Add(new StateTransition(typeof(WhiteTurn), ()=> Input.GetMouseButtonDown(0)));
-        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
-       // deck.Generatedeck();
+        transitions = new List<StateTransition>();
+        transitions.Add(new StateTransition(typeof(WhiteTurn), ()=> Input.GetMouseButtonDown(0)));
+        transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+
     }
 
     public override void Enter()
@@ -48,12 +47,11 @@ public class Whitecardstate : Gamestate
 }
 public class Blackcardstate : Gamestate
 {
-    bool turnFinished = false;
     public Blackcardstate()
     {
-        Transitions = new List<StateTransition>();
-        Transitions.Add(new StateTransition(typeof(BlackTurn), () => Input.GetMouseButtonDown(0)));
-        Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
+        transitions = new List<StateTransition>();
+        transitions.Add(new StateTransition(typeof(BlackTurn), () => Input.GetMouseButtonDown(0)));
+        transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
     }
 
     public override void Enter()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hand
 {
    // private GameObject hand;
-    CursorHand Visual;
+    CursorHand visual;
     GameObject hand;
     /// <summary>
     ///  using the hand of the player with a visual
@@ -14,7 +14,7 @@ public class Hand
     {
         hand = Resources.Load("Prefabs/hand") as GameObject;
         hand = Object.Instantiate(hand);
-        Visual = new CursorHand(hand, hand.GetComponent<Animator>());
+        visual = new CursorHand(hand, hand.GetComponent<Animator>());
     }
     public Vector3 Tick()
     {
@@ -26,7 +26,7 @@ public class Hand
     }
     Vector3 UpdateVisual()
     {
-        Visual.recieveInput(Camera.main.ScreenToWorldPoint(Input.mousePosition), Input.GetKeyDown(KeyCode.Mouse0), Input.GetKeyDown(KeyCode.Mouse1));
-        return Visual.UpdatehandVisual();
+        visual.ReceiveInput(Camera.main.ScreenToWorldPoint(Input.mousePosition), Input.GetKeyDown(KeyCode.Mouse0), Input.GetKeyDown(KeyCode.Mouse1));
+        return visual.UpdateHandVisual();
     }
 }
