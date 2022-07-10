@@ -5,23 +5,35 @@ using UnityEngine;
 public class Deck
 {
     private readonly ObjectPool<CardItem> pool;
-    private readonly ItemDatabase database;
+    private ItemDatabase database;
     public Deck()
     {
         pool = new ObjectPool<CardItem>();
-        database = Resources.Load("ItemDatabase") as ItemDatabase;
-       // database.CreateDatabase();
+        database = Resources.Load("itemDatabase") as ItemDatabase;
+      //  database.CreateDatabase();
     }
 
     public void Generatedeck()
     {
-     //   Debug.Log("cards known " + database.items.Length);
-        for (int i = 0; i < database.items.Length; i++)
+        //   Debug.Log("cards known " + database.items.Length);
+#if UNITY_STANDALONE_WIN
+        if (database?.items == null)
         {
-            CardItem carditem;
-            carditem = database.items[i] as CardItem;
-            carditem.mypos = new Vector2(i, 0);
-             pool.ReturnObjectToPool(carditem); //add card to pool
+            database = Resources.Load("itemDatabase") as ItemDatabase;
+            Debug.Log(database);
+            database.CreateDatabase();
+            database.FillItems();
+        }
+#endif
+        else
+        {
+            for (int i = 0; i < database.items.Length; i++)
+            {
+                CardItem carditem;
+                carditem = database.items[i] as CardItem;
+                carditem.mypos = new Vector2(i, 0);
+                pool.ReturnObjectToPool(carditem); //add card to pool
+            }
         }
     }
  

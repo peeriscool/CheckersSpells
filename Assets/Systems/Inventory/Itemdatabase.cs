@@ -8,6 +8,7 @@ public class ItemDatabase : ScriptableObject
 {
     public CardItem[] items;
     public Dictionary<int, CardItem> itemdict = new Dictionary<int, CardItem>();
+    
     public void FillItems()
     {
         for (int i = 0; i < items.Length; i++)

@@ -34,8 +34,8 @@ public class DisplayInventory //hand visualizer
         column = _column;
         y_Spacer = _yspace;
         inventory = _inventory;
-        inventory.database.FillItems();
-        inventory.database.CreateDatabase();
+      //  inventory.database.FillItems();
+      //  inventory.database.CreateDatabase();
         inventoryprefab = GenerateInventory(inventory);
         
     }

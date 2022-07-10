@@ -33,11 +33,6 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        player1.database = Resources.Load("ItemDatabase") as ItemDatabase;
-        HandUIDisplay = new DisplayInventory(-4, -5, 1, 4, 1, player1);
-        HandUIDisplay.CreateDisplay();
-        HandUIDisplay.UpdateDisplay(); 
-
         GridSystem.SetGridSize(8,8);
 
         //grid is at the center of the screen, so the start position will be taken from there
@@ -46,6 +41,11 @@ public class GameManager : MonoBehaviour
         GridSystem.InitializeGrid(gridStartPosition);
 
         GridSystem.SpawnAllCheckers();
+
+        player1.database = Resources.Load("ItemDatabase") as ItemDatabase;
+        HandUIDisplay = new DisplayInventory(-4, -5, 1, 4, 1, player1);
+        HandUIDisplay.CreateDisplay();
+        HandUIDisplay.UpdateDisplay();
     }
 }
 
