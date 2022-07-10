@@ -10,7 +10,7 @@ public class Deck
     {
         pool = new ObjectPool<CardItem>();
         database = Resources.Load("itemDatabase") as ItemDatabase;
-      //  database.CreateDatabase();
+        //  database.CreateDatabase();
     }
 
     public void Generatedeck()
@@ -19,7 +19,7 @@ public class Deck
 #if UNITY_STANDALONE_WIN
         if (database?.items == null)
         {
-            database = Resources.Load("itemDatabase") as ItemDatabase;
+            database = Resources.Load("Scriptableobjects/itemDatabase") as ItemDatabase;
             Debug.Log(database);
             database.CreateDatabase();
             database.FillItems();
@@ -36,9 +36,15 @@ public class Deck
             }
         }
     }
- 
-   public void CheckCardPosition(Vector2 _checkpos)
+public void CheckCardPosition(Vector2 _checkpos)
     {
+        if (database?.items == null)
+        {
+            database = Resources.Load("Scriptableobjects/itemDatabase") as ItemDatabase;
+            Debug.Log(database);
+            database.CreateDatabase();
+            database.FillItems();
+        }
         Debug.Log("Checking deck for correct card" + _checkpos);
         foreach (CardItem card in database.items)
         {

@@ -6,14 +6,14 @@ public class Whitecardstate : Gamestate
 {
    // GameObject handvisual;
     bool turnFinished = false;
-   // Deck deck = new Deck();
+    Deck deck = new Deck();
 
     public Whitecardstate()
     {
         Transitions = new List<StateTransition>();
         Transitions.Add(new StateTransition(typeof(WhiteTurn), ()=> Input.GetMouseButtonDown(0)));
         Transitions.Add(new StateTransition(typeof(PauseState), () => Input.GetKeyDown(KeyCode.Escape)));
-        //deck.Generatedeck();
+       // deck.Generatedeck();
     }
 
     public override void Enter()
@@ -26,7 +26,7 @@ public class Whitecardstate : Gamestate
         if (Input.GetMouseButtonDown(1))
         {
             Debug.Log("click card to select");
-            //deck.CheckCardPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            deck.CheckCardPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
           //  RaycastHit hit;
             // Does the ray intersect any objects excluding the player layer
