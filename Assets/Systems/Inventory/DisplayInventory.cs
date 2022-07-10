@@ -35,7 +35,7 @@ public class DisplayInventory //hand visualizer
         y_Spacer = _yspace;
         inventory = _inventory;
         inventory.database.FillItems();
-        //inventory.database.CreateDatabase();
+        inventory.database.CreateDatabase();
         inventoryprefab = GenerateInventory(inventory);
         
     }
@@ -76,7 +76,8 @@ public class DisplayInventory //hand visualizer
         {
             InventorySlot slot = inventory.Container.items[i];
             Debug.Log("getting items: " + slot.item.id); //+ "sprite: " +obj.transform.GetChild(0).GetComponentInChildren<Image>().sprite);
-            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = inventory.database.itemdict[i].ui;
+            SpriteRenderer a = Resources.Load("imgs/Card" + i) as SpriteRenderer;
+            obj.transform.GetChild(i).GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("imgs/Card" + i); //a.sprite; //inventory.database.itemdict[i].ui;
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             obj.transform.GetChild(i).GetComponent<Transform>().localPosition = GetPosition(i);
             itemsDisplayed.Add(slot, obj);

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Card2
+  m_Name: card2
   m_EditorClassIdentifier: Assembly-CSharp::CardItem
-  id: 0
-  UI: {fileID: 0}
+  id: 3
+  ui: {fileID: 21300000, guid: 42645c2b947cac040ad902049ae75df6, type: 3}
   type: 1
   description: 
   mybuffs: []
   instancedrefrence: {fileID: 0}
-  mypos: {x: 0, y: 0}
+  mypos: {x: 3, y: 0}
