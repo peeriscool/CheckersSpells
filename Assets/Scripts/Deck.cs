@@ -10,11 +10,12 @@ public class Deck
     {
         pool = new ObjectPool<CardItem>();
         database = Resources.Load("ItemDatabase") as ItemDatabase;
+       // database.CreateDatabase();
     }
 
     public void Generatedeck()
     {
-        Debug.Log("cards known " + database.items.Length);
+     //   Debug.Log("cards known " + database.items.Length);
         for (int i = 0; i < database.items.Length; i++)
         {
             CardItem carditem;
